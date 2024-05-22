@@ -605,6 +605,15 @@ header label {
 .links .iconfont {
   font-size: 2em;
 }
+.friendslink a {
+  padding: 0 5px;
+}
+.friendslink a:hover {
+  background-color: transparent;
+}
+.friendslink .iconfont {
+  font-size: 25px;
+}
 .post-wrap {
   position: relative;
   width: 100%;
@@ -1381,4 +1390,5 @@ header label {
 .icon-steam:before {
   content: "\f23b";
 }
+
 
