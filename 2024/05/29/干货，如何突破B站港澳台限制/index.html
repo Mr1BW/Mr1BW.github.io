@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Mr.BW">
+
+
+
+
+
+<title>干货，如何突破B站港澳台限制 | Mr.BW的妙妙屋</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <link rel="stylesheet" href="/../fonts/iconfont3/iconfont.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+        
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Mr.BW&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">类别</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">施工中</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Mr.BW&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">类别</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">施工中</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">全部展开</a>
+        <a onclick="go_top()">回到顶部</a>
+        <a onclick="go_bottom()">回到底部</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "全部收起"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "全部展开"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">干货，如何突破B站港澳台限制</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Mr.BW</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">五月 29, 2024&nbsp;&nbsp;18:20:12</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E5%A8%B1%E4%B9%90/">娱乐</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h3 id="本教程只适用于edge浏览器，或其他可以安装插件的浏览器"><a href="#本教程只适用于edge浏览器，或其他可以安装插件的浏览器" class="headerlink" title="本教程只适用于edge浏览器，或其他可以安装插件的浏览器"></a>本教程只适用于edge浏览器，或其他可以安装插件的浏览器</h3><p>本教程以edge浏览器为例</p>
+<p><img src="/../image/%E5%B9%B2%E6%B4%BB%EF%BC%8C%E5%A6%82%E4%BD%95%E7%AA%81%E7%A0%B4B%E7%AB%99%E6%B8%AF%E6%BE%B3%E5%8F%B0%E9%99%90%E5%88%B6/1.png" alt="1"></p>
+<h1 id="1-插件准备"><a href="#1-插件准备" class="headerlink" title="1.插件准备"></a>1.插件准备</h1><p>打开edge浏览器，找到edge浏览器插件页面</p>
+<p><img src="/../image/%E5%B9%B2%E6%B4%BB%EF%BC%8C%E5%A6%82%E4%BD%95%E7%AA%81%E7%A0%B4B%E7%AB%99%E6%B8%AF%E6%BE%B3%E5%8F%B0%E9%99%90%E5%88%B6/2.png" alt="2"></p>
+<p>点击进入Microsoft edge 扩展进入插件商店</p>
+<p>搜索<code>篡改猴</code> 找到插件 在别的浏览器若找不到则搜索<code>油猴 or Tampermonkey</code></p>
+<p><img src="/../image/%E5%B9%B2%E6%B4%BB%EF%BC%8C%E5%A6%82%E4%BD%95%E7%AA%81%E7%A0%B4B%E7%AB%99%E6%B8%AF%E6%BE%B3%E5%8F%B0%E9%99%90%E5%88%B6/3.png" alt="3"></p>
+<h1 id="2-安装脚本"><a href="#2-安装脚本" class="headerlink" title="2.安装脚本"></a>2.安装脚本</h1><p>下载安装完成后</p>
+<p>进入greasy fork下载对应脚本 连接：<a target="_blank" rel="noopener" href="https://greasyfork.org/zh-CN">Greasy Fork - 安全、实用的用户脚本大全</a></p>
+<p>搜索<code>解除B站区域限制</code></p>
+<p>传送门：<a target="_blank" rel="noopener" href="https://greasyfork.org/zh-CN/scripts/25718-%E8%A7%A3%E9%99%A4b%E7%AB%99%E5%8C%BA%E5%9F%9F%E9%99%90%E5%88%B6">解除B站区域限制 (greasyfork.org)</a></p>
+<p>点击安装</p>
+<p><img src="/../image/%E5%B9%B2%E6%B4%BB%EF%BC%8C%E5%A6%82%E4%BD%95%E7%AA%81%E7%A0%B4B%E7%AB%99%E6%B8%AF%E6%BE%B3%E5%8F%B0%E9%99%90%E5%88%B6/4.png" alt="4"></p>
+<h1 id="3-配置脚本"><a href="#3-配置脚本" class="headerlink" title="3.配置脚本"></a>3.配置脚本</h1><p>edge浏览器右上角找到油猴插件</p>
+<p><img src="/../image/%E5%B9%B2%E6%B4%BB%EF%BC%8C%E5%A6%82%E4%BD%95%E7%AA%81%E7%A0%B4B%E7%AB%99%E6%B8%AF%E6%BE%B3%E5%8F%B0%E9%99%90%E5%88%B6/5.png" alt="5"></p>
+<p>点击添加新脚本，再查看已安装脚本</p>
+<p>若出现解除B站区域限制，则说明脚本已安装成功</p>
+<p><img src="/../image/%E5%B9%B2%E6%B4%BB%EF%BC%8C%E5%A6%82%E4%BD%95%E7%AA%81%E7%A0%B4B%E7%AB%99%E6%B8%AF%E6%BE%B3%E5%8F%B0%E9%99%90%E5%88%B6/6.png" alt="6"></p>
+<p>打开B站受港澳台限制的动画主页</p>
+<p>例如：<a target="_blank" rel="noopener" href="https://www.bilibili.com/bangumi/media/md28236419">進擊的巨人 The Final Season Part 2（僅限港澳台地區） _ 番剧 _ bilibili _ 哔哩哔哩弹幕视频网</a></p>
+<p><img src="/../image/%E5%B9%B2%E6%B4%BB%EF%BC%8C%E5%A6%82%E4%BD%95%E7%AA%81%E7%A0%B4B%E7%AB%99%E6%B8%AF%E6%BE%B3%E5%8F%B0%E9%99%90%E5%88%B6/7.png" alt="7"></p>
+<p>点击小星球</p>
+<p>按照以下配置</p>
+<p><img src="/../image/%E5%B9%B2%E6%B4%BB%EF%BC%8C%E5%A6%82%E4%BD%95%E7%AA%81%E7%A0%B4B%E7%AB%99%E6%B8%AF%E6%BE%B3%E5%8F%B0%E9%99%90%E5%88%B6/8.png" alt="8"></p>
+<p>代理服务器从以下选一个，自定义代理服务器列表可以不用管</p>
+<p>所有地区：<a target="_blank" rel="noopener" href="https://哔哩.plus/">https:&#x2F;&#x2F;哔哩.plus</a><br>所有地区：<a target="_blank" rel="noopener" href="https://api.qiu.moe/">https://api.qiu.moe</a><br>所有地区：<a target="_blank" rel="noopener" href="https://哔哩.icu/">https:&#x2F;&#x2F;哔哩.icu</a><br>所有地区：<a target="_blank" rel="noopener" href="https://api.10ms.net/">https://api.10ms.net</a><br>所有地区：<a target="_blank" rel="noopener" href="https://bili.tuturu.top/">https://bili.tuturu.top</a><br>所有地区：<a target="_blank" rel="noopener" href="https://bili.azurstar.tk/">https://bili.azurstar.tk</a><br>所有地区：<a target="_blank" rel="noopener" href="https://atri.ink/">https://atri.ink</a><br>港澳台、中国大陆：<a target="_blank" rel="noopener" href="https://bili.tuturu.top/">https://bili.tuturu.top</a><br>港澳台、中国大陆：<a target="_blank" rel="noopener" href="https://anye.257053.xyz/">https://anye.257053.xyz</a><br>香港、中国大陆：<a target="_blank" rel="noopener" href="https://bili.lli.cx/">https://bili.lli.cx</a><br>港澳：<a target="_blank" rel="noopener" href="https://bili-hk.blossomplus.tk/">https://bili-hk.blossomplus.tk</a><br>港澳：<a target="_blank" rel="noopener" href="https://service-fi0gz11m-1252917345.hk.apigw.tencentcs.com/">https://service-fi0gz11m-1252917345.hk.apigw.tencentcs.com</a><br>台湾：<a target="_blank" rel="noopener" href="https://mysr.ellpew.xyz/">https://mysr.ellpew.xyz</a><br>香港：<a target="_blank" rel="noopener" href="https://repost.98e.org/">https://repost.98e.org</a><br>东南亚：<a target="_blank" rel="noopener" href="https://bili-sea.blossomplus.tk/">https://bili-sea.blossomplus.tk</a><br>中国大陆：<a target="_blank" rel="noopener" href="https://cn.ellpew.xyz/">https://cn.ellpew.xyz</a><br>中国大陆：<a target="_blank" rel="noopener" href="https://1985592077837091.cn-shanghai.fc.aliyuncs.com/2016-08-15/proxy/bili/bili_prox/">https://1985592077837091.cn-shanghai.fc.aliyuncs.com/2016-08-15/proxy/bili/bili_prox/</a></p>
+<p>香港：<a target="_blank" rel="noopener" href="https://bili-proxy.98e.org/">https://bili-proxy.98e.org</a><br>大陆：<a target="_blank" rel="noopener" href="https://1985592077837091.cn-shanghai.fc.aliyuncs.com/2016-08-15/proxy/bili/bili_prox/">https://1985592077837091.cn-shanghai.fc.aliyuncs.com/2016-08-15/proxy/bili/bili_prox/</a><br>台湾：<a target="_blank" rel="noopener" href="https://bili.tuturu.top/">https://bili.tuturu.top</a><br>香港：<a target="_blank" rel="noopener" href="https://service-fi0gz11m-1252917345.hk.apigw.tencentcs.com/">https://service-fi0gz11m-1252917345.hk.apigw.tencentcs.com</a></p>
+<p>配置成功后点击第一集即可观看，若出现肥肠爆欠，则多换几个服务器就好了</p>
+<p><img src="/../image/%E5%B9%B2%E6%B4%BB%EF%BC%8C%E5%A6%82%E4%BD%95%E7%AA%81%E7%A0%B4B%E7%AB%99%E6%B8%AF%E6%BE%B3%E5%8F%B0%E9%99%90%E5%88%B6/9.png" alt="9"></p>
+<h1 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h1><p>服务器均为网上搜集，作者用爱发电</p>
+<p>服务器可能不稳定，需要及时更换</p>
+<p>某些番剧需要用大会员，若无大会员即使突破限制也无法观看</p>
+
+        </div>
+
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/B%E7%AB%99/"># B站</a>
+                    
+                        <a href="/tags/%E5%A8%B1%E4%B9%90/"># 娱乐</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2024/05/23/%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E/">格式化字符串漏洞</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Mr.BW | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+
+</html>
