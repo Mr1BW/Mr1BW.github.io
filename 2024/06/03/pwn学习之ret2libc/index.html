@@ -241,7 +241,7 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">函数的真实地址 = 基地址 + 偏移地址</span><br></pre></td></tr></table></figure>
 
 <p>因此就产生了一个问题：如何找到偏移量</p>
-<h2 id="got表和plt表"><a href="#got表和plt表" class="headerlink" title="got表和plt表"></a>got表和plt表</h2><p>got表（global offset table）用于储存外部函数的在内存中的确切地址，找到了system和binsh的got表地址再找到偏移量就能调用<code>system(/bin/sh)</code>了</p>
+<h2 id="got表和plt表"><a href="#got表和plt表" class="headerlink" title="got表和plt表"></a>got表和plt表</h2><p>got表（global offset table）用于储存外部函数的在内存中的确切地址，也就是所需要的基地址，找到了system和binsh的got表地址再找到偏移量就能调用<code>system(/bin/sh)</code>了</p>
 <p>plt表（procedure link table）存放函数的入口地址，ida反编译出来的函数地址就是plt地址，用plt表可以执行程序中有的函数</p>
 <p>找到真实地址和基地址后就可以计算出偏移地址，就能找到对应的libc版本</p>
 <h1 id="实例分析"><a href="#实例分析" class="headerlink" title="实例分析"></a>实例分析</h1><p><a target="_blank" rel="noopener" href="https://buuoj.cn/challenges">BUUCTF在线评测 (buuoj.cn)</a> ciscn_2019_c_1</p>
