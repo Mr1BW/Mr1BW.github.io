@@ -228,7 +228,8 @@
 <p>​	3.触发int 80号中断</p>
 <p>64位：</p>
 <p>​	1.调用编号存放到rax中</p>
-<p>​	2.传参数到寄存器，前六个参数对应的寄存器： rdi rsi rdx rcx r8 r9</p>
+<p>​	2.传参数到寄存器，前六个参数对应的寄存器： rdi rsi rdx r10 r8 r9</p>
+<p>​        注意：系统调用第四个参数放在r10中，平时的函数第四个参数放在rcx</p>
 <p>​	3.触发syscall命令中断</p>
 <p>各个函数的系统调用号：<a target="_blank" rel="noopener" href="https://blog.csdn.net/Nashi_Ko/article/details/120288385">Linux X86架构 32 64系统调用表_32位 syscall-CSDN博客</a></p>
 <h1 id="excve函数"><a href="#excve函数" class="headerlink" title="excve函数"></a>excve函数</h1><p>system函数实际上是调用excve函数，ret2syscall基本上是让程序执行execve函数</p>
@@ -285,6 +286,8 @@
             </div>
         </section>
         <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2024/07/13/24%E9%9B%86%E8%AE%ADweek1/">24集训week1</a>
             
             
             <a class="next" rel="next" href="/2024/06/03/ret2libc/">ret2libc</a>
