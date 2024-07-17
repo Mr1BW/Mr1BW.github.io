@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Mr.BW">
+
+
+
+
+
+<title>shellcode | Mr.BW的妙妙屋</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <link rel="stylesheet" href="/../fonts/iconfont3/iconfont.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+        
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Mr.BW&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">类别</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">施工中</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Mr.BW&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">类别</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">施工中</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">全部展开</a>
+        <a onclick="go_top()">回到顶部</a>
+        <a onclick="go_bottom()">回到底部</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "全部收起"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "全部展开"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">shellcode</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Mr.BW</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">七月 17, 2024&nbsp;&nbsp;11:20:43</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/ctf/">ctf</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="shellcode的概念"><a href="#shellcode的概念" class="headerlink" title="shellcode的概念"></a>shellcode的概念</h1><p>shellcode是一段特定的代码，可以不用编译让程序直接进行执行的一段代码。当程序没有开启NX保护时，可以通过编写shellcode，让程序执行这段代码来获得flag或者shell</p>
+<h1 id="汇编语言"><a href="#汇编语言" class="headerlink" title="汇编语言"></a>汇编语言</h1><p>在写shellcode之前要简单认识下汇编语言</p>
+<h2 id="汇编指令"><a href="#汇编指令" class="headerlink" title="汇编指令"></a>汇编指令</h2><p><strong>mov</strong></p>
+<p>​	mov a,b 将b的值赋给a</p>
+<p>​	eg：mov rax,0x50 将0x50赋值给rax</p>
+<p><strong>add</strong></p>
+<p>​	add a,b 将b加到a </p>
+<p>​	可解释为 a&#x3D;a+b</p>
+<p><strong>push和pop</strong></p>
+<p>​	push a 将a压入到栈中，栈增大</p>
+<p>​	a可以是数据，也可以是寄存器</p>
+<p>​	pop b 将栈顶的值弹出，栈减小，把弹出的值赋给b</p>
+<p><strong>xor</strong></p>
+<p>​	 xor a,b 将a和b进行异或运算</p>
+<p>​	自己对自己异或结果为0，因此可用于清空寄存器</p>
+<p><strong>中括号[]</strong></p>
+<p>​	进行寻址操作</p>
+<p>​	mov ax,[bx] 把bx所储存地址所指向的值赋给ax</p>
+<p><strong>ret和call</strong></p>
+<p>​	call xxx 调用某个函数 相当于 push retaddr(返回地址); jmp xxx</p>
+<p>​	ret xxx 函数调用完后返回，相当于pop ip;jmp ip 若没进行特殊修改，ip一般为函数返回地址</p>
+<p><strong>leave</strong></p>
+<p>​	把栈顶和栈底的寄存器归位</p>
+<p>​	</p>
+<h2 id="寄存器（64位）"><a href="#寄存器（64位）" class="headerlink" title="寄存器（64位）"></a>寄存器（64位）</h2><p><strong>rax</strong></p>
+<p>​	存放函数的返回值，或者是在函数调用前存放系统调用号</p>
+<p><strong>rdi,rsi,rdx,rcx,r8,r9</strong></p>
+<p>​	存放函数调用的前六个参数，在系统调用的情况下，rcx要换成r10</p>
+<p><strong>rsp，rbp</strong></p>
+<p>​	存放栈顶和栈底的地址，每次pop和push时rsp在变，rbp不变</p>
+<p><strong>rip</strong></p>
+<p>​	64位的ip寄存器，存放下一条指令的地址</p>
+<p><strong>cs</strong></p>
+<p>​	cs&#x3D;0x23代表32位模式，0x33代表64位模式</p>
+<p><strong>eflags</strong></p>
+<p>​	标志位寄存器，其中有个ZF标志位，当前面操作结果为0，ZF设为1，前面结果不为0，ZF设为0</p>
+<p>​	ZF为1时 je等汇编指令会进行跳转，反之则不会</p>
+<p>寄存器的构造，以rax为例</p>
+<p><img src="/../image/shellcode/1.png" alt="1"></p>
+<h1 id="利用pwntools写shellcode"><a href="#利用pwntools写shellcode" class="headerlink" title="利用pwntools写shellcode"></a>利用pwntools写shellcode</h1><h2 id="shellcraft"><a href="#shellcraft" class="headerlink" title="shellcraft"></a>shellcraft</h2><p>shellcraft自动生成</p>
+<p>eg shellcraft.read(3,buf,0x100) 就会自动生成read的汇编代码，注意要在context里设置好os和arch</p>
+<p>​	shellcraft.sh() 会自动生成execve来执行binsh获得shell</p>
+<h2 id="asm"><a href="#asm" class="headerlink" title="asm"></a>asm</h2><p>asm是把汇编语言转化成机器码，只有这样才能被计算机识别</p>
+<p>asm(shellcraft,sh(),arch&#x3D;’xxx’,os&#x3D;’xx’)后两个参数可以提前设置好</p>
+<p>asm也可以转化手写的汇编指令</p>
+<h1 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h1><p><a href="https://mr1bw.github.io/2024/07/13/24%E9%9B%86%E8%AE%ADweek1/">24集训week1</a></p>
+
+        </div>
+
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/pwn/"># pwn</a>
+                    
+                        <a href="/tags/shellcode/"># shellcode</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2024/07/13/24%E9%9B%86%E8%AE%ADweek1/">24集训week1</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Mr.BW | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+
+</html>
