@@ -228,7 +228,7 @@
 <p>如图，两个大小为0x30的堆块，但由于off by one漏洞导致第二个堆块申请了0x30的大小，size位却显示0xc0的大小，可以进行后续攻击</p>
 <h1 id="利用-off-by-one"><a href="#利用-off-by-one" class="headerlink" title="利用 off by one"></a>利用 off by one</h1><p>chunk被free后会根据size位进行分配fastbins或tcache等，而不是根据实际申请的大小。因此只要修改了size位后进行free就可以控制堆块进入任意bin中。</p>
 <p>同样的，从bin中申请堆块也是看size位，而不去检查实际的大小。</p>
-<p>申请一个小堆块利用 off by one修改size位改成较大的数值，进行free后会进入管理较大chunk的bin中，再次用一个较大的size2申请出，这样就可以访问size2位大小的值从而造成越界访问。</p>
+<p>申请一个小堆块利用 off by one修改size位改成较大的数值size2，进行free后会进入管理较大chunk的bin中，再次用一个较大的size2申请出，这样就可以访问size2位大小的值从而造成越界访问。</p>
 <p><img src="/../image/off_by_one/2.png" alt="2"></p>
 <p>如图，0x5cf2f715b720处显示大小为0xc0,实际大小为0x30，因此可以造成越界访问。</p>
 <p>在show的时候可以直接打印出下面chunk的内容，包括标志位。图中下一个chunk刚好在unsortedbin中，因此可以用来泄露libc。</p>

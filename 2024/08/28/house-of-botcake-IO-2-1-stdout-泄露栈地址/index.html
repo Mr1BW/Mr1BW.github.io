@@ -221,7 +221,7 @@
         </header>
 
         <div class="post-content">
-            <h1 id="house-of-botcake"><a href="#house-of-botcake" class="headerlink" title="house of botcake"></a>house of botcake</h1><p>存在至少一个UAF的chunk时可利用tcache和unsortedbin实现地址任意写</p>
+            <h1 id="house-of-botcake"><a href="#house-of-botcake" class="headerlink" title="house of botcake"></a>house of botcake</h1><p>存在至少一个UAF的chunk时可利用tcache和unsortedbin实现任意地址写</p>
 <p>首先创建堆块把tcache填满，之后隔出一个堆块后把下一个堆块释放进unsortedbin中</p>
 <p>注意：进入unsortedbin中的这个堆块一定要是UAF的</p>
 <p><img src="/../image/house_of_botcake/5.png" alt="5"></p>
@@ -253,7 +253,7 @@
 <li><p>更改IO_write_base为泄露内存的起点，更改IO_write_ptr为泄露内存的终点</p>
 </li>
 <li><p>调用printf或puts等输出函数。</p>
-<p>这样，函数在输出时会先输出IO_write_base和IO_write_ptr之间的内存之后再正常输出</p>
+<p>这样，函数在输出时会先输出IO_write_base和IO_write_ptr之间的内存之后再正常输出，可以造成任意地址读</p>
 </li>
 </ol>
 <p><img src="/../image/house_of_botcake/1.png" alt="1"></p>
