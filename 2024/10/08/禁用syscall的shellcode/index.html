@@ -240,7 +240,7 @@
 
 <p>这里syscall我写成<code>\x0f\x03</code>最后把0x3与0x6进行异或运算成为0x5,之后就可以正常执行了</p>
 <p>用al也是为了避免出现<code>\x00</code></p>
-<p>本体还有个坑，就是rbp和rsp被清零，导致push和pop不能用，因此在执行shellcode之前想办法分配rbp和rsp</p>
+<p>本题还有个坑，就是rbp和rsp被清零，导致push和pop不能用，因此在执行shellcode之前想办法分配rbp和rsp</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mov rsp,rsi</span><br><span class="line">add rsp,0x50</span><br><span class="line">add rsp,0x50</span><br></pre></td></tr></table></figure>
 
 <p>rsi指向的是一块可写的区域，把rsi的值赋给栈顶并开辟0xa0大小的栈空间，此处直接<code>add rsp,0xa0</code>会出现’\x00’</p>
@@ -272,6 +272,8 @@
             </div>
         </section>
         <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2024/10/09/%E6%B5%8B%E4%BF%A1%E9%81%93%E7%88%86%E7%A0%B4/">测信道爆破</a>
             
             
             <a class="next" rel="next" href="/2024/09/16/unsafe-unlink/">unsafe unlink</a>

