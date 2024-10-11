@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Mr.BW">
+
+
+
+
+
+<title>线性表——链表 | Mr.BW的妙妙屋</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <link rel="stylesheet" href="/../fonts/iconfont3/iconfont.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+        
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Mr.BW&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">类别</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">施工中</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Mr.BW&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">类别</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">施工中</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">全部展开</a>
+        <a onclick="go_top()">回到顶部</a>
+        <a onclick="go_bottom()">回到底部</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "全部收起"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "全部展开"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">线性表——链表</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Mr.BW</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">十月 11, 2024&nbsp;&nbsp;10:34:30</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="q1"><a href="#q1" class="headerlink" title="q1"></a>q1</h1><p>数据文件data.txt里存储了若干个整型数，完成如下任务</p>
+<ol>
+<li><p>读取文件里的数值用数组存储。</p>
+</li>
+<li><p>顺序和逆序遍历数组输出元素</p>
+</li>
+<li><p>用链表存储数据，顺序遍历链表输出元素，将链表逆置（倒转）并输出元素。</p>
+<p>例如  2-&gt;3-&gt;10-&gt;6  逆置结果为 6-&gt;10-&gt;3-&gt;2</p>
+</li>
+<li><p>删除重复的元素，创建并存储没有重复元素的数组（针对数组和链表分别实现）</p>
+</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> <span class="title class_">Lnode</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">int</span> data;</span><br><span class="line">	Lnode* next;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">delete1</span><span class="params">(<span class="type">int</span> arr[],<span class="type">int</span> len)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">//数组实现</span></span><br><span class="line">	<span class="type">int</span> arr2[<span class="number">100</span>];</span><br><span class="line">	<span class="type">int</span> len2 = <span class="number">0</span>, i, j;</span><br><span class="line">	<span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; len; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">for</span> (j = <span class="number">0</span>; j &lt; len2; j++)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span> (arr2[j] == arr[i])</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> (j == len2)</span><br><span class="line">		&#123;</span><br><span class="line">			arr2[j] = arr[i];</span><br><span class="line">			len2++;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	cout &lt;&lt; <span class="string">&quot;数组实现，删除后:&quot;</span>;</span><br><span class="line">	<span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; len2; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		cout &lt;&lt; arr2[i] &lt;&lt; <span class="string">&quot; &quot;</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	cout &lt;&lt; endl;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">delete2</span><span class="params">(<span class="type">int</span> arr[], Lnode* head, <span class="type">int</span> len)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">//链表实现</span></span><br><span class="line">	Lnode* newhead = <span class="literal">NULL</span>;</span><br><span class="line">	Lnode* newend = <span class="literal">NULL</span>;</span><br><span class="line">	Lnode* tmp = head;</span><br><span class="line">	<span class="keyword">while</span> (tmp != <span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		Lnode* ptr = newhead;</span><br><span class="line">		<span class="keyword">while</span> (ptr != <span class="literal">NULL</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span> (ptr-&gt;data == tmp-&gt;data)</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			ptr = ptr-&gt;next;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> (ptr == <span class="literal">NULL</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			ptr = (Lnode*)<span class="built_in">malloc</span>(<span class="built_in">sizeof</span>(Lnode));</span><br><span class="line">			ptr-&gt;data = tmp-&gt;data;</span><br><span class="line">			ptr-&gt;next = <span class="literal">NULL</span>;</span><br><span class="line">			<span class="keyword">if</span> (newhead == <span class="literal">NULL</span>)</span><br><span class="line">			&#123;</span><br><span class="line">				newhead = ptr;</span><br><span class="line">				newend = newhead;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span></span><br><span class="line">			&#123;</span><br><span class="line">				newend-&gt;next = ptr;</span><br><span class="line">				newend = newend-&gt;next;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		tmp = tmp-&gt;next;</span><br><span class="line">	&#125;</span><br><span class="line">	Lnode* tmp2 = newhead;</span><br><span class="line">	cout &lt;&lt; <span class="string">&quot;链表实现，删除后:&quot;</span>;</span><br><span class="line">	<span class="keyword">while</span> (tmp2 != <span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		cout &lt;&lt; tmp2-&gt;data &lt;&lt; <span class="string">&quot; &quot;</span>;</span><br><span class="line">		tmp2 = tmp2-&gt;next;</span><br><span class="line">	&#125;</span><br><span class="line">	cout &lt;&lt; endl;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="type">int</span> i = <span class="number">0</span>;</span><br><span class="line">	<span class="type">int</span> arr[<span class="number">100</span>];</span><br><span class="line">	cout &lt;&lt; <span class="string">&quot;输入:&quot;</span>;</span><br><span class="line">	<span class="keyword">while</span> (<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		cin &gt;&gt; arr[i];</span><br><span class="line">		i++;</span><br><span class="line">		<span class="keyword">if</span> (<span class="built_in">getchar</span>() == <span class="string">&#x27;\n&#x27;</span>)</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="type">const</span> <span class="type">int</span> len = i;</span><br><span class="line">	cout &lt;&lt; <span class="string">&quot;顺序:&quot;</span>;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; len; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		cout &lt;&lt; arr[i] &lt;&lt; <span class="string">&quot; &quot;</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	cout &lt;&lt; endl;</span><br><span class="line">	cout &lt;&lt; <span class="string">&quot;逆序:&quot;</span> ;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = len - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--)</span><br><span class="line">	&#123;</span><br><span class="line">		cout &lt;&lt; arr[i] &lt;&lt; <span class="string">&quot; &quot;</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	cout &lt;&lt; endl;</span><br><span class="line">	<span class="comment">//建立链表</span></span><br><span class="line">	Lnode* head = <span class="literal">NULL</span>;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = len - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--)</span><br><span class="line">	&#123;</span><br><span class="line">		Lnode* ptr;</span><br><span class="line">		ptr = (Lnode*)<span class="built_in">malloc</span>(<span class="built_in">sizeof</span>(Lnode));</span><br><span class="line">		ptr-&gt;data = arr[i];</span><br><span class="line">		ptr-&gt;next = <span class="literal">NULL</span>;</span><br><span class="line">		<span class="keyword">if</span> (head == <span class="literal">NULL</span>)</span><br><span class="line">			head = ptr;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">			ptr-&gt;next = head;</span><br><span class="line">			head = ptr;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	Lnode* ptr = head;</span><br><span class="line">	cout &lt;&lt; <span class="string">&quot;链表正序:&quot;</span> ;</span><br><span class="line">	<span class="keyword">while</span> (ptr != <span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		cout &lt;&lt; ptr-&gt;data &lt;&lt; <span class="string">&quot; &quot;</span>;</span><br><span class="line">		ptr = ptr-&gt;next;</span><br><span class="line">	&#125;</span><br><span class="line">	cout &lt;&lt; endl;</span><br><span class="line">	Lnode* end = <span class="literal">NULL</span>;</span><br><span class="line">	cout &lt;&lt; <span class="string">&quot;链表逆序:&quot;</span> ;</span><br><span class="line">	<span class="keyword">while</span> (end != head)</span><br><span class="line">	&#123;</span><br><span class="line">		ptr = head;</span><br><span class="line">		<span class="keyword">while</span> (ptr-&gt;next != end)</span><br><span class="line">		&#123;</span><br><span class="line">			ptr = ptr-&gt;next;</span><br><span class="line">		&#125;</span><br><span class="line">		cout &lt;&lt; ptr-&gt;data &lt;&lt; <span class="string">&quot; &quot;</span>;</span><br><span class="line">		end = ptr;</span><br><span class="line">	&#125;</span><br><span class="line">	cout &lt;&lt; endl;</span><br><span class="line">	<span class="built_in">delete1</span>(arr, len);</span><br><span class="line">	<span class="built_in">delete2</span>(arr, head, len);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="q2"><a href="#q2" class="headerlink" title="q2"></a>q2</h1><p>输入一个整数n，再输入n个整数，按照输入的顺序建立单链表，并遍历所建立的单链表，输出这些数据。</p>
+<p>输入格式:</p>
+<p>假定输入的测试数据有两组，每组测试输入一个整数n，再输入n个整数。</p>
+<p>输出格式:</p>
+<p>（1）  对于每组测试，按照输入次序输出链表中各结点数据域的值（数据之间留一个空格）。</p>
+<p>（2）  对任意一个链表，删除数据值相同的结点。（时间复杂度O(n)）</p>
+<p>（3）  检查两个链表是否为有序链表，若无序，则按递增顺序排序。</p>
+<p>（4）  将两个递增链表合并为一个递减链表，合并过程中删除值相同的结点。</p>
+<p>输入样例:</p>
+<p>5 1 2 3 4 5</p>
+<p>7 9 3 2 4 7 8 6</p>
+<p>（1）输出样例:</p>
+<p>5 4 3 2 1</p>
+<p>6 8 7 4 2 3 9</p>
+<p>（2）输出样例：</p>
+<p>5 4 3 2 1</p>
+<p>6 8 7 4 2 3 9</p>
+<p>（3）输出样例：</p>
+<p>1 2 3 4 5</p>
+<p>2 3 4 6 7 8 9</p>
+<p>（4）输出样例：</p>
+<p>9 8 7 6 5 4 3 2 1</p>
+<p>链表结点的定义struct Lnode；创建空链表</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;map&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> SHOW 1</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> NOTSHOW 0</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> <span class="title class_">Lnode</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">int</span> data;</span><br><span class="line">	Lnode* next;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">add</span><span class="params">(Lnode* &amp;head1)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="type">int</span> n;</span><br><span class="line">	cin &gt;&gt; n;</span><br><span class="line">	<span class="keyword">while</span> (n--)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="type">int</span> m;</span><br><span class="line">		Lnode* ptr = <span class="literal">NULL</span>;</span><br><span class="line">		cin &gt;&gt; m;</span><br><span class="line">		ptr = (Lnode*)<span class="built_in">malloc</span>(<span class="built_in">sizeof</span>(Lnode));</span><br><span class="line">		ptr-&gt;data = m;</span><br><span class="line">		ptr-&gt;next = <span class="literal">NULL</span>;</span><br><span class="line">		<span class="keyword">if</span> (head1 == <span class="literal">NULL</span>)</span><br><span class="line">			head1 = ptr;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">			ptr-&gt;next=head1;</span><br><span class="line">			head1=ptr;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">show</span><span class="params">(Lnode* head1)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Lnode* ptr = head1;</span><br><span class="line">	<span class="keyword">while</span> (ptr != <span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		cout &lt;&lt; ptr-&gt;data &lt;&lt; <span class="string">&quot; &quot;</span>;</span><br><span class="line">		ptr = ptr-&gt;next;</span><br><span class="line">	&#125;</span><br><span class="line">	cout &lt;&lt; endl;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">del</span><span class="params">(Lnode* &amp;head,<span class="type">int</span> a)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	map&lt;<span class="type">int</span>,<span class="type">int</span>&gt;m;</span><br><span class="line">	Lnode* ptr = head;</span><br><span class="line">	Lnode* pre = head;</span><br><span class="line">	m[ptr-&gt;data] = <span class="number">1</span>;</span><br><span class="line">	ptr = ptr-&gt;next;</span><br><span class="line">	<span class="keyword">while</span> (ptr != <span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> (m[ptr-&gt;data] == <span class="number">1</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			pre-&gt;next = ptr-&gt;next;</span><br><span class="line">			<span class="built_in">free</span>(ptr);</span><br><span class="line">			ptr = pre;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">			m[ptr-&gt;data] = <span class="number">1</span>;</span><br><span class="line">		pre = ptr;</span><br><span class="line">		ptr = ptr-&gt;next;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> (a)</span><br><span class="line">		<span class="built_in">show</span>(head);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">sort</span><span class="params">(Lnode* &amp;head,<span class="type">int</span> a)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Lnode* ptr = head;</span><br><span class="line">	Lnode* pre = head;</span><br><span class="line">	<span class="keyword">while</span> (ptr != <span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		Lnode* tmp = ptr;</span><br><span class="line">		<span class="keyword">while</span> (tmp != <span class="literal">NULL</span> &amp;&amp; tmp-&gt;data &gt;= ptr-&gt;data)</span><br><span class="line">			tmp = tmp-&gt;next;</span><br><span class="line">		<span class="keyword">if</span> (tmp == <span class="literal">NULL</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			pre = ptr;</span><br><span class="line">			ptr = ptr-&gt;next;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span> (ptr == head)<span class="comment">//ptr换到tmp右边</span></span><br><span class="line">			&#123;</span><br><span class="line">				head = head-&gt;next;</span><br><span class="line">				ptr = head;</span><br><span class="line">				pre-&gt;next = tmp-&gt;next;</span><br><span class="line">				tmp-&gt;next = pre;</span><br><span class="line"></span><br><span class="line">				ptr = head;</span><br><span class="line">				pre = head;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span></span><br><span class="line">			&#123;</span><br><span class="line">				pre-&gt;next = ptr-&gt;next;</span><br><span class="line">				ptr-&gt;next = tmp-&gt;next;</span><br><span class="line">				tmp-&gt;next = ptr;</span><br><span class="line">				ptr = pre-&gt;next;</span><br><span class="line">				</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> (a)</span><br><span class="line">		<span class="built_in">show</span>(head);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">sort2</span><span class="params">(Lnode* &amp;head, <span class="type">int</span> a)</span><span class="comment">//逆序</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Lnode* ptr = head;</span><br><span class="line">	Lnode* pre = head;</span><br><span class="line">	<span class="keyword">while</span> (ptr != <span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		Lnode* tmp = ptr;</span><br><span class="line">		<span class="keyword">while</span> (tmp != <span class="literal">NULL</span> &amp;&amp; tmp-&gt;data &lt;= ptr-&gt;data)</span><br><span class="line">			tmp = tmp-&gt;next;</span><br><span class="line">		<span class="keyword">if</span> (tmp == <span class="literal">NULL</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			pre = ptr;</span><br><span class="line">			ptr = ptr-&gt;next;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span> (ptr == head)<span class="comment">//ptr换到tmp右边</span></span><br><span class="line">			&#123;</span><br><span class="line">				head = head-&gt;next;</span><br><span class="line">				ptr = head;</span><br><span class="line">				pre-&gt;next = tmp-&gt;next;</span><br><span class="line">				tmp-&gt;next = pre;</span><br><span class="line"></span><br><span class="line">				ptr = head;</span><br><span class="line">				pre = head;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span></span><br><span class="line">			&#123;</span><br><span class="line">				pre-&gt;next = ptr-&gt;next;</span><br><span class="line">				ptr-&gt;next = tmp-&gt;next;</span><br><span class="line">				tmp-&gt;next = ptr;</span><br><span class="line">				ptr = pre-&gt;next;</span><br><span class="line"></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> (a)</span><br><span class="line">		<span class="built_in">show</span>(head);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">com</span><span class="params">(Lnode* head1, Lnode* head2)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Lnode* ptr1 = head1;</span><br><span class="line">	<span class="keyword">while</span> (ptr1-&gt;next != <span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		ptr1 = ptr1-&gt;next;</span><br><span class="line">	&#125;</span><br><span class="line">	ptr1-&gt;next = head2;</span><br><span class="line">	Lnode* ptr2 = head1;</span><br><span class="line">	<span class="built_in">del</span>(head1,NOTSHOW);</span><br><span class="line">	<span class="built_in">sort2</span>(head1, SHOW);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Lnode* head1 = <span class="literal">NULL</span>;</span><br><span class="line">	Lnode* head2 = <span class="literal">NULL</span>;</span><br><span class="line">	<span class="built_in">add</span>(head1);</span><br><span class="line">	<span class="built_in">add</span>(head2);</span><br><span class="line">	<span class="built_in">show</span>(head1);</span><br><span class="line">	<span class="built_in">show</span>(head2);</span><br><span class="line">	<span class="built_in">del</span>(head1,SHOW);</span><br><span class="line">	<span class="built_in">del</span>(head2,SHOW);</span><br><span class="line">	<span class="built_in">sort</span>(head1,SHOW);</span><br><span class="line">	<span class="built_in">sort</span>(head2, SHOW);</span><br><span class="line">	<span class="built_in">com</span>(head1, head2);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+        </div>
+
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E7%BA%BF%E6%80%A7%E8%A1%A8/"># 线性表</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2024/10/09/%E6%B5%8B%E4%BF%A1%E9%81%93%E7%88%86%E7%A0%B4/">测信道爆破</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Mr.BW | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+
+</html>
