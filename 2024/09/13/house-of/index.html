@@ -244,6 +244,8 @@
 </li>
 <li><p>bin一般不包括fastbin，因此有时候chunk的结构在fastbin中看不出来</p>
 </li>
+<li><p>fastbin中申请freehook，mallochook时要注意地址+8的位置是0x00000000AB（最后A和size位一样），否则会malloc corruption（fast）报错 。freehook不好满足，而mallochook-0xN的位置一般为libc里的东西，基本为0x7f开头，可满足0x70size位，因此fastbin的doublefree中多数打mallochook</p>
+</li>
 </ul>
 
         </div>

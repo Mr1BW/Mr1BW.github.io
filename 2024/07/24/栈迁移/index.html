@@ -239,6 +239,7 @@
 <p>在0x0003的位置填上所要跳转的地址，再次执行leave，则程序就会跳转到目标地址</p>
 <p>注意栈迁移时第一次的return addr为下一次leave的地址</p>
 <p>跳转完成后，新地址的下一处地址即为esp的位置</p>
+<h1 id="另外"><a href="#另外" class="headerlink" title="另外"></a>另外</h1><p>如果没有PIE保护或者可以直到PIEbase的话可以让栈迁移到bss段上，修改返回地址为read再次栈溢出读到bss段上，再次leave即可</p>
 <h1 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h1><p>题目来源：<a target="_blank" rel="noopener" href="https://buuoj.cn/challenges">BUUCTF在线评测 (buuoj.cn)</a> ciscn_2019_es_2</p>
 <h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>main函数没什么好看的，初始化后就来到了这里</p>
 <p><img src="/../image/%E6%A0%88%E8%BF%81%E7%A7%BB/1.png" alt="1"></p>

@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Mr.BW">
+
+
+
+
+
+<title>数据结构--稀疏矩阵，栈，队列 | Mr.BW的妙妙屋</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <link rel="stylesheet" href="/../fonts/iconfont3/iconfont.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+        
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Mr.BW&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">类别</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">施工中</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Mr.BW&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">类别</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">施工中</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">全部展开</a>
+        <a onclick="go_top()">回到顶部</a>
+        <a onclick="go_bottom()">回到底部</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "全部收起"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "全部展开"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">数据结构--稀疏矩阵，栈，队列</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Mr.BW</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">十一月 1, 2024&nbsp;&nbsp;21:24:20</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="三元组稀疏矩阵加法"><a href="#三元组稀疏矩阵加法" class="headerlink" title="三元组稀疏矩阵加法"></a>三元组稀疏矩阵加法</h1><p>输入格式:</p>
+<p>输入第1行为两个同型矩阵的行数m、列数n，矩阵A的非零元素个数t1，矩阵B的非零元素个数t2。<br> 按行优先顺序依次输入矩阵A三元组数据，共t1行，每行3个数，分别表示非零元素的行标、列标和值。<br> 按行优先顺序依次输入矩阵B三元组数据，共t2行，每行3个数，分别表示非零元素的行标、列标和值。</p>
+<p>输出格式:</p>
+<p>输出第1行为相加后矩阵行数m、列数n及非零元素个数t。<br> 输出t行相加后的三元组顺序表结果，每行输出非零元素的行标、列标和值，每行数据之间用空格分隔。</p>
+<p>输入样例1:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">4 4 3 4</span><br><span class="line">0 1 -5</span><br><span class="line">1 3 1</span><br><span class="line">2 2 1</span><br><span class="line">0 1 3</span><br><span class="line">1 3 -1</span><br><span class="line">3 0 5</span><br><span class="line">3 3 7</span><br></pre></td></tr></table></figure>
+
+<p>输出样例1:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">4 4 4</span><br><span class="line">0 1 -2</span><br><span class="line">2 2 1</span><br><span class="line">3 0 5</span><br><span class="line">3 3 7</span><br></pre></td></tr></table></figure>
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="meta">#<span class="keyword">define</span> MAXDATA 1000</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">int</span> row;<span class="comment">//行</span></span><br><span class="line">	<span class="type">int</span> col;<span class="comment">//列</span></span><br><span class="line">	<span class="type">int</span> num;<span class="comment">//数值</span></span><br><span class="line">&#125;Node;</span><br><span class="line"><span class="keyword">struct</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">int</span> maxRow;<span class="comment">//最大行</span></span><br><span class="line">	<span class="type">int</span> maxCol;<span class="comment">//最大列</span></span><br><span class="line">	<span class="type">int</span> noZero;<span class="comment">//非零元素</span></span><br><span class="line">	Node data[MAXDATA];<span class="comment">//数据域</span></span><br><span class="line">&#125;A,B,AB;<span class="comment">//AB为A+B矩阵</span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> newZero;<span class="comment">//A+B时产生的新0</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">add</span><span class="params">()</span><span class="comment">//计算A+B</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="type">int</span> i =<span class="number">0</span>, j = <span class="number">0</span>;</span><br><span class="line">	AB.maxRow = A.maxRow;</span><br><span class="line">	AB.maxCol = A.maxCol;<span class="comment">//相加后行列不变</span></span><br><span class="line">	<span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; A.noZero; i++) &#123;</span><br><span class="line">		AB.data[i] = A.data[i];</span><br><span class="line">		AB.noZero++;</span><br><span class="line">	&#125;<span class="comment">//先把A拷贝给AB</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; B.noZero; i++) &#123;</span><br><span class="line">		<span class="keyword">for</span> (j = <span class="number">0</span>; j &lt; AB.noZero; j++) &#123;</span><br><span class="line">			<span class="comment">//行列一样直接加</span></span><br><span class="line">			<span class="keyword">if</span> (B.data[i].row == AB.data[j].row &amp;&amp; B.data[i].col == AB.data[j].col) &#123;</span><br><span class="line">				AB.data[j].num += B.data[i].num;</span><br><span class="line">				<span class="keyword">if</span> (AB.data[j].num == <span class="number">0</span>)newZero++;</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">//行列不一样赋值再nozero+1</span></span><br><span class="line">		<span class="keyword">if</span> (j == AB.noZero)&#123;</span><br><span class="line">			AB.data[AB.noZero] = B.data[i];</span><br><span class="line">			AB.noZero++;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">swap</span><span class="params">(Node&amp; a, Node&amp; b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Node c = a;</span><br><span class="line">	a = b;</span><br><span class="line">	b = c;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">sort</span><span class="params">()</span><span class="comment">//给AB排个序</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;AB.noZero<span class="number">-1</span>;i++)</span><br><span class="line">		<span class="keyword">for</span> (<span class="type">int</span> j = i + <span class="number">1</span>; j &lt; AB.noZero; j++) &#123;</span><br><span class="line">			<span class="keyword">if</span> (AB.data[j].row &lt; AB.data[i].row)</span><br><span class="line">				<span class="built_in">swap</span>(AB.data[j], AB.data[i]);</span><br><span class="line">			<span class="keyword">else</span> <span class="keyword">if</span>(AB.data[j].row == AB.data[i].row&amp;&amp; AB.data[j].col &lt; AB.data[i].col)</span><br><span class="line">				<span class="built_in">swap</span>(AB.data[j], AB.data[i]);</span><br><span class="line">		&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">//不用文件操作则在处注释</span></span><br><span class="line">	<span class="built_in">freopen</span>(<span class="string">&quot;./data2.txt&quot;</span>, <span class="string">&quot;r&quot;</span>, stdin);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//初始化矩阵</span></span><br><span class="line">	<span class="comment">//输入矩阵的行和列数</span></span><br><span class="line">	cin &gt;&gt; A.maxRow &gt;&gt; A.maxCol &gt;&gt; A.noZero &gt;&gt; B.noZero;</span><br><span class="line">	B.maxRow = A.maxRow;</span><br><span class="line">	B.maxCol = A.maxCol;</span><br><span class="line">	<span class="comment">//填充数据</span></span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; A.noZero; i++)</span><br><span class="line">		cin &gt;&gt; A.data[i].row &gt;&gt; A.data[i].col &gt;&gt; A.data[i].num;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; B.noZero; i++)</span><br><span class="line">		cin &gt;&gt; B.data[i].row &gt;&gt; B.data[i].col &gt;&gt; B.data[i].num;</span><br><span class="line">	<span class="comment">//相加运算</span></span><br><span class="line">	<span class="built_in">add</span>();</span><br><span class="line">	<span class="built_in">sort</span>();</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;%d %d %d\n&quot;</span>, AB.maxRow, AB.maxCol, AB.noZero-newZero);</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; AB.noZero; i++)</span><br><span class="line">		<span class="keyword">if</span>(AB.data[i].num)<span class="comment">//不为0再打印</span></span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;%d %d %d\n&quot;</span>,AB.data[i].row, AB.data[i].col, AB.data[i].num);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="栈"><a href="#栈" class="headerlink" title="栈"></a>栈</h1><p>堆栈是一种经典的后进先出的线性结构，相关的操作主要有“入栈”（在堆栈顶插入一个元素）和“出栈”（将栈顶元素返回并从堆栈中删除）。本题要求你实现另一个附加的操作：“取中值”——即返回所有堆栈中元素键值的中值。给定 N 个元素，如果 N 是偶数，则中值定义为第 N&#x2F;2 小元；若是奇数，则为第 (N+1)&#x2F;2 小元。</p>
+<p>输入格式：</p>
+<p>输入的第一行是正整数 N（≤105）。随后 N 行，每行给出一句指令，为以下 3 种之一：</p>
+<p>Push key</p>
+<p>Pop</p>
+<p>PeekMedian</p>
+<p>其中 key 是不超过 105 的正整数；Push 表示“入栈”；Pop 表示“出栈”；PeekMedian 表示“取中值”。</p>
+<p>输出格式：</p>
+<p>对每个 Push 操作，将 key 插入堆栈，无需输出；对每个 Pop 或 PeekMedian 操作，在一行中输出相应的返回值。若操作非法，则对应输出 Invalid。</p>
+<p>输入样例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">17</span><br><span class="line">Pop</span><br><span class="line">PeekMedian</span><br><span class="line">Push 3</span><br><span class="line">PeekMedian</span><br><span class="line">Push 2</span><br><span class="line">PeekMedian</span><br><span class="line">Push 1</span><br><span class="line">PeekMedian</span><br><span class="line">Pop</span><br><span class="line">Pop</span><br><span class="line">Push 5</span><br><span class="line">Push 4</span><br><span class="line">PeekMedian</span><br><span class="line">Pop</span><br><span class="line">Pop</span><br><span class="line">Pop</span><br><span class="line">Pop</span><br></pre></td></tr></table></figure>
+
+<p>输出样例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Invalid</span><br><span class="line">Invalid</span><br><span class="line">3</span><br><span class="line">2</span><br><span class="line">2</span><br><span class="line">1</span><br><span class="line">2</span><br><span class="line">5</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">3</span><br><span class="line">Invalid</span><br></pre></td></tr></table></figure>
+
+<h2 id="代码实现-1"><a href="#代码实现-1" class="headerlink" title="代码实现"></a>代码实现</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">int</span>* top;<span class="comment">//栈顶</span></span><br><span class="line">	<span class="type">int</span>* base;<span class="comment">//栈底</span></span><br><span class="line">	<span class="type">int</span> stackSize;<span class="comment">//总大小</span></span><br><span class="line">	<span class="type">int</span> count;<span class="comment">//当前大小</span></span><br><span class="line">&#125;stack;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">init</span><span class="params">()</span><span class="comment">//初始化栈</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	stack.base = (<span class="type">int</span>*)<span class="built_in">malloc</span>(<span class="built_in">sizeof</span>(<span class="type">int</span>) * stack.stackSize);</span><br><span class="line">	stack.top = stack.base;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">push</span><span class="params">(<span class="type">char</span> *command)</span><span class="comment">//入栈</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (stack.count == stack.stackSize) &#123;<span class="comment">//判断是否满</span></span><br><span class="line">		stack.base = (<span class="type">int</span>*)<span class="built_in">realloc</span>(stack.base, (stack.stackSize + <span class="number">100</span>));<span class="comment">//重新分配内存</span></span><br><span class="line">		stack.stackSize = stack.stackSize + <span class="number">100</span>;<span class="comment">//更新栈大小</span></span><br><span class="line">		stack.top = stack.base + stack.stackSize;<span class="comment">//更新栈顶指针</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="type">int</span> num = <span class="built_in">atoi</span>(&amp;command[<span class="number">5</span>]);<span class="comment">//提取出push后的数字</span></span><br><span class="line">	*(stack.top) = num;</span><br><span class="line">	stack.top++;</span><br><span class="line">	stack.count++;<span class="comment">//栈大小增加</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">pop</span><span class="params">()</span><span class="comment">//出栈</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (stack.base == stack.top) &#123;</span><br><span class="line">		<span class="built_in">puts</span>(<span class="string">&quot;Invalid&quot;</span>);</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	stack.count--;</span><br><span class="line">	stack.top--;<span class="comment">//栈大小减少</span></span><br><span class="line">	cout &lt;&lt; *(stack.top) &lt;&lt; endl;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">peekMedian</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (stack.base == stack.top) &#123;</span><br><span class="line">		<span class="built_in">puts</span>(<span class="string">&quot;Invalid&quot;</span>);</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	cout &lt;&lt; *(stack.base + (stack.count) / <span class="number">2</span>) &lt;&lt; endl;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">//不用文件操作则注释掉</span></span><br><span class="line">	<span class="built_in">freopen</span>(<span class="string">&quot;./data1.txt&quot;</span>, <span class="string">&quot;r&quot;</span>, stdin);</span><br><span class="line"></span><br><span class="line">	<span class="type">char</span> command[<span class="number">100</span>][<span class="number">15</span>];</span><br><span class="line">	<span class="type">int</span> n;</span><br><span class="line">	stack.stackSize = <span class="number">100</span>;<span class="comment">//栈大小</span></span><br><span class="line">	<span class="built_in">init</span>();<span class="comment">//初始化栈</span></span><br><span class="line"></span><br><span class="line">	cin &gt;&gt; n;</span><br><span class="line">	<span class="built_in">getchar</span>();<span class="comment">//读掉回车</span></span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; n; i++)<span class="comment">//输入命令</span></span><br><span class="line">		cin.<span class="built_in">getline</span>(command[i],<span class="number">15</span>);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">		<span class="comment">//处理命令</span></span><br><span class="line">		<span class="keyword">if</span> (!<span class="built_in">strncmp</span>(command[i], <span class="string">&quot;Pop&quot;</span>, <span class="number">3</span>) || !<span class="built_in">strncmp</span>(command[i], <span class="string">&quot;pop&quot;</span>, <span class="number">3</span>))<span class="built_in">pop</span>();</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">if</span> (!<span class="built_in">strncmp</span>(command[i], <span class="string">&quot;Push&quot;</span>, <span class="number">4</span>) || !<span class="built_in">strncmp</span>(command[i], <span class="string">&quot;push&quot;</span>, <span class="number">4</span>))<span class="built_in">push</span>(command[i]);</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">if</span> (!<span class="built_in">strncmp</span>(command[i], <span class="string">&quot;PeekMedian&quot;</span>, <span class="number">10</span>) || !<span class="built_in">strncmp</span>(command[i], <span class="string">&quot;peekmedian&quot;</span>, <span class="number">10</span>))<span class="built_in">peekMedian</span>();</span><br><span class="line">		<span class="keyword">else</span> <span class="built_in">puts</span>(<span class="string">&quot;指令错误&quot;</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="队列"><a href="#队列" class="headerlink" title="队列"></a>队列</h1><p>假设银行有K个窗口提供服务，窗口前设一条黄线，所有顾客按到达时间在黄线后排成一条长龙。当有窗口空闲时，下一位顾客即去该窗口处理事务。当有多个窗口可选择时，假设顾客总是选择编号最小的窗口。</p>
+<p>本题要求输出前来等待服务的N位顾客的平均等待时间、最长等待时间、最后完成时间，并且统计每个窗口服务了多少名顾客。</p>
+<p>输入格式:</p>
+<p>输入第1行给出正整数N（≤1000），为顾客总人数；随后N行，每行给出一位顾客的到达时间T和事务处理时间P，并且假设输入数据已经按到达时间先后排好了顺序；最后一行给出正整数K（≤10），为开设的营业窗口数。这里假设每位顾客事务被处理的最长时间为60分钟。</p>
+<p>输出格式:</p>
+<p>在第一行中输出平均等待时间（输出到小数点后1位）、最长等待时间、最后完成时间，之间用1个空格分隔，行末不能有多余空格。</p>
+<p>在第二行中按编号递增顺序输出每个窗口服务了多少名顾客，数字之间用1个空格分隔，行末不能有多余空格。</p>
+<p>输入样例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">9</span><br><span class="line">0 20</span><br><span class="line">1 15</span><br><span class="line">1 61</span><br><span class="line">2 10</span><br><span class="line">10 5</span><br><span class="line">10 3</span><br><span class="line">30 18</span><br><span class="line">31 25</span><br><span class="line">31 2</span><br><span class="line">3</span><br></pre></td></tr></table></figure>
+<p>输出样例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">6.2 17 61</span><br><span class="line">5 3 1</span><br></pre></td></tr></table></figure>
+
+<h2 id="代码实现-2"><a href="#代码实现-2" class="headerlink" title="代码实现"></a>代码实现</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="type">double</span> aveTime;<span class="comment">//平均等待时间</span></span><br><span class="line"><span class="type">int</span> maxTime;<span class="comment">//最大等待时间</span></span><br><span class="line"><span class="type">int</span> curTime = <span class="number">0</span>;<span class="comment">//当前时间</span></span><br><span class="line"><span class="type">int</span> n, k;<span class="comment">//客人数量，前台数量</span></span><br><span class="line"><span class="type">int</span> inUse;<span class="comment">//正在使用的前台数量</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//银行前台</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">bank</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">int</span> leaveTime;<span class="comment">//客人离开时间，为0则代表此处空闲</span></span><br><span class="line">	<span class="type">int</span> count;<span class="comment">//记录处理完多少客人</span></span><br><span class="line">&#125;rec[<span class="number">10</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment">//客人</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">guest</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">int</span> arr;<span class="comment">//到达时间</span></span><br><span class="line">	<span class="type">int</span> deal;<span class="comment">//处理时间</span></span><br><span class="line">	<span class="type">int</span> wait;<span class="comment">//等待时间</span></span><br><span class="line">&#125;gue[<span class="number">1000</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment">//等待队列</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">queue</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">struct</span> <span class="title class_">guest</span>** q;<span class="comment">//排队客人</span></span><br><span class="line">	<span class="type">int</span> head;<span class="comment">//队头</span></span><br><span class="line">	<span class="type">int</span> end;<span class="comment">//队尾</span></span><br><span class="line">	<span class="type">int</span> count;<span class="comment">//队伍长度</span></span><br><span class="line">&#125;que;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">init</span><span class="params">()</span><span class="comment">//初始化队列</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	que.q = (<span class="keyword">struct</span> guest**)<span class="built_in">malloc</span>(<span class="built_in">sizeof</span>(<span class="keyword">struct</span> guest*) * n);</span><br><span class="line">	que.head = <span class="number">0</span>;</span><br><span class="line">	que.end = <span class="number">0</span>;</span><br><span class="line">	que.count = <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">push</span><span class="params">(<span class="type">int</span> i)</span><span class="comment">//入队 i表示第i个客户已到达</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (que.head == que.end &amp;&amp; que.count != <span class="number">0</span>) &#123;</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> &#123;<span class="comment">//到达后开始排队</span></span><br><span class="line">		que.q[que.end] = &amp;gue[i];</span><br><span class="line">		que.end = (que.end + <span class="number">1</span>) % n;</span><br><span class="line">		que.count++;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">pop</span><span class="params">(<span class="type">int</span> i)</span><span class="comment">//出队 i表示第i个银行柜台为空</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (que.head == que.end &amp;&amp; que.count == <span class="number">0</span>) &#123;<span class="comment">//为空直接返回</span></span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> &#123;<span class="comment">//出队的客人进入银行柜台</span></span><br><span class="line">		rec[i].leaveTime = (*que.q[que.head]).deal + curTime;<span class="comment">//记录客人将要离开的时间</span></span><br><span class="line">		rec[i].count++;</span><br><span class="line">		que.head = (que.head + <span class="number">1</span>) % n;</span><br><span class="line">		que.count--;</span><br><span class="line">		inUse++;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">//不用文件操作则注释掉</span></span><br><span class="line">	<span class="built_in">freopen</span>(<span class="string">&quot;./data2.txt&quot;</span>, <span class="string">&quot;r&quot;</span>, stdin);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//输入数据</span></span><br><span class="line">	cin &gt;&gt; n;</span><br><span class="line">	<span class="built_in">init</span>();</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">		cin &gt;&gt; gue[i].arr &gt;&gt; gue[i].deal;</span><br><span class="line">		gue[i].wait = <span class="number">0</span>;</span><br><span class="line">		<span class="keyword">if</span> (gue[i].deal &gt; <span class="number">60</span>)gue[i].deal = <span class="number">60</span>;<span class="comment">//最长处理时间为60	</span></span><br><span class="line">	&#125;</span><br><span class="line">	cin &gt;&gt; k;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	<span class="type">int</span> cur = <span class="number">0</span>;<span class="comment">//记录正在处理第几个客人</span></span><br><span class="line">	<span class="keyword">while</span> (cur != n || inUse != <span class="number">0</span>) &#123;<span class="comment">//所有人都到，并且所有柜台为空，则停止计时</span></span><br><span class="line">		<span class="keyword">while</span> (gue[cur].arr &lt;= curTime &amp;&amp; cur &lt; n) &#123;<span class="comment">//当前时间来了的客人进队	</span></span><br><span class="line">			<span class="built_in">push</span>(cur);<span class="comment">//排队</span></span><br><span class="line">			cur++;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; k; i++)<span class="comment">//遍历所有柜台，检查当前时间是否有客人处理完</span></span><br><span class="line">			<span class="keyword">if</span> (curTime &gt;= rec[i].leaveTime) &#123;</span><br><span class="line">				<span class="keyword">if</span> (rec[i].leaveTime) &#123;</span><br><span class="line">					rec[i].leaveTime = <span class="number">0</span>;</span><br><span class="line">					inUse--;</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="built_in">pop</span>(i);<span class="comment">//出队</span></span><br><span class="line">			&#125;</span><br><span class="line">		<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; que.count; i++)</span><br><span class="line">			(*que.q[(i + que.head) % n]).wait++;<span class="comment">//等待时间增加</span></span><br><span class="line">		curTime++;<span class="comment">//时间流动</span></span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">	curTime--;<span class="comment">//在这里减去多出来这一分钟</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	<span class="comment">//输出结果</span></span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">		aveTime += gue[i].wait;</span><br><span class="line">		<span class="keyword">if</span> (maxTime &lt; gue[i].wait)maxTime = gue[i].wait;</span><br><span class="line">	&#125;</span><br><span class="line">	aveTime = aveTime / n;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;%.1lf %d %d\n&quot;</span>, aveTime, maxTime, curTime);</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; k; i++)<span class="built_in">printf</span>(<span class="string">&quot;%d &quot;</span>, rec[i].count);</span><br><span class="line">	cout &lt;&lt; endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+        </div>
+
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E7%BA%BF%E6%80%A7%E8%A1%A8/"># 线性表</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2024/10/11/%E7%BA%BF%E6%80%A7%E8%A1%A8%E2%80%94%E2%80%94%E9%93%BE%E8%A1%A8/">线性表——链表</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Mr.BW | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+
+</html>
