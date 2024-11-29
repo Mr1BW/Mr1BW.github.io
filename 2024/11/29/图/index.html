@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Mr.BW">
+
+
+
+
+
+<title>图 | Mr.BW的妙妙屋</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <link rel="stylesheet" href="/../fonts/iconfont3/iconfont.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+        
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Mr.BW&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">类别</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">施工中</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Mr.BW&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">类别</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">施工中</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">全部展开</a>
+        <a onclick="go_top()">回到顶部</a>
+        <a onclick="go_bottom()">回到底部</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "全部收起"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "全部展开"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">图</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Mr.BW</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">十一月 29, 2024&nbsp;&nbsp;16:38:48</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="图的遍历"><a href="#图的遍历" class="headerlink" title="图的遍历"></a>图的遍历</h1><p>以邻接表作存储结构，编写程序对给定的无向图G（包含n个顶点，编号为0至n-1）进行广度优先遍历，并在遍历的过程中计算图G的连通分量个数及边的数目。</p>
+<p>本题限定在遍历过程中，如果同时出现多个待访问的顶点，则优先选择编号最小的一个进行访问，以顶点0为遍历起点。</p>
+<p>邻接表的类型描述</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">\#define  MaxVexNum 30  //最大顶点数</span><br><span class="line"></span><br><span class="line">typedef struct ArcNode  //表结点定义</span><br><span class="line"></span><br><span class="line">&#123; </span><br><span class="line"></span><br><span class="line">  int adjvex;</span><br><span class="line"></span><br><span class="line">  struct ArcNode *nextarc;</span><br><span class="line"></span><br><span class="line">&#125;ArcNode;</span><br><span class="line"></span><br><span class="line">typedef struct    //头结点定义</span><br><span class="line"></span><br><span class="line">&#123; </span><br><span class="line"></span><br><span class="line">  ArcNode *firstarc;</span><br><span class="line"></span><br><span class="line">&#125;VerNode;</span><br><span class="line"></span><br><span class="line">typedef struct </span><br><span class="line"></span><br><span class="line">&#123; </span><br><span class="line"></span><br><span class="line">  VerNode vertices[MaxVexNum];</span><br><span class="line"></span><br><span class="line">  int  vernum, arcnum;</span><br><span class="line"></span><br><span class="line">&#125;ALGraph;</span><br></pre></td></tr></table></figure>
+
+<p>输入格式:</p>
+<p>第一行输入图的顶点数和边数e。</p>
+<p>接下来共e行。每行代表一条边，输入边依附的两个顶点的编号。用头插法建邻接表，各边按第一个顶点编号升序输入，第一个顶点相同时按第二个顶点降序输入。注意：边不能重复输入。</p>
+<p>输出格式:</p>
+<p>输出分三行</p>
+<p>第一行 广度优先遍历序列。序列中每个顶点编号后跟一个空格。</p>
+<p>第二行 连通分量个数</p>
+<p>第三行 边数</p>
+<p>对于下面给出的无向图G</p>
+<p>​                               </p>
+<p>输入样例:</p>
+<p>9 8</p>
+<p>0 2</p>
+<p>0 1</p>
+<p>1 3</p>
+<p>2 6</p>
+<p>2 5</p>
+<p>3 4</p>
+<p>5 6</p>
+<p>7 8</p>
+<p>输出样例:</p>
+<p>0 1 2 3 5 6 4 7 8 </p>
+<p>2</p>
+<p>8</p>
+<h1 id="BFS"><a href="#BFS" class="headerlink" title="BFS"></a>BFS</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>   MaxVexNum  30    <span class="comment">//最大顶点数</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span>  <span class="keyword">struct</span>  <span class="title class_">ArcNode</span>   <span class="comment">//表结点定义</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">int</span>  adjvex;</span><br><span class="line">	<span class="keyword">struct</span>  <span class="title class_">ArcNode</span>* nextarc;</span><br><span class="line">&#125;ArcNode;</span><br><span class="line"><span class="keyword">typedef</span>  <span class="keyword">struct</span>        <span class="comment">//头结点定义</span></span><br><span class="line">&#123;</span><br><span class="line">	ArcNode* firstarc;</span><br><span class="line">&#125;VerNode;</span><br><span class="line"><span class="keyword">typedef</span>  <span class="keyword">struct</span></span><br><span class="line">&#123;</span><br><span class="line">	VerNode  vertices[MaxVexNum];</span><br><span class="line">	<span class="type">int</span>   vernum, arcnum;<span class="comment">//点 边</span></span><br><span class="line">&#125;ALGraph;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">queue</span> &#123;</span><br><span class="line">	<span class="type">int</span> count;<span class="comment">//入队的次数，这里就是边</span></span><br><span class="line">	<span class="type">int</span> head;</span><br><span class="line">	<span class="type">int</span> rear;</span><br><span class="line">	<span class="type">int</span> que[MaxVexNum];</span><br><span class="line">&#125;q;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">push</span><span class="params">(<span class="type">int</span> a)</span> </span>&#123;</span><br><span class="line">	q.que[q.rear] = a;	</span><br><span class="line">	q.rear = (q.rear + <span class="number">1</span>) % MaxVexNum;</span><br><span class="line">	q.count++;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">pop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	q.head = (q.head + <span class="number">1</span>) % MaxVexNum;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">create</span><span class="params">(ALGraph&amp; gra,<span class="type">int</span>(*arr)[<span class="number">2</span>])</span> </span>&#123;<span class="comment">//创建图</span></span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; gra.arcnum; i++) &#123;</span><br><span class="line">		ArcNode* ptr1 = (ArcNode*)<span class="built_in">malloc</span>(<span class="built_in">sizeof</span>(ArcNode));</span><br><span class="line">		<span class="built_in">memset</span>(ptr1, <span class="number">0</span>, <span class="built_in">sizeof</span>(ArcNode));</span><br><span class="line">		ptr1-&gt;adjvex = arr[i][<span class="number">1</span>];</span><br><span class="line">		ptr1-&gt;nextarc = gra.vertices[arr[i][<span class="number">0</span>]].firstarc;</span><br><span class="line">		gra.vertices[arr[i][<span class="number">0</span>]].firstarc = ptr1;</span><br><span class="line"></span><br><span class="line">		ArcNode* ptr2 = (ArcNode*)<span class="built_in">malloc</span>(<span class="built_in">sizeof</span>(ArcNode));</span><br><span class="line">		<span class="built_in">memset</span>(ptr2, <span class="number">0</span>, <span class="built_in">sizeof</span>(ArcNode));</span><br><span class="line">		ptr2-&gt;adjvex = arr[i][<span class="number">0</span>];</span><br><span class="line">		ptr2-&gt;nextarc = gra.vertices[arr[i][<span class="number">1</span>]].firstarc;</span><br><span class="line">		gra.vertices[arr[i][<span class="number">1</span>]].firstarc = ptr2;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">BFS</span><span class="params">(ALGraph gra, <span class="type">bool</span>* visit, <span class="type">int</span> i)</span> </span>&#123;<span class="comment">//i记录当前位置</span></span><br><span class="line">	<span class="keyword">if</span> (visit[i] == <span class="literal">false</span>) &#123;</span><br><span class="line">		visit[i] = <span class="literal">true</span>;</span><br><span class="line">		cout &lt;&lt; i &lt;&lt; <span class="string">&quot; &quot;</span>;</span><br><span class="line">		ArcNode* ptr = gra.vertices[i].firstarc;</span><br><span class="line">		<span class="keyword">while</span> (ptr != <span class="literal">NULL</span>) &#123;</span><br><span class="line">			<span class="keyword">if</span> (visit[ptr-&gt;adjvex] == <span class="literal">false</span>)<span class="comment">//被标记过则不再入队</span></span><br><span class="line">				<span class="built_in">push</span>(ptr-&gt;adjvex);</span><br><span class="line">			ptr = ptr-&gt;nextarc;</span><br><span class="line">		&#125;</span><br><span class="line">		i = q.que[q.head];</span><br><span class="line">		<span class="built_in">pop</span>();</span><br><span class="line">		<span class="built_in">BFS</span>(gra, visit, i);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">freopen</span>(<span class="string">&quot;./data1.txt&quot;</span>, <span class="string">&quot;r&quot;</span>, stdin);</span><br><span class="line"></span><br><span class="line">	ALGraph gra;</span><br><span class="line">	<span class="built_in">memset</span>(&amp;gra, <span class="number">0</span>, <span class="built_in">sizeof</span>(gra));</span><br><span class="line">	<span class="built_in">memset</span>(&amp;q, <span class="number">0</span>, <span class="built_in">sizeof</span>(q));</span><br><span class="line">	<span class="type">int</span> arr[<span class="number">100</span>][<span class="number">2</span>];</span><br><span class="line">	cin &gt;&gt; gra.vernum &gt;&gt; gra.arcnum;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; gra.arcnum; i++) &#123;</span><br><span class="line">		cin &gt;&gt; arr[i][<span class="number">0</span>] &gt;&gt; arr[i][<span class="number">1</span>];</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">create</span>(gra,arr);<span class="comment">//创建图</span></span><br><span class="line"></span><br><span class="line">	<span class="type">bool</span> visit[MaxVexNum] = &#123;<span class="literal">false</span>&#125;;</span><br><span class="line">	<span class="type">int</span> count = <span class="number">0</span>;<span class="comment">//连通分量</span></span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; gra.arcnum; i++)</span><br><span class="line">		<span class="keyword">if</span> (visit[i] == <span class="literal">false</span>) &#123;</span><br><span class="line">			<span class="built_in">BFS</span>(gra, visit, i);</span><br><span class="line">			count++;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">	cout &lt;&lt; endl;</span><br><span class="line">	cout &lt;&lt; count &lt;&lt; endl;</span><br><span class="line">	cout &lt;&lt; q.count;<span class="comment">//入队的次数就是边数</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="DFS"><a href="#DFS" class="headerlink" title="DFS"></a>DFS</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>   MaxVexNum  30    <span class="comment">//最大顶点数</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span>  <span class="keyword">struct</span>  <span class="title class_">ArcNode</span>   <span class="comment">//表结点定义</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">int</span>  adjvex;</span><br><span class="line">	<span class="keyword">struct</span>  <span class="title class_">ArcNode</span>* nextarc;</span><br><span class="line">&#125;ArcNode;</span><br><span class="line"><span class="keyword">typedef</span>  <span class="keyword">struct</span>        <span class="comment">//头结点定义</span></span><br><span class="line">&#123;</span><br><span class="line">	ArcNode* firstarc;</span><br><span class="line">&#125;VerNode;</span><br><span class="line"><span class="keyword">typedef</span>  <span class="keyword">struct</span></span><br><span class="line">&#123;</span><br><span class="line">	VerNode  vertices[MaxVexNum];</span><br><span class="line">	<span class="type">int</span>   vernum, arcnum;<span class="comment">//点 边</span></span><br><span class="line">&#125;ALGraph;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">create</span><span class="params">(ALGraph&amp; gra, <span class="type">int</span>(*arr)[<span class="number">2</span>])</span> </span>&#123;<span class="comment">//创建图</span></span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; gra.arcnum; i++) &#123;</span><br><span class="line">		ArcNode* ptr1 = (ArcNode*)<span class="built_in">malloc</span>(<span class="built_in">sizeof</span>(ArcNode));</span><br><span class="line">		<span class="built_in">memset</span>(ptr1, <span class="number">0</span>, <span class="built_in">sizeof</span>(ArcNode));</span><br><span class="line">		ptr1-&gt;adjvex = arr[i][<span class="number">1</span>];</span><br><span class="line">		ptr1-&gt;nextarc = gra.vertices[arr[i][<span class="number">0</span>]].firstarc;</span><br><span class="line">		gra.vertices[arr[i][<span class="number">0</span>]].firstarc = ptr1;</span><br><span class="line"></span><br><span class="line">		ArcNode* ptr2 = (ArcNode*)<span class="built_in">malloc</span>(<span class="built_in">sizeof</span>(ArcNode));<span class="comment">//无向图回来的一边</span></span><br><span class="line">		<span class="built_in">memset</span>(ptr2, <span class="number">0</span>, <span class="built_in">sizeof</span>(ArcNode));</span><br><span class="line">		ptr2-&gt;adjvex = arr[i][<span class="number">0</span>];</span><br><span class="line">		ptr2-&gt;nextarc = gra.vertices[arr[i][<span class="number">1</span>]].firstarc;</span><br><span class="line">		gra.vertices[arr[i][<span class="number">1</span>]].firstarc = ptr2;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">DFS</span><span class="params">(ALGraph gra, <span class="type">bool</span>* visit, <span class="type">int</span> i)</span> </span>&#123;<span class="comment">//i记录当前位置</span></span><br><span class="line">	<span class="keyword">if</span> (visit[i] == <span class="literal">false</span>) &#123;</span><br><span class="line">		visit[i] = <span class="literal">true</span>;</span><br><span class="line">		cout &lt;&lt; i &lt;&lt; <span class="string">&quot; &quot;</span>;</span><br><span class="line">		ArcNode* ptr = gra.vertices[i].firstarc;</span><br><span class="line">		<span class="keyword">while</span> (ptr != <span class="literal">NULL</span>) &#123;</span><br><span class="line">			<span class="keyword">if</span>(visit[ptr-&gt;adjvex]==<span class="literal">false</span>)</span><br><span class="line">			<span class="built_in">DFS</span>(gra, visit, ptr-&gt;adjvex);</span><br><span class="line">			ptr = ptr-&gt;nextarc;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">freopen</span>(<span class="string">&quot;./data1.txt&quot;</span>, <span class="string">&quot;r&quot;</span>, stdin);</span><br><span class="line"></span><br><span class="line">	ALGraph gra;</span><br><span class="line">	<span class="built_in">memset</span>(&amp;gra, <span class="number">0</span>, <span class="built_in">sizeof</span>(gra));</span><br><span class="line">	<span class="type">int</span> arr[<span class="number">100</span>][<span class="number">2</span>];</span><br><span class="line">	cin &gt;&gt; gra.vernum &gt;&gt; gra.arcnum;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; gra.arcnum; i++) &#123;</span><br><span class="line">		cin &gt;&gt; arr[i][<span class="number">0</span>] &gt;&gt; arr[i][<span class="number">1</span>];</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">create</span>(gra, arr);<span class="comment">//创建图</span></span><br><span class="line">	<span class="type">bool</span> visit[MaxVexNum] = &#123; <span class="literal">false</span> &#125;;</span><br><span class="line">	<span class="type">int</span> count = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; gra.arcnum; i++)</span><br><span class="line">		<span class="keyword">if</span> (visit[i] == <span class="literal">false</span>) &#123;</span><br><span class="line">			<span class="built_in">DFS</span>(gra, visit, i);</span><br><span class="line">			count++;</span><br><span class="line">		&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+        </div>
+
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E5%9B%BE/"># 图</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2024/11/29/%E4%BA%8C%E5%8F%89%E6%A0%91-%E9%9C%8D%E5%A4%AB%E6%9B%BC%E7%BC%96%E7%A0%81/">二叉树 霍夫曼编码</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Mr.BW | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+
+</html>

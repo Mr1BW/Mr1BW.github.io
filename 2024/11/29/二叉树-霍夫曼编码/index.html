@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Mr.BW">
+
+
+
+
+
+<title>二叉树 霍夫曼编码 | Mr.BW的妙妙屋</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <link rel="stylesheet" href="/../fonts/iconfont3/iconfont.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+        
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Mr.BW&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">类别</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">施工中</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Mr.BW&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">类别</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">施工中</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">全部展开</a>
+        <a onclick="go_top()">回到顶部</a>
+        <a onclick="go_bottom()">回到底部</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "全部收起"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "全部展开"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">二叉树 霍夫曼编码</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Mr.BW</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">十一月 29, 2024&nbsp;&nbsp;16:38:09</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="叶子节点路径"><a href="#叶子节点路径" class="headerlink" title="叶子节点路径"></a>叶子节点路径</h1><p>给定一棵有N个节点（编号为1-N）的树，试输出树从根结点到所有叶结点的路径。</p>
+<p>[输入格式]</p>
+<p>第一行包含一个整数N，代表节点数</p>
+<p>第二行包含N个整数p1，p2，…，pn，代表每个节点的父节点编号。若pi&#x3D;0，则该节点为树的根节点</p>
+<p>[输出数据]</p>
+<p>输出树中从根结点到所有叶结点的路径</p>
+<p>[输入规范]</p>
+<p> 0≤pi≤N有且仅有一个pi&#x3D;0</p>
+<p>[样例1]</p>
+<p>输入：</p>
+<p>7</p>
+<p>0 5 5 1 4 1 4</p>
+<p>输出：</p>
+<p>1-4-5-2、1-4-5-3、1-4-7、1-6</p>
+ <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> tree[<span class="number">100</span>];</span><br><span class="line"><span class="type">int</span> ans[<span class="number">100</span>];</span><br><span class="line"><span class="type">bool</span> notleaf[<span class="number">100</span>];<span class="comment">//notleaf[i]==true表示第i个节点不是叶子节点</span></span><br><span class="line"><span class="type">int</span> n;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">find</span><span class="params">(<span class="type">int</span> i, <span class="type">int</span> ansLen)</span> </span>&#123;<span class="comment">//i表示当前在第几个节点，ansLen表示ans的长度</span></span><br><span class="line">	<span class="keyword">if</span> (tree[i] == <span class="number">0</span>) &#123;<span class="comment">//从叶子节点找根节点</span></span><br><span class="line">		cout &lt;&lt; i &lt;&lt; <span class="string">&quot;-&quot;</span>;</span><br><span class="line">		<span class="keyword">for</span> (<span class="type">int</span> i = ansLen<span class="number">-1</span>; i &gt;<span class="number">0</span>; i--)</span><br><span class="line">			cout &lt;&lt; ans[i] &lt;&lt; <span class="string">&quot;-&quot;</span>;</span><br><span class="line">		cout &lt;&lt; ans[<span class="number">0</span>] &lt;&lt; <span class="string">&quot;、&quot;</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> &#123;</span><br><span class="line">		ans[ansLen] = i;</span><br><span class="line">		ansLen++;</span><br><span class="line">		<span class="built_in">find</span>(tree[i], ansLen);</span><br><span class="line">		ansLen--;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">find1</span><span class="params">(<span class="type">int</span> k, <span class="type">int</span> ansLen)</span> </span>&#123;<span class="comment">//i表示当前在第几个节点，ansLen表示ans的长度</span></span><br><span class="line">	ans[ansLen] = k;</span><br><span class="line">	ansLen++;</span><br><span class="line">	<span class="type">int</span> i;</span><br><span class="line">	<span class="keyword">for</span> (i = <span class="number">1</span>; i &lt;= n; i++) &#123;<span class="comment">//从根节点找叶子节点</span></span><br><span class="line">		<span class="keyword">if</span> (tree[i] == k) &#123;</span><br><span class="line">			<span class="built_in">find1</span>(i, ansLen);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> (!notleaf[k]) &#123;<span class="comment">//k如果为叶子节点</span></span><br><span class="line">		<span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt; ansLen<span class="number">-1</span>; j++)</span><br><span class="line">			cout &lt;&lt; ans[j] &lt;&lt; <span class="string">&quot;-&quot;</span>;</span><br><span class="line">		cout &lt;&lt; ans[ansLen<span class="number">-1</span>] &lt;&lt; <span class="string">&quot;、&quot;</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	ansLen--;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">freopen</span>(<span class="string">&quot;./data1.txt&quot;</span>, <span class="string">&quot;r&quot;</span>, stdin);</span><br><span class="line"></span><br><span class="line">	cin &gt;&gt; n;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i++) &#123;</span><br><span class="line">		cin &gt;&gt; tree[i];</span><br><span class="line">		notleaf[tree[i]] = <span class="literal">true</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//find时间复杂度较低，但输出顺序与原题不同：1-6在1-4-7之前</span></span><br><span class="line">	<span class="comment">//for(int i=1;i&lt;=n;i++)</span></span><br><span class="line">	<span class="comment">//	if(!notleaf[i])	find(i, 0);//是叶子节点则去寻找</span></span><br><span class="line">	</span><br><span class="line">	<span class="comment">//find1时间复杂度较高，但输出顺序与原题一样</span></span><br><span class="line">	<span class="built_in">find1</span>(<span class="number">1</span>, <span class="number">0</span>);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;\b&quot;</span>);<span class="comment">//删掉最后多出来的&quot;、&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="树的高度和宽度"><a href="#树的高度和宽度" class="headerlink" title="树的高度和宽度"></a>树的高度和宽度</h1><p>2、对于输入父结点信息，实现采用孩子-兄弟链表（二叉链表）表示树，编程计算树的高度、宽度（树的宽度为树中具有最多结点数量的那一层的结点数）。</p>
+<p>[输入格式]</p>
+<p>第一行包含一个整数N，代表节点数</p>
+<p>第二行包含N个整数p1，p2，…，pn，代表每个节点的父节点编号。若pi&#x3D;0，则该节点为树的根节点</p>
+<p>[输出数据]</p>
+<p>输出两个正整数，分别表示树的高度、宽度</p>
+<p>[输入规范]</p>
+<p>0≤pi≤N</p>
+<p>+有且仅有一个pi&#x3D;0</p>
+<p>[样例1] </p>
+<p>输入：</p>
+<p>10</p>
+<p>0 1 5 1 4 1 4 6 6 3</p>
+<p>输出：</p>
+<p>5、4</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span>  <span class="keyword">struct</span>  <span class="title class_">Node</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> data;<span class="comment">//记录当前节点</span></span><br><span class="line">    <span class="type">int</span> high;<span class="comment">//记录所处高度</span></span><br><span class="line">    <span class="type">int</span>  parent;<span class="comment">//记录父节点</span></span><br><span class="line">    <span class="keyword">struct</span>  <span class="title class_">Node</span>* lchild = <span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">struct</span>  <span class="title class_">Node</span>* rbrother = <span class="literal">NULL</span>;</span><br><span class="line">&#125;Node, * Tree;</span><br><span class="line"></span><br><span class="line">Tree tree;</span><br><span class="line"><span class="type">int</span> maxhigh = <span class="number">0</span>;<span class="comment">//最大高度</span></span><br><span class="line"><span class="type">int</span> wide[<span class="number">100</span>];<span class="comment">//wide[i]表示第i层宽度</span></span><br><span class="line"><span class="type">int</span> maxWide = <span class="number">0</span>;<span class="comment">//最大宽度</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">find</span><span class="params">(Tree T,<span class="type">int</span> nowhigh)</span> </span>&#123;<span class="comment">//nowhigh记录当前高度</span></span><br><span class="line">    maxhigh = maxhigh &gt; nowhigh ? maxhigh : nowhigh;<span class="comment">//更新最大高度</span></span><br><span class="line">    wide[nowhigh]++;</span><br><span class="line">    maxWide = maxWide &gt; wide[nowhigh] ? maxWide : wide[nowhigh];<span class="comment">//更新最大宽度</span></span><br><span class="line">    <span class="keyword">if</span> (T-&gt;lchild)<span class="built_in">find</span>(T-&gt;lchild, nowhigh + <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">if</span> (T-&gt;rbrother)<span class="built_in">find</span>(T-&gt;rbrother, nowhigh);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">freopen</span>(<span class="string">&quot;./data2.txt&quot;</span>, <span class="string">&quot;r&quot;</span>, stdin);</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> n;</span><br><span class="line">    cin &gt;&gt; n;</span><br><span class="line">    tree = (Tree)<span class="built_in">malloc</span>(<span class="built_in">sizeof</span>(Node) * (n + <span class="number">1</span>));</span><br><span class="line">    <span class="built_in">memset</span>(tree, <span class="number">0</span>, <span class="built_in">sizeof</span>(Node) * (n + <span class="number">1</span>));</span><br><span class="line">    <span class="comment">//创建树</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i++) &#123;</span><br><span class="line">        <span class="type">int</span> a;</span><br><span class="line">        cin &gt;&gt; a;</span><br><span class="line">        tree[i].data = i;</span><br><span class="line">        tree[i].parent = a;</span><br><span class="line">        <span class="keyword">if</span> (tree[a].lchild == <span class="literal">NULL</span>)tree[a].lchild = &amp;tree[i];<span class="comment">//父节点为空，则父节点左孩子指向它</span></span><br><span class="line">        <span class="keyword">else</span> &#123;<span class="comment">//父节点不为空，则找右兄弟</span></span><br><span class="line">            Tree ptr=tree[a].lchild;</span><br><span class="line">            <span class="keyword">while</span> (ptr-&gt;rbrother != <span class="literal">NULL</span>)ptr = ptr-&gt;rbrother;</span><br><span class="line">            ptr-&gt;rbrother = &amp;tree[i];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">find</span>(tree+<span class="number">1</span>, <span class="number">1</span>);<span class="comment">//0表示根节点的父节点，因此0号节点不算</span></span><br><span class="line">    cout &lt;&lt; maxhigh &lt;&lt; <span class="string">&quot;、&quot;</span> &lt;&lt; maxWide &lt;&lt; endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h1 id="霍夫曼编码"><a href="#霍夫曼编码" class="headerlink" title="霍夫曼编码"></a>霍夫曼编码</h1><p>3、对于给定的文本内容，要求采用哈夫曼编码输出编码后的内容，并输出编码内容的解码。文本内容由英文字母构成，这里约定不区分字母的大小写。注意，这里约定构造哈夫曼树时，任一结点的左孩子权值不大于右孩子权值，哈夫曼编码时，左分支写’0’右分支写’1’；若两个字母的权值相等，则字典序小的字母优先；对于相等的权值，按出现的先后顺序处理。</p>
+<p>例如，对于样例1，因不区分大小写，若按大写字母处理，则字母A、B、C、D的出现次数为4、1、2、1，则B对应的1为左孩子，D对应的1为右孩子，得到的父结点权值为2，比原有的2晚出现，因此原来的2为左孩子，新得到的2作为右孩子，对于两个权值4也类似处理。构造所得的哈夫曼树如下图所示。</p>
+<p><img src="/../image/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/clip_image002.jpg" alt="clip_image002"></p>
+<p>输入格式:</p>
+<p>测试数据有多组，处理到文件尾。每组测试数据在一行上输入一个字符串（仅由大小写英文字母构成且长度不超过360，至少包含2种字母）表示文本内容。</p>
+<p>输出格式:</p>
+<p>对于每组测试数据，输出哈夫曼编码后的内容以及编码结果的解码内容。</p>
+<p>输入样例:</p>
+<p>AcBDaCAA</p>
+<p>输出样例:</p>
+<p>01011011101000</p>
+<p>AcBDaCAA</p>
+<p>输入样例:</p>
+<p>eAbCDaAAA</p>
+<p>输出样例:</p>
+<p>01110000010101111</p>
+<p>eAbCDaAAA</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;fstream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> <span class="title class_">letter</span>&#123;</span><br><span class="line">	<span class="type">int</span> num;<span class="comment">//出现次数(权值)</span></span><br><span class="line">	<span class="type">char</span> c;<span class="comment">//记录字母</span></span><br><span class="line">	<span class="type">char</span> code[<span class="number">26</span>];<span class="comment">//记录编码</span></span><br><span class="line">	<span class="type">int</span> lchild, rchild, parent;<span class="comment">//记录左右孩子,父节点</span></span><br><span class="line">&#125;letter;</span><br><span class="line"></span><br><span class="line">string str[<span class="number">100</span>];</span><br><span class="line"><span class="type">int</span> line;<span class="comment">//行数</span></span><br><span class="line"></span><br><span class="line"><span class="type">char</span> code[<span class="number">26</span>];<span class="comment">//记录编码</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">cmp</span><span class="params">(<span class="type">const</span> <span class="type">void</span>* a, <span class="type">const</span> <span class="type">void</span>* b)</span>  <span class="comment">//排序函数 </span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> (*(letter*)a).c - (*(letter*)b).c;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//选择两个最小的</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">select</span><span class="params">(letter* L, <span class="type">int</span>* small1, <span class="type">int</span>* small2, <span class="type">int</span> len)</span> </span>&#123;<span class="comment">//small1是左节点，small2是右节点</span></span><br><span class="line">	<span class="type">int</span> min = <span class="number">100000000</span>;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; len; i++) &#123;</span><br><span class="line">		<span class="keyword">if</span> (L[i].num &lt; min &amp;&amp; L[i].parent == <span class="literal">NULL</span>) &#123;</span><br><span class="line">			min = L[i].num;</span><br><span class="line">			*small1 = i;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	min = <span class="number">1000000000</span>;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; len; i++) &#123;</span><br><span class="line">		<span class="keyword">if</span> (L[i].num &lt; min&amp;&amp;i!=*small1 &amp;&amp; L[i].parent == <span class="literal">NULL</span>) &#123;</span><br><span class="line">			min = L[i].num;</span><br><span class="line">			*small2 = i;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> (L[*small1].num &gt; L[*small2].num) &#123;<span class="comment">//保障左节点不大于右节点</span></span><br><span class="line">		<span class="type">int</span> a = *small1;</span><br><span class="line">		*small1 = *small2;</span><br><span class="line">		*small2 = a;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//处理编码</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">encode</span><span class="params">(letter* L,<span class="type">int</span> i,<span class="type">int</span> curCode)</span> </span>&#123;<span class="comment">//i表示当前节点，curCode第几位数</span></span><br><span class="line">	<span class="keyword">if</span> (L[i].c != <span class="string">&#x27;\0&#x27;</span>) &#123;</span><br><span class="line">		<span class="built_in">strcpy</span>(L[i].code, code);</span><br><span class="line">		<span class="keyword">return</span>;<span class="comment">//叶子节点直接返回</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> &#123;</span><br><span class="line">		code[curCode] = <span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">		code[curCode+<span class="number">1</span>] = <span class="string">&#x27;\x00&#x27;</span>;</span><br><span class="line">		<span class="built_in">encode</span>(L, L[i].lchild, curCode + <span class="number">1</span>);</span><br><span class="line">		code[curCode] = <span class="string">&#x27;1&#x27;</span>;</span><br><span class="line">		code[curCode + <span class="number">1</span>] = <span class="string">&#x27;\x00&#x27;</span>;</span><br><span class="line">		<span class="built_in">encode</span>(L, L[i].rchild, curCode + <span class="number">1</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">decode</span><span class="params">(letter* L, <span class="type">int</span> len, <span class="type">char</span>* encode)</span> </span>&#123;<span class="comment">//解码</span></span><br><span class="line">	<span class="type">int</span> i = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">while</span> (encode[i] != <span class="string">&#x27;\0&#x27;</span>) &#123;<span class="comment">//encode为编码后的序列</span></span><br><span class="line">		<span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt; len; j++) &#123;</span><br><span class="line">			<span class="type">int</span> l = <span class="built_in">strlen</span>(L[j].code);</span><br><span class="line">			<span class="keyword">if</span> (!<span class="built_in">strncmp</span>(encode + i, L[j].code, l)) &#123;</span><br><span class="line">				i += l;</span><br><span class="line">				cout &lt;&lt; L[j].c;</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	cout &lt;&lt; endl;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">output</span><span class="params">(letter* L, <span class="type">int</span> len, <span class="type">int</span> curLine, <span class="type">char</span>* encode)</span> </span>&#123;<span class="comment">//输出</span></span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; str[curLine].<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">		<span class="type">char</span> c = <span class="built_in">toupper</span>(str[curLine][i]);</span><br><span class="line">		<span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt; len; j++) &#123;</span><br><span class="line">			<span class="keyword">if</span> (L[j].c == c) &#123;</span><br><span class="line">				cout &lt;&lt; L[j].code;</span><br><span class="line">				<span class="built_in">strcat</span>(encode, L[j].code);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//cout &lt;&lt; endl &lt;&lt; str[curLine] &lt;&lt; endl;</span></span><br><span class="line">	cout &lt;&lt; endl;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">func</span><span class="params">(<span class="type">int</span> curLine)</span> </span>&#123;<span class="comment">//curLine表示当前是第几个字符串</span></span><br><span class="line">	letter* L = (letter*)<span class="built_in">malloc</span>(<span class="built_in">sizeof</span>(letter) * <span class="number">26</span>);</span><br><span class="line">	<span class="built_in">memset</span>(L, <span class="number">0</span>, <span class="built_in">sizeof</span>(letter) * <span class="number">26</span>);</span><br><span class="line">	<span class="type">int</span> len = <span class="number">0</span>;<span class="comment">//记录当前记录了多少种字母</span></span><br><span class="line">	<span class="type">int</span> i, j;</span><br><span class="line">	<span class="comment">//都转成大写存储在结构体中，记录出现的次数</span></span><br><span class="line">	<span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; str[curLine].<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">		<span class="type">char</span> c = <span class="built_in">toupper</span>(str[curLine][i]);</span><br><span class="line">		<span class="keyword">for</span> (j = <span class="number">0</span>; j &lt; len; j++) &#123;</span><br><span class="line">			<span class="keyword">if</span> (L[j].c == c) &#123;</span><br><span class="line">				L[j].num++;</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> (j == len) &#123;</span><br><span class="line">			L[len].c = c;</span><br><span class="line">			L[len].num++;</span><br><span class="line">			len++;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">qsort</span>(L, len, <span class="built_in">sizeof</span>(letter), cmp);<span class="comment">//按照字典序排序</span></span><br><span class="line">	<span class="built_in">realloc</span>(L, <span class="built_in">sizeof</span>(letter) * (<span class="number">2</span> * len - <span class="number">1</span>));</span><br><span class="line"></span><br><span class="line">	<span class="type">int</span> len2=<span class="number">0</span>;<span class="comment">//霍夫曼树中非叶子节点的数量</span></span><br><span class="line">	<span class="type">int</span> small1, small2;</span><br><span class="line">	<span class="keyword">while</span> (len2 != len - <span class="number">1</span>) &#123;</span><br><span class="line">		<span class="built_in">select</span>(L, &amp;small1, &amp;small2, len+len2);<span class="comment">//选出权值最小两个节点的下标</span></span><br><span class="line">		L[len + len2].num = L[small1].num + L[small2].num;<span class="comment">//保存父节点</span></span><br><span class="line">		L[len + len2].lchild = small1;</span><br><span class="line">		L[len + len2].rchild = small2;</span><br><span class="line">		L[len + len2].parent = <span class="literal">NULL</span>;</span><br><span class="line">		L[small1].parent = len + len2;</span><br><span class="line">		L[small2].parent = len + len2;</span><br><span class="line">		len2++;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">encode</span>(L, len + len2 - <span class="number">1</span>,<span class="number">0</span>);<span class="comment">//编码</span></span><br><span class="line">	<span class="type">char</span> encode[<span class="number">100</span>] = &#123; <span class="number">0</span> &#125;;</span><br><span class="line">	<span class="built_in">output</span>(L, len, curLine,encode);<span class="comment">//输出</span></span><br><span class="line">	<span class="built_in">decode</span>(L, len, encode);<span class="comment">//解码</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="comment">//逐行读取文件，存放在str中</span></span><br><span class="line">	ifstream file;</span><br><span class="line">	file.<span class="built_in">open</span>(<span class="string">&quot;./data3.txt&quot;</span>);</span><br><span class="line">	<span class="keyword">if</span> (file.<span class="built_in">fail</span>()) &#123;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;cant open data3.txt&quot;</span> &lt;&lt; endl;</span><br><span class="line">		<span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">while</span> (<span class="built_in">getline</span>(file, str[line]))line++;</span><br><span class="line">	file.<span class="built_in">close</span>();</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; line; i++)</span><br><span class="line">		<span class="built_in">func</span>(i);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="树的其他操作"><a href="#树的其他操作" class="headerlink" title="树的其他操作"></a>树的其他操作</h1><p>给定一个二叉树的先序序列，结点编号为整数，编号之间有空格，孩子为空的位置以#替代。建立二叉树的二叉链表</p>
+<p>（1）  设计非递归算法统计叶子结点数量、输出所有叶子结点。</p>
+<p>（2）  设计非递归算法判断该二叉树是否为二叉排序树。</p>
+<p>（3）  计算该二叉树的高度、宽度。</p>
+<p>（4）  输出每一层的元素值。</p>
+<p>输入样例:</p>
+<p>5 7 10 # # 8 6 # # # 9 12 # 4 # # 1# #</p>
+<p>输出样例:</p>
+<p>（1）4</p>
+<p>10 6 4 1</p>
+<p>（2）中序遍历序列为：10 7 6 8 5 12 4 9 1</p>
+<p>不是排序二叉树</p>
+<p>（3）4</p>
+<p>（4）</p>
+<p>5</p>
+<p>7 9</p>
+<p>10 8 12 1</p>
+<p>6 4</p>
+<p>要求自己给出二叉链表的存储定义！创建一棵空树。创建队列。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="meta">#<span class="keyword">define</span> MAX 1e9;</span></span><br><span class="line"><span class="keyword">typedef</span>  <span class="keyword">struct</span>  <span class="title class_">BiNode</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">int</span>  data;</span><br><span class="line">	<span class="keyword">struct</span>  <span class="title class_">BiNode</span>* lchild, * rchild;</span><br><span class="line">&#125;BiNode, * BiTree;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">que</span> &#123;</span><br><span class="line">	<span class="type">int</span> head, rear;</span><br><span class="line">	<span class="type">int</span> count;</span><br><span class="line">	BiTree queue[<span class="number">100</span>];</span><br><span class="line">&#125;q;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">push</span><span class="params">(BiTree T)</span> </span>&#123;</span><br><span class="line">	q.queue[q.rear] = T;</span><br><span class="line">	q.count++;</span><br><span class="line">	q.rear = (q.rear + <span class="number">1</span>) % <span class="number">100</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function">BiTree <span class="title">pop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	q.count--;</span><br><span class="line">	BiTree T = q.queue[q.head];</span><br><span class="line">	q.head = (q.head + <span class="number">1</span>) % <span class="number">100</span>;</span><br><span class="line">	<span class="keyword">return</span> T;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">push_stack</span><span class="params">(BiTree T)</span> </span>&#123;</span><br><span class="line">	q.queue[q.count] = T;</span><br><span class="line">	q.count++;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="function">BiTree <span class="title">pop_stack</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	q.count--;</span><br><span class="line">	BiTree T = q.queue[q.count];</span><br><span class="line">	<span class="keyword">return</span> T;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">BiTree tree;</span><br><span class="line"><span class="type">int</span> nodedata[<span class="number">100</span>];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">create</span><span class="params">(BiTree &amp;tree)</span> </span>&#123;</span><br><span class="line">	<span class="type">static</span> <span class="type">int</span> offset = <span class="number">0</span>;<span class="comment">//记录到字符串第几个位置</span></span><br><span class="line">	<span class="keyword">if</span> (nodedata[offset] == <span class="number">-1</span>)<span class="keyword">return</span>;</span><br><span class="line">	tree = (BiTree)<span class="built_in">malloc</span>(<span class="built_in">sizeof</span>(BiNode));</span><br><span class="line">	<span class="built_in">memset</span>(tree, <span class="number">0</span>, <span class="built_in">sizeof</span>(BiNode));</span><br><span class="line">	tree-&gt;data = nodedata[offset];</span><br><span class="line">	offset++;</span><br><span class="line">	<span class="built_in">create</span>(tree-&gt;lchild);</span><br><span class="line">	offset++;</span><br><span class="line">	<span class="built_in">create</span>(tree-&gt;rchild);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">findLeaf</span><span class="params">(BiTree tree)</span> </span>&#123;</span><br><span class="line">	<span class="built_in">memset</span>(&amp;q, <span class="number">0</span>, <span class="built_in">sizeof</span>(q));</span><br><span class="line">	<span class="type">static</span> <span class="type">int</span> num = <span class="number">0</span>;</span><br><span class="line">	<span class="type">static</span> <span class="type">int</span> leaf[<span class="number">100</span>];</span><br><span class="line">	<span class="built_in">push</span>(tree);</span><br><span class="line">	tree = tree-&gt;lchild;</span><br><span class="line">	<span class="comment">//其中一个方法如下,用队列实现，这里顺序与标准答案不一样</span></span><br><span class="line">	<span class="comment">/*</span></span><br><span class="line"><span class="comment">	while (q.count) &#123;</span></span><br><span class="line"><span class="comment">		if (q.queue[q.head]-&gt;lchild != NULL)push(q.queue[q.head]-&gt;lchild);</span></span><br><span class="line"><span class="comment">		if (q.queue[q.head]-&gt;rchild != NULL)push(q.queue[q.head]-&gt;rchild);</span></span><br><span class="line"><span class="comment">		else if (q.queue[q.head]-&gt;lchild == NULL) &#123;</span></span><br><span class="line"><span class="comment">			leaf[num] = q.queue[q.head]-&gt;data;</span></span><br><span class="line"><span class="comment">			num++;</span></span><br><span class="line"><span class="comment">		&#125;</span></span><br><span class="line"><span class="comment">		pop();</span></span><br><span class="line"><span class="comment">	&#125;</span></span><br><span class="line"><span class="comment">	*/</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">//第二个方法如下，用栈实现</span></span><br><span class="line">	<span class="keyword">while</span> (q.count||tree) &#123;</span><br><span class="line">		<span class="keyword">while</span> (tree != <span class="literal">NULL</span>) &#123;</span><br><span class="line">			<span class="built_in">push_stack</span>(tree);</span><br><span class="line">			tree = tree-&gt;lchild;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> (!tree) &#123;</span><br><span class="line">			tree = <span class="built_in">pop_stack</span>();</span><br><span class="line">			<span class="keyword">if</span> (!tree-&gt;rchild&amp;&amp;!tree-&gt;lchild) &#123;<span class="comment">//判断是否为叶子节点</span></span><br><span class="line">				leaf[num] = tree-&gt;data;</span><br><span class="line">				num++;</span><br><span class="line">			&#125;</span><br><span class="line">			tree = tree-&gt;rchild;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//输出</span></span><br><span class="line">	cout &lt;&lt; num&lt;&lt;endl;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; num; i++)cout &lt;&lt; leaf[i]&lt;&lt;<span class="string">&quot; &quot;</span>;</span><br><span class="line">	cout &lt;&lt; endl;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">isSort</span><span class="params">(BiTree tree)</span> </span>&#123;<span class="comment">//判断是否是二叉排序树</span></span><br><span class="line">	<span class="built_in">memset</span>(&amp;q, <span class="number">0</span>, <span class="built_in">sizeof</span>(q));</span><br><span class="line">	<span class="type">int</span> pre = MAX;</span><br><span class="line">	<span class="type">bool</span> issort = <span class="literal">true</span>;<span class="comment">//true为二叉排序树,false则不是</span></span><br><span class="line">	<span class="comment">//这里用栈实现</span></span><br><span class="line">	cout &lt;&lt; <span class="string">&quot;中序遍历序列为:&quot;</span>;</span><br><span class="line">	<span class="keyword">while</span> (q.count || tree) &#123;</span><br><span class="line">		<span class="keyword">while</span> (tree != <span class="literal">NULL</span>) &#123;</span><br><span class="line">			<span class="built_in">push_stack</span>(tree);</span><br><span class="line">			tree = tree-&gt;lchild;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> (!tree) &#123;</span><br><span class="line">			tree = <span class="built_in">pop_stack</span>();</span><br><span class="line">			<span class="keyword">if</span> (pre &lt; tree-&gt;data)issort = <span class="literal">false</span>;<span class="comment">//如果前一个小，则不是二叉排序树</span></span><br><span class="line">			cout &lt;&lt; tree-&gt;data &lt;&lt; <span class="string">&quot; &quot;</span>;</span><br><span class="line">			pre = tree-&gt;data;</span><br><span class="line">			tree = tree-&gt;rchild;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> (issort)cout &lt;&lt; endl &lt;&lt; <span class="string">&quot;是二叉排序树&quot;</span> &lt;&lt; endl;</span><br><span class="line">	<span class="keyword">else</span> cout &lt;&lt; endl &lt;&lt; <span class="string">&quot;不是二叉排序树&quot;</span> &lt;&lt; endl;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> v[<span class="number">10</span>][<span class="number">10</span>];<span class="comment">//v[i][j]表示第i层第j个元素</span></span><br><span class="line"><span class="type">int</span> num[<span class="number">10</span>];<span class="comment">//num[i]表示第i层有多少个元素</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">findDeep</span><span class="params">(BiTree tree,<span class="type">int</span> deep)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (!tree)<span class="keyword">return</span>;</span><br><span class="line">	<span class="keyword">else</span> &#123;</span><br><span class="line">		v[deep][num[deep]]=tree-&gt;data;</span><br><span class="line">		num[deep]++;</span><br><span class="line">		<span class="built_in">findDeep</span>(tree-&gt;lchild, deep + <span class="number">1</span>);</span><br><span class="line">		<span class="built_in">findDeep</span>(tree-&gt;rchild, deep + <span class="number">1</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> (deep == <span class="number">0</span>) &#123;<span class="comment">//deep等于0说明已经遍历结束，下一步准备输出</span></span><br><span class="line">		<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; num[i]; i++) &#123;</span><br><span class="line">			<span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt; num[i]; j++) cout &lt;&lt; v[i][j] &lt;&lt; <span class="string">&quot; &quot;</span>;</span><br><span class="line">			cout &lt;&lt; endl;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">//输入5 7 10 # # 8 6 # # # 9 12 # 4 # # 1 # #\n</span></span><br><span class="line">	<span class="built_in">freopen</span>(<span class="string">&quot;./data4.txt&quot;</span>, <span class="string">&quot;r&quot;</span>, stdin);</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//输入并处理数据</span></span><br><span class="line">	<span class="type">char</span> str[<span class="number">100</span>];</span><br><span class="line">	<span class="built_in">fgets</span>(str, <span class="number">0x100</span>, stdin);</span><br><span class="line">	<span class="type">int</span> i = <span class="number">0</span>;</span><br><span class="line">	<span class="type">int</span> nodenum = <span class="number">0</span>;</span><br><span class="line">	<span class="type">int</span> num = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">while</span> (str[i] != <span class="string">&#x27;\n&#x27;</span>) &#123;</span><br><span class="line">		<span class="keyword">if</span>(str[i]==<span class="string">&#x27;#&#x27;</span>)nodedata[nodenum++] = <span class="number">-1</span>;<span class="comment">//#用-1代替</span></span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">if</span> (str[i] &gt;= <span class="string">&#x27;0&#x27;</span> &amp;&amp; str[i] &lt;= <span class="string">&#x27;9&#x27;</span>) &#123;</span><br><span class="line">			num *= <span class="number">10</span>;</span><br><span class="line">			num += str[i] - <span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">if</span>(str[i]==<span class="string">&#x27; &#x27;</span>&amp;&amp;num!=<span class="number">0</span>) &#123;</span><br><span class="line">			nodedata[nodenum++] = num;</span><br><span class="line">			num = <span class="number">0</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		i++;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">create</span>(tree);<span class="comment">//创建二叉树</span></span><br><span class="line">	<span class="built_in">findLeaf</span>(tree);<span class="comment">//找叶子节点（两种方法）</span></span><br><span class="line">	<span class="built_in">isSort</span>(tree);<span class="comment">//判断是否是二叉排序树（非递归）</span></span><br><span class="line">	<span class="built_in">findDeep</span>(tree,<span class="number">0</span>);<span class="comment">//找每一层元素</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+        </div>
+
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E6%A0%91/"># 树</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2024/11/29/%E5%9B%BE/">图</a>
+            
+            
+            <a class="next" rel="next" href="/2024/11/06/setcontext-%E7%BD%91%E9%BC%8E%E6%9D%AF%E9%9D%92%E9%BE%99%E7%BB%84%E5%88%9D%E8%B5%9Bpwn4/">setcontext 网鼎杯青龙组初赛pwn4</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Mr.BW | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+
+</html>
