@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Mr.BW">
+
+
+
+
+
+<title>进程间通信MPI | Mr.BW的妙妙屋</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <link rel="stylesheet" href="/../fonts/iconfont3/iconfont.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+        
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Mr.BW&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">类别</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">施工中</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Mr.BW&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">类别</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">施工中</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">全部展开</a>
+        <a onclick="go_top()">回到顶部</a>
+        <a onclick="go_bottom()">回到底部</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "全部收起"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "全部展开"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">进程间通信MPI</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Mr.BW</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">三月 19, 2025&nbsp;&nbsp;20:08:29</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E5%85%B6%E4%BB%96/">其他</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="MPI程序编译和使用"><a href="#MPI程序编译和使用" class="headerlink" title="MPI程序编译和使用"></a>MPI程序编译和使用</h1><p>c++中引入<code>#include&quot;mpi.h&quot;</code>引入mpi</p>
+<p>编译</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mpic++ -o hello ./hello.cpp</span><br></pre></td></tr></table></figure>
+
+<p>运行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mpirun -np 4 ./hello</span><br></pre></td></tr></table></figure>
+
+<p>指定四个进程运行hello程序</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&quot;mpi.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc,<span class="type">char</span>* argv[])</span></span>&#123;</span><br><span class="line">    <span class="comment">// std::cout&lt;&lt;&quot;argc:&quot;&lt;&lt;argc&lt;&lt;std::endl;</span></span><br><span class="line">    <span class="comment">// for(int i=0;i&lt;=argc;i++)&#123;</span></span><br><span class="line">    <span class="comment">//     std::cout&lt;&lt;&quot;argv&quot;&lt;&lt;i&lt;&lt;&quot;: &quot;&lt;&lt;*(argv+i)&lt;&lt;std::endl;</span></span><br><span class="line">    <span class="comment">// &#125;</span></span><br><span class="line">    MPI::<span class="built_in">Init</span>(argc,argv);</span><br><span class="line">    <span class="type">int</span> numP=MPI::COMM_WORLD.<span class="built_in">Get_size</span>();</span><br><span class="line">    <span class="type">int</span> myID=MPI::COMM_WORLD.<span class="built_in">Get_rank</span>();</span><br><span class="line">    std::cout&lt;&lt;<span class="string">&quot;my id :&quot;</span>&lt;&lt;myID&lt;&lt;<span class="string">&quot;  total:&quot;</span>&lt;&lt;numP&lt;&lt;std::endl;</span><br><span class="line">    MPI::<span class="built_in">Finalize</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用mpirun运行程序与直接运行程序argc和argv不变。进程数4没有放在argv里</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">MPI::<span class="built_in">Init</span>(argc,argv);</span><br><span class="line">MPI::<span class="built_in">Finalize</span>();</span><br></pre></td></tr></table></figure>
+
+<p>表示MPI的初始化和析构函数</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> numP=MPI::COMM_WORLD.<span class="built_in">Get_size</span>();</span><br><span class="line"><span class="type">int</span> myID=MPI::COMM_WORLD.<span class="built_in">Get_rank</span>();</span><br></pre></td></tr></table></figure>
+
+<p>get_size获取总共进程数量</p>
+<p>get_rank获取当前进程id。进程id每个进程不一样，用于管理当前进程</p>
+<p>id从0开始</p>
+<h1 id="点到点通信"><a href="#点到点通信" class="headerlink" title="点到点通信"></a>点到点通信</h1><h2 id="非阻塞通信"><a href="#非阻塞通信" class="headerlink" title="非阻塞通信"></a>非阻塞通信</h2><p>send发送和recv接收函数</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">Send</span><span class="params">(<span class="type">const</span> <span class="type">void</span>* buf, <span class="type">int</span> count, <span class="type">const</span> Datatype&amp; datatype, <span class="type">int</span> dest,<span class="type">int</span> tag)</span></span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Recv</span><span class="params">(<span class="type">void</span>* buf, <span class="type">int</span> count, <span class="type">const</span> Datatype&amp; datatype, <span class="type">int</span> source, <span class="type">int</span> tag)</span></span></span><br></pre></td></tr></table></figure>
+
+<p>其中datatype为MPI中提供的基本数据类型eg：<code>MPI::INT  MPI::FLOAT  MPI::DOUBLE</code>等</p>
+<p>Send和Recv为阻塞通信，Send发送的未被接收，或Recv未接受数据程序均会在此处暂停。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&quot;mpi.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;unistd.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc,<span class="type">char</span>* argv[])</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> pingCount=<span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> pongCount=<span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    MPI::<span class="built_in">Init</span>(argc,argv);</span><br><span class="line">    <span class="type">int</span> numP=MPI::COMM_WORLD.<span class="built_in">Get_size</span>();</span><br><span class="line">    <span class="type">int</span> myID=MPI::COMM_WORLD.<span class="built_in">Get_rank</span>();</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> nextProc=(myID + <span class="number">1</span>)%numP;</span><br><span class="line">    <span class="type">int</span> lastProc=myID - <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span>(lastProc==<span class="number">-1</span>)lastProc=lastProc + numP;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>(myID==<span class="number">0</span>)MPI::COMM_WORLD.<span class="built_in">Send</span>(&amp;pingCount,<span class="number">1</span>,MPI::INT,nextProc,<span class="number">0</span>);</span><br><span class="line">    <span class="keyword">while</span>(pingCount&lt;<span class="number">10</span>)&#123;</span><br><span class="line">    MPI::COMM_WORLD.<span class="built_in">Recv</span>(&amp;pingCount,<span class="number">1</span>,MPI::INT,lastProc,<span class="number">0</span>);</span><br><span class="line">    pingCount++;</span><br><span class="line">    std::cout&lt;&lt;<span class="string">&quot;my id :&quot;</span>&lt;&lt;myID&lt;&lt;<span class="string">&quot;  pingCount:&quot;</span>&lt;&lt;pingCount&lt;&lt;std::endl;</span><br><span class="line">    <span class="built_in">sleep</span>(<span class="number">2</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    MPI::<span class="built_in">Finalize</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>该程序为一个简单的令牌环在进程间发送ping来实现进程之间简单的通信<code>A-&gt;B-&gt;C-&gt;D-&gt;A-&gt;B......</code>如此循环</p>
+<p>结果如下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">$ mpirun -np 4 ./hello</span><br><span class="line">my <span class="built_in">id</span> :1  pingCount:1</span><br><span class="line">my <span class="built_in">id</span> :2  pingCount:2</span><br><span class="line">my <span class="built_in">id</span> :3  pingCount:3</span><br><span class="line">my <span class="built_in">id</span> :0  pingCount:4</span><br><span class="line">my <span class="built_in">id</span> :1  pingCount:5</span><br><span class="line">my <span class="built_in">id</span> :2  pingCount:6</span><br><span class="line">my <span class="built_in">id</span> :3  pingCount:7</span><br><span class="line">my <span class="built_in">id</span> :0  pingCount:8</span><br><span class="line">my <span class="built_in">id</span> :1  pingCount:9</span><br><span class="line">my <span class="built_in">id</span> :2  pingCount:10</span><br><span class="line">my <span class="built_in">id</span> :3  pingCount:11</span><br><span class="line">my <span class="built_in">id</span> :0  pingCount:12</span><br><span class="line">my <span class="built_in">id</span> :1  pingCount:13</span><br></pre></td></tr></table></figure>
+
+<p>循环到第十三次是由于第九次发送出消息，此时还在循环中，等待着消息走一圈回来后变成第十三次</p>
+<p>如果不加sleep结果如下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">$ mpirun -np 4 ./hello</span><br><span class="line">my <span class="built_in">id</span> :1  pingCount:1</span><br><span class="line">my <span class="built_in">id</span> :2  pingCount:2</span><br><span class="line">my <span class="built_in">id</span> :3  pingCount:3</span><br><span class="line">my <span class="built_in">id</span> :0  pingCount:4</span><br><span class="line">my <span class="built_in">id</span> :0  pingCount:8</span><br><span class="line">my <span class="built_in">id</span> :0  pingCount:12</span><br><span class="line">my <span class="built_in">id</span> :1  pingCount:5</span><br><span class="line">my <span class="built_in">id</span> :1  pingCount:9</span><br><span class="line">my <span class="built_in">id</span> :1  pingCount:13</span><br><span class="line">my <span class="built_in">id</span> :2  pingCount:6</span><br><span class="line">my <span class="built_in">id</span> :2  pingCount:10</span><br><span class="line">my <span class="built_in">id</span> :3  pingCount:7</span><br><span class="line">my <span class="built_in">id</span> :3  pingCount:11</span><br></pre></td></tr></table></figure>
+
+<p>打印顺序是乱序，猜测是由于进程间通信速度快于cout打印速度导致出现插队的现象</p>
+<h2 id="非阻塞通信-1"><a href="#非阻塞通信-1" class="headerlink" title="非阻塞通信"></a>非阻塞通信</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">MPI::Request <span class="title">Isend</span><span class="params">(<span class="type">const</span> <span class="type">void</span>* buf, <span class="type">int</span> count, <span class="type">const</span> Datatype&amp; datatype, <span class="type">int</span> dest,<span class="type">int</span> tag)</span></span></span><br><span class="line"><span class="function">MPI::Request <span class="title">Irecv</span><span class="params">(<span class="type">void</span>* buf, <span class="type">int</span> count, <span class="type">const</span> Datatype&amp; datatype, <span class="type">int</span> source, <span class="type">int</span> tag)</span></span></span><br></pre></td></tr></table></figure>
+
+<p>非阻塞通信立即返回，不阻塞后续程序运行</p>
+<p>Wait()函数会等待之前所有的通信完成</p>
+<p>Test()函数会返回布尔值判断是否结束，不阻塞程序运行</p>
+<h1 id="广播机制"><a href="#广播机制" class="headerlink" title="广播机制"></a>广播机制</h1><p>使用广播可以让一个进程中的数据发送到所有进程中去</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">Bcast</span><span class="params">(<span class="type">void</span> *buffer,<span class="type">int</span> count, <span class="type">const</span> MPI::DataType&amp; datatype,<span class="type">int</span> root)</span></span></span><br></pre></td></tr></table></figure>
+
+<p>Bcast本身就包括发送和接收两个功能，root进程负责发送，其他进程负责接收</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&quot;mpi.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;unistd.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc,<span class="type">char</span>* argv[])</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> mes=<span class="number">12345</span>;</span><br><span class="line"></span><br><span class="line">    MPI::<span class="built_in">Init</span>(argc,argv);</span><br><span class="line">    <span class="type">int</span> numP=MPI::COMM_WORLD.<span class="built_in">Get_size</span>();</span><br><span class="line">    <span class="type">int</span> myID=MPI::COMM_WORLD.<span class="built_in">Get_rank</span>();</span><br><span class="line">    std::cout&lt;&lt;<span class="string">&quot;my id :&quot;</span>&lt;&lt;myID&lt;&lt;<span class="string">&quot;  mes:&quot;</span>&lt;&lt;mes&lt;&lt;std::endl;</span><br><span class="line">    <span class="keyword">if</span>(myID == <span class="number">0</span>)mes=<span class="number">54321</span>;</span><br><span class="line">    <span class="type">int</span> root =<span class="number">0</span>;</span><br><span class="line">    MPI::COMM_WORLD.<span class="built_in">Bcast</span>(&amp;mes,<span class="number">1</span>,MPI::INT,root);</span><br><span class="line">    std::cout&lt;&lt;<span class="string">&quot;my id :&quot;</span>&lt;&lt;myID&lt;&lt;<span class="string">&quot;  mes:&quot;</span>&lt;&lt;mes&lt;&lt;std::endl;</span><br><span class="line">    <span class="comment">//sleep(2);</span></span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">    MPI::<span class="built_in">Finalize</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ mpirun -np <span class="number">4</span> ./hello</span><br><span class="line">my id :<span class="number">0</span>  mes:<span class="number">12345</span></span><br><span class="line">my id :<span class="number">0</span>  mes:<span class="number">54321</span></span><br><span class="line">my id :<span class="number">1</span>  mes:<span class="number">12345</span></span><br><span class="line">my id :<span class="number">2</span>  mes:<span class="number">12345</span></span><br><span class="line">my id :<span class="number">2</span>  mes:<span class="number">54321</span></span><br><span class="line">my id :<span class="number">3</span>  mes:<span class="number">12345</span></span><br><span class="line">my id :<span class="number">1</span>  mes:<span class="number">54321</span></span><br><span class="line">my id :<span class="number">3</span>  mes:<span class="number">54321</span></span><br></pre></td></tr></table></figure>
+
+
+        </div>
+
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E5%AD%A6%E4%B9%A0/"># 学习</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2024/11/29/%E5%9B%BE/">图</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Mr.BW | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+
+</html>
