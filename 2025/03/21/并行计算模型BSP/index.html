@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Mr.BW">
+
+
+
+
+
+<title>并行计算模型BSP | Mr.BW的妙妙屋</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <link rel="stylesheet" href="/../fonts/iconfont3/iconfont.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+        
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Mr.BW&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">类别</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">施工中</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Mr.BW&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">类别</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">施工中</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">全部展开</a>
+        <a onclick="go_top()">回到顶部</a>
+        <a onclick="go_bottom()">回到底部</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "全部收起"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "全部展开"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">并行计算模型BSP</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Mr.BW</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">三月 21, 2025&nbsp;&nbsp;18:25:02</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E5%85%B6%E4%BB%96/">其他</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="BSP模型简介"><a href="#BSP模型简介" class="headerlink" title="BSP模型简介"></a>BSP模型简介</h1><p>使用的BSP模型是基于MPI编译的<strong>BSPonMPI</strong></p>
+<p>项目连接: <a target="_blank" rel="noopener" href="https://github.com/wijnand-suijlen/bsponmpi">wijnand-suijlen&#x2F;bsponmpi: BSPlib implementation on top MPI</a></p>
+<p>项目里的版本较低，最新版在官网里</p>
+<p>官网: <a target="_blank" rel="noopener" href="https://bsponmpi.sourceforge.net/">BSPonMPI</a></p>
+<p>文档:<a target="_blank" rel="noopener" href="https://bsponmpi.sourceforge.net/doxygen-v0.2/refman.pdf">refman.pdf</a></p>
+<h1 id="编译和使用"><a href="#编译和使用" class="headerlink" title="编译和使用"></a>编译和使用</h1><p>这里下载的是BSPonMPI2.0，编译和运行与MPI的命令类似</p>
+<p>编译 注意-lbsponmpi参数</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mpicc ./hello.c -o hello -lbsponmpi</span><br></pre></td></tr></table></figure>
+
+<p>运行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mpirun -np 4 example</span><br></pre></td></tr></table></figure>
+
+<p>使用时引入头文件</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bsp.h&gt;</span></span></span><br></pre></td></tr></table></figure>
+
+<p>BSPonMPI使用的是c99，标准，不支持c++，如<code>restrict</code>关键字等使用导致c++编译器无法编译引入bsp.h的程序</p>
+<p>编译成功后把libbsponmpi.so.0动态链接库的位置添加到环境变量中。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> LD_LIBRARY_PATH=/path/to/library:<span class="variable">$LD_LIBRARY_PATH</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="BSP使用"><a href="#BSP使用" class="headerlink" title="BSP使用"></a>BSP使用</h1><p>bsp.h存在如下函数</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** @name Initialisation */</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">bsp_init</span> <span class="params">(<span class="type">void</span> (*smpd_part) (<span class="type">void</span>), <span class="type">int</span>, <span class="type">char</span> *[])</span>;</span><br><span class="line"><span class="type">void</span> <span class="title function_">bsp_begin</span> <span class="params">(<span class="type">int</span> maxprocs)</span>;</span><br><span class="line"><span class="type">void</span> <span class="title function_">bsp_end</span> <span class="params">()</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** @name Halt */</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">bsp_abort</span> <span class="params">(<span class="type">const</span> <span class="type">char</span> *format, ...)</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** @name Enquiry */</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">bsp_nprocs</span> <span class="params">()</span>;</span><br><span class="line"><span class="type">int</span> <span class="title function_">bsp_pid</span> <span class="params">()</span>;</span><br><span class="line"><span class="type">double</span> <span class="title function_">bsp_time</span> <span class="params">()</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** @name Superstep */</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">bsp_sync</span> <span class="params">()</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** @name DRMA */</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">bsp_push_reg</span> <span class="params">(<span class="type">const</span> <span class="type">void</span> *, <span class="type">int</span>)</span>;</span><br><span class="line"><span class="type">void</span> <span class="title function_">bsp_pop_reg</span> <span class="params">(<span class="type">const</span> <span class="type">void</span> *)</span>;</span><br><span class="line"><span class="type">void</span> <span class="title function_">bsp_put</span> <span class="params">(<span class="type">int</span>, <span class="type">const</span> <span class="type">void</span> *, <span class="type">void</span> *, <span class="type">int</span>, <span class="type">int</span>)</span>;</span><br><span class="line"><span class="type">void</span> <span class="title function_">bsp_get</span> <span class="params">(<span class="type">int</span>, <span class="type">const</span> <span class="type">void</span> *, <span class="type">int</span>, <span class="type">void</span> *, <span class="type">int</span>)</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** @name BSMP */</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">bsp_send</span> <span class="params">(<span class="type">int</span>, <span class="type">const</span> <span class="type">void</span> *, <span class="type">const</span> <span class="type">void</span> *, <span class="type">int</span>)</span>;</span><br><span class="line"><span class="type">void</span> <span class="title function_">bsp_qsize</span> <span class="params">(<span class="type">int</span> * <span class="keyword">restrict</span> , <span class="type">int</span> * <span class="keyword">restrict</span> )</span>;</span><br><span class="line"><span class="type">void</span> <span class="title function_">bsp_get_tag</span> <span class="params">(<span class="type">int</span> * <span class="keyword">restrict</span> , <span class="type">void</span> * <span class="keyword">restrict</span>)</span>;</span><br><span class="line"><span class="type">void</span> <span class="title function_">bsp_move</span> <span class="params">(<span class="type">void</span> *, <span class="type">int</span>)</span>;</span><br><span class="line"><span class="type">void</span> <span class="title function_">bsp_set_tagsize</span> <span class="params">(<span class="type">int</span> *)</span>;</span><br></pre></td></tr></table></figure>
+
+<h2 id="初始化函数"><a href="#初始化函数" class="headerlink" title="初始化函数"></a>初始化函数</h2><h3 id="bsp-init"><a href="#bsp-init" class="headerlink" title="bsp_init"></a>bsp_init</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">bsp_init</span> <span class="params">(<span class="type">void</span>(∗)(<span class="type">void</span>) spmd_part, <span class="type">int</span> argc, <span class="type">char</span> ∗ argv[])</span></span><br></pre></td></tr></table></figure>
+
+<p>类似于<code>MPI::Init()</code>在程序开始时调用该函数</p>
+<p>第一个参数是用来执行并行部分函数的地址</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">bsp_init(&amp;spmd_part, argc, argv);</span><br><span class="line"></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;First perform some sequential code\n&quot;</span>);</span><br><span class="line"></span><br><span class="line">spmd_part();</span><br><span class="line"></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;Finally perform some sequential code\n&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<h3 id="bsp-begin"><a href="#bsp-begin" class="headerlink" title="bsp_begin"></a>bsp_begin</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">bsp_begin</span> <span class="params">(<span class="type">int</span> maxprocs)</span></span><br></pre></td></tr></table></figure>
+
+<p>并行部分的开始，参数是用于分配进程的数量。</p>
+<p>这里进程数可自己设置-np参数设置的进程数不一定全部会用上。但不会超过这个数</p>
+<h3 id="bsp-end"><a href="#bsp-end" class="headerlink" title="bsp_end"></a>bsp_end</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">bsp_end</span> <span class="params">()</span></span><br></pre></td></tr></table></figure>
+
+<p>在并行化部分执行完后调用该函数，该函数之后的代码仅由0号进程执行</p>
+<h2 id="终止函数"><a href="#终止函数" class="headerlink" title="终止函数"></a>终止函数</h2><h3 id="bsp-abort"><a href="#bsp-abort" class="headerlink" title="bsp_abort"></a>bsp_abort</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">bsp_abort</span> <span class="params">(<span class="type">const</span> <span class="type">char</span> ∗ format, ...)</span></span><br></pre></td></tr></table></figure>
+
+<p>终止函数，终止程序并打印信息，参数类似于<code>printf</code></p>
+<p>注：<code>spmd_part()</code>中不在<code>bsp_begin</code>中的部分会在调用<code>bsp_init</code>时多执行一遍，而不是主动调用<code>spmd_part</code>时去执行。主动去调用<code>spmd_part()</code>时也只会从<code>bsp_begin</code>开始去执行</p>
+<h2 id="查询函数"><a href="#查询函数" class="headerlink" title="查询函数"></a>查询函数</h2><h3 id="bsp-nprocs"><a href="#bsp-nprocs" class="headerlink" title="bsp_nprocs"></a>bsp_nprocs</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">bsp_nprocs</span> <span class="params">()</span></span><br></pre></td></tr></table></figure>
+
+<p>返回可用&#x2F;已分配的进程数</p>
+<p><code>bsp_init()</code>执行过，但<code>bsp_begin()</code>没有执行官，返回可用的进程数</p>
+<p>两个函数都执行过，返回已分配进程数</p>
+<p>如果都没执行过，返回错误代码-1</p>
+<h3 id="bsp-pid"><a href="#bsp-pid" class="headerlink" title="bsp_pid"></a>bsp_pid</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">bsp_pid</span> <span class="params">()</span></span><br></pre></td></tr></table></figure>
+
+<p>返回当前进程号。</p>
+<p>类似于<code>MPI::COMM_WORLD.Get_rank()</code></p>
+<h3 id="bsp-time"><a href="#bsp-time" class="headerlink" title="bsp_time()"></a>bsp_time()</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">double</span> <span class="title function_">bsp_time</span> <span class="params">()</span></span><br></pre></td></tr></table></figure>
+
+<p>返回从<code>bsp_begin()</code>开始所经过的时间</p>
+<h2 id="supersteps函数"><a href="#supersteps函数" class="headerlink" title="supersteps函数"></a>supersteps函数</h2><h3 id="bsp-sync"><a href="#bsp-sync" class="headerlink" title="bsp_sync()"></a>bsp_sync()</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">bsp_sync</span> <span class="params">()</span></span><br></pre></td></tr></table></figure>
+
+<p>划分supersteps</p>
+<p><code>bsp_sync()</code>前后为两步supersteps</p>
+<h2 id="内存管理函数"><a href="#内存管理函数" class="headerlink" title="内存管理函数"></a>内存管理函数</h2><h3 id="bsp-push-reg"><a href="#bsp-push-reg" class="headerlink" title="bsp_push_reg"></a>bsp_push_reg</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">bsp_push_reg</span> <span class="params">(<span class="type">const</span> <span class="type">void</span> ∗ ident, <span class="type">int</span> size)</span></span><br></pre></td></tr></table></figure>
+
+<p>使指定大小的内存空间可用，内存空间可以用于下一步的supersteps中内存的操作</p>
+<p>不加这个，无法对目标内存进行<code>bsp_put</code>和<code>bsp_get</code>操作</p>
+<p>参数</p>
+<ul>
+<li>ident 指向一块内存的指针</li>
+<li>size 内存大小</li>
+</ul>
+<h3 id="bsp-pop-reg"><a href="#bsp-pop-reg" class="headerlink" title="bsp_pop_reg"></a>bsp_pop_reg</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">bsp_pop_reg</span> <span class="params">(<span class="type">const</span> <span class="type">void</span> ∗ ident)</span></span><br></pre></td></tr></table></figure>
+
+<p>注销内存位置</p>
+<p><code>bsp_pop_reg</code>用完后注销掉</p>
+<p>参数</p>
+<ul>
+<li>ident 指向目标内存的指针</li>
+</ul>
+<h3 id="bsp-put"><a href="#bsp-put" class="headerlink" title="bsp_put"></a>bsp_put</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">bsp_put</span> <span class="params">(<span class="type">int</span> pid, <span class="type">const</span> <span class="type">void</span> ∗ src, <span class="type">void</span> ∗ dst, <span class="type">int</span> offset, <span class="type">int</span> nbytes)</span></span><br></pre></td></tr></table></figure>
+
+<p>在下一个supersteps中，给目标进程的目标位置特定的数据，其他进程数据不变</p>
+<p>参数</p>
+<ul>
+<li>pid 目标进程号</li>
+<li>src 指向源位置的指针</li>
+<li>dst 指向目标位置的指针</li>
+<li>offset dst上的偏移</li>
+<li>nbytes 发送的字节数</li>
+</ul>
+<h3 id="bsp-get"><a href="#bsp-get" class="headerlink" title="bsp_get"></a>bsp_get</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">bsp_get</span> <span class="params">(<span class="type">int</span> pid, <span class="type">const</span> <span class="type">void</span> ∗ src, <span class="type">int</span> offset, <span class="type">void</span> ∗ dst, <span class="type">int</span> nbytes)</span></span><br></pre></td></tr></table></figure>
+
+<p>在下一个supersteps中从其他进程获取数据</p>
+<p>参数</p>
+<ul>
+<li>pid 源进程号</li>
+<li>src 指向源的指针</li>
+<li>offset src上的偏移</li>
+<li>dst 目标位置</li>
+<li>nbytes</li>
+</ul>
+<h3 id="结合bsp-sync"><a href="#结合bsp-sync" class="headerlink" title="结合bsp_sync"></a>结合bsp_sync</h3><p><code>bsp_get</code>和<code>bsp_put</code>两个函数仅仅作为缓冲，不会立刻改变内存，只有调用了<code>bsp_sync</code>后内存才会刷新</p>
+<h3 id="简单的进程间通信"><a href="#简单的进程间通信" class="headerlink" title="简单的进程间通信"></a>简单的进程间通信</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bsp.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"> </span><br><span class="line"> <span class="type">void</span> <span class="title function_">spmd_part</span><span class="params">()</span></span><br><span class="line"> &#123;</span><br><span class="line">   <span class="built_in">printf</span>(<span class="string">&quot;hello,%d\n&quot;</span>,bsp_nprocs());</span><br><span class="line">   <span class="type">int</span> a=<span class="number">1</span>, b=<span class="number">2</span>, c=<span class="number">3</span>;</span><br><span class="line">   bsp_begin(<span class="number">2</span>);</span><br><span class="line">   <span class="built_in">printf</span>(<span class="string">&quot;HELLO,%d\n&quot;</span>,bsp_nprocs());</span><br><span class="line">   bsp_push_reg(&amp;a, <span class="keyword">sizeof</span>(<span class="type">int</span>));</span><br><span class="line">   bsp_sync();</span><br><span class="line"></span><br><span class="line">   <span class="keyword">if</span> (bsp_pid() == <span class="number">0</span>)</span><br><span class="line">     &#123;</span><br><span class="line">       bsp_put(<span class="number">1</span>, &amp;b, &amp;a, <span class="number">0</span>, <span class="keyword">sizeof</span>(<span class="type">int</span>));</span><br><span class="line">       bsp_get(<span class="number">1</span>, &amp;a, <span class="number">0</span>, &amp;c, <span class="keyword">sizeof</span>(<span class="type">int</span>));</span><br><span class="line">     &#125;</span><br><span class="line">   <span class="built_in">printf</span>(<span class="string">&quot;pid=%d, a=%d, b=%d, c=%d\n&quot;</span>,bsp_pid(),a,b,c);</span><br><span class="line">   bsp_sync();</span><br><span class="line">   <span class="built_in">printf</span>(<span class="string">&quot;pid=%d, a=%d, b=%d, c=%d\n&quot;</span>,bsp_pid(),a,b,c);</span><br><span class="line">   bsp_pop_reg(&amp;a);</span><br><span class="line">   bsp_sync();</span><br><span class="line"></span><br><span class="line">   bsp_end();</span><br><span class="line"> &#125;</span><br><span class="line"> </span><br><span class="line"> <span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> *argv[])</span></span><br><span class="line"> &#123;</span><br><span class="line">   bsp_init(&amp;spmd_part, argc, argv);</span><br><span class="line"></span><br><span class="line">   <span class="built_in">printf</span>(<span class="string">&quot;First perform some sequential code\n&quot;</span>);</span><br><span class="line"></span><br><span class="line">   spmd_part();</span><br><span class="line"></span><br><span class="line">   <span class="built_in">printf</span>(<span class="string">&quot;Finally perform some sequential code\n&quot;</span>);</span><br><span class="line">   <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">$ mpirun -np 5 ./hello</span><br><span class="line">First perform some sequential code</span><br><span class="line">hello,5</span><br><span class="line">hello,5</span><br><span class="line">hello,5</span><br><span class="line">hello,5</span><br><span class="line">hello,5</span><br><span class="line">HELLO,2</span><br><span class="line">pid=1, a=1, b=2, c=3</span><br><span class="line">pid=1, a=2, b=2, c=3</span><br><span class="line">HELLO,2</span><br><span class="line">pid=0, a=1, b=2, c=3</span><br><span class="line">pid=0, a=1, b=2, c=1</span><br><span class="line">Finally perform some sequential code</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="BSMP函数"><a href="#BSMP函数" class="headerlink" title="BSMP函数"></a>BSMP函数</h2><h3 id="bsp-send"><a href="#bsp-send" class="headerlink" title="bsp_send"></a>bsp_send</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">bsp_send</span> <span class="params">(<span class="type">int</span> pid, <span class="type">const</span> <span class="type">void</span> ∗ tag, <span class="type">const</span> <span class="type">void</span> ∗ payload, <span class="type">int</span> payload_nbytes)</span></span><br></pre></td></tr></table></figure>
+
+<p>给一个进程发送信息，可以发送tag和payload，tag默认发送的大小为0，需要在<code>bsp_set_tagsize()</code>单独设置</p>
+<p>经过实验，<code>bsp_send</code>也要加<code>bsp_sync</code>才能保障消息进入消息队列</p>
+<p>参数</p>
+<ul>
+<li>pid 目标进程号</li>
+<li>tag 指向tag的指针</li>
+<li>payload 指向payload的指针</li>
+<li>payload_nbytes 发送信息的大小</li>
+</ul>
+<h3 id="bsp-qsize"><a href="#bsp-qsize" class="headerlink" title="bsp_qsize"></a>bsp_qsize</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">bsp_qsize</span> <span class="params">(<span class="type">int</span> ∗<span class="keyword">restrict</span> nmessages, <span class="type">int</span> ∗<span class="keyword">restrict</span> accum_nbytes)</span></span><br></pre></td></tr></table></figure>
+
+<p>给出队列中消息的数量和payload的大小总和。</p>
+<p>结果直接赋值到两个指针中去</p>
+<p>参数</p>
+<ul>
+<li>nmessages int类型的指针，指向的值会被设置成队列中消息的数量</li>
+<li>accum_nbytes int类型指针，指针的值会被设置成payload大小的和</li>
+</ul>
+<h3 id="bsp-get-tag"><a href="#bsp-get-tag" class="headerlink" title="bsp_get_tag"></a>bsp_get_tag</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">bsp_get_tag</span> <span class="params">(<span class="type">int</span> ∗<span class="keyword">restrict</span> status, <span class="type">void</span> ∗<span class="keyword">restrict</span> tag)</span></span><br></pre></td></tr></table></figure>
+
+<p>给出消息队列中tag和payload的大小</p>
+<p>status返回payload，tag返回tag，具体同上</p>
+<h3 id="bsp-move"><a href="#bsp-move" class="headerlink" title="bsp_move"></a>bsp_move</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">bsp_move</span> <span class="params">(<span class="type">void</span> ∗ payload, <span class="type">int</span> reception_nbytes)</span></span><br></pre></td></tr></table></figure>
+
+<p>从消息队列中接收数据</p>
+<p>参数</p>
+<ul>
+<li>payload 指向一块足够大的内存空间</li>
+<li>reception_nbytes 最大接收数量</li>
+</ul>
+<h3 id="bsp-set-tagsize"><a href="#bsp-set-tagsize" class="headerlink" title="bsp_set_tagsize"></a>bsp_set_tagsize</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">bsp_set_tagsize</span> <span class="params">(<span class="type">int</span> ∗ tag_nbytes)</span></span><br></pre></td></tr></table></figure>
+
+<p>为下一个superstep的tag设置大小</p>
+<p>参数</p>
+<ul>
+<li>tag_nbytes 是一个int类型的指针，指向的是tag的大小</li>
+</ul>
+<h3 id="bsp-send和bsp-move实现进程间通信"><a href="#bsp-send和bsp-move实现进程间通信" class="headerlink" title="bsp_send和bsp_move实现进程间通信"></a>bsp_send和bsp_move实现进程间通信</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bsp.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"> </span><br><span class="line"> <span class="type">void</span> <span class="title function_">spmd_part</span><span class="params">()</span></span><br><span class="line"> &#123;</span><br><span class="line">   <span class="type">char</span> text[<span class="number">10</span>]=&#123;<span class="string">&quot;txet emos&quot;</span>&#125;;</span><br><span class="line">   bsp_begin(<span class="number">4</span>);</span><br><span class="line"></span><br><span class="line">   <span class="keyword">if</span> (bsp_pid() == <span class="number">0</span>)</span><br><span class="line">     &#123;</span><br><span class="line">       bsp_send(<span class="number">1</span>, <span class="literal">NULL</span>, <span class="string">&quot;some text&quot;</span>, <span class="number">10</span>);<span class="comment">//这里向1进程发送消息</span></span><br><span class="line">     &#125;</span><br><span class="line">   bsp_sync();<span class="comment">//经过实验，bsp_send也要加这个</span></span><br><span class="line"></span><br><span class="line">   <span class="keyword">if</span>(bsp_pid()==<span class="number">1</span>) bsp_move(text,<span class="number">10</span>);<span class="comment">//这里如果在其他进程尝试接收消息，则会报错</span></span><br><span class="line">     </span><br><span class="line">   <span class="built_in">printf</span>(<span class="string">&quot;pid=%d, text=%s\n&quot;</span>,bsp_pid(),text);</span><br><span class="line">   bsp_end();</span><br><span class="line">  <span class="comment">// printf(&quot;222\n&quot;);</span></span><br><span class="line"> &#125;</span><br><span class="line"> </span><br><span class="line"> <span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> *argv[])</span></span><br><span class="line"> &#123;</span><br><span class="line">   bsp_init(&amp;spmd_part, argc, argv);</span><br><span class="line"></span><br><span class="line">   spmd_part();</span><br><span class="line">   <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ mpirun -np 5 ./hello</span><br><span class="line">pid=0, text=txet emos</span><br><span class="line">pid=1, text=some text</span><br><span class="line">pid=2, text=txet emos</span><br><span class="line">pid=3, text=txet emos</span><br></pre></td></tr></table></figure>
+
+<h2 id="高性能函数"><a href="#高性能函数" class="headerlink" title="高性能函数"></a>高性能函数</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">bsp_hpput</span> <span class="params">(<span class="type">int</span> pid, <span class="type">const</span> <span class="type">void</span> ∗src, <span class="type">void</span> ∗dst, <span class="type">int</span> offset, <span class="type">int</span> nbytes)</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">bsp_hpget</span> <span class="params">(<span class="type">int</span> pid, <span class="type">const</span> <span class="type">void</span> ∗ src, <span class="type">int</span> offset, <span class="type">void</span> ∗ dst, <span class="type">int</span> nbytes)</span></span><br></pre></td></tr></table></figure>
+
+<p>这两个函数和<code>bsp_put</code>，<code>bsp_get</code>一模一样</p>
+<p>由</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#define bsp_hpput bsp_put</span><br><span class="line">#define bsp_hpget bsp_get</span><br></pre></td></tr></table></figure>
+
+<p>定义</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">bsp_hpmove</span> <span class="params">(<span class="type">void</span> ∗∗ tag_ptr, <span class="type">void</span> ∗∗ payload_ptr)</span></span><br></pre></td></tr></table></figure>
+
+<p>使用</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bsp.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"> </span><br><span class="line"> <span class="type">void</span> <span class="title function_">spmd_part</span><span class="params">()</span></span><br><span class="line"> &#123;</span><br><span class="line">   <span class="type">int</span> tag=<span class="number">2</span>;</span><br><span class="line">   bsp_begin(<span class="number">4</span>);</span><br><span class="line"></span><br><span class="line">   <span class="keyword">if</span> (bsp_pid() == <span class="number">0</span>)</span><br><span class="line">     &#123;</span><br><span class="line">       bsp_send(<span class="number">1</span>, &amp;tag, <span class="string">&quot;some text&quot;</span>, <span class="number">10</span>);<span class="comment">//这里向1进程发送消息</span></span><br><span class="line">     &#125;</span><br><span class="line">   bsp_sync();<span class="comment">//经过实验，bsp_send也要加这个</span></span><br><span class="line">   <span class="type">void</span>* pointer=<span class="literal">NULL</span>;</span><br><span class="line">   <span class="type">void</span>* tag_pointer=(<span class="type">void</span>*)&amp;tag;</span><br><span class="line">   <span class="type">int</span> size=bsp_hpmove(&amp;tag_pointer,&amp;pointer);</span><br><span class="line"></span><br><span class="line">   <span class="built_in">printf</span>(<span class="string">&quot;pid=%d, text=%s, size=%d\n&quot;</span>,bsp_pid(),pointer,size);</span><br><span class="line">   bsp_end();</span><br><span class="line"> &#125;</span><br><span class="line"> </span><br><span class="line"> <span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> *argv[])</span></span><br><span class="line"> &#123;</span><br><span class="line">   bsp_init(&amp;spmd_part, argc, argv);</span><br><span class="line"></span><br><span class="line">   spmd_part();</span><br><span class="line">   <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>bsp_hpmove</code>直接修改指针，省去了内存复制</p>
+<ul>
+<li>相比于<code>bsp_move</code>只需要根据tag判断消息，不需要用if判断进程</li>
+</ul>
+
+        </div>
+
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E5%AD%A6%E4%B9%A0/"># 学习</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2025/03/19/%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1MPI/">进程间通信MPI</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Mr.BW | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+
+</html>
