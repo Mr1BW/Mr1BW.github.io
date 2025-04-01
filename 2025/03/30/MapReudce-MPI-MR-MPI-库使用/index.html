@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Mr.BW">
+
+
+
+
+
+<title>MapReudce-MPI(MR-MPI)库使用 | Mr.BW的blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <link rel="stylesheet" href="/../fonts/iconfont3/iconfont.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+        
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Mr.BW&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">类别</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">施工中</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Mr.BW&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">类别</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">施工中</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">全部展开</a>
+        <a onclick="go_top()">回到顶部</a>
+        <a onclick="go_bottom()">回到底部</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "全部收起"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "全部展开"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">MapReudce-MPI(MR-MPI)库使用</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Mr.BW</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">三月 30, 2025&nbsp;&nbsp;11:13:39</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E5%85%B6%E4%BB%96/">其他</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="MR-MPI库"><a href="#MR-MPI库" class="headerlink" title="MR-MPI库"></a>MR-MPI库</h1><p>官网: <a target="_blank" rel="noopener" href="https://sjplimp.github.io/mapreduce/">MapReduce-MPI 库</a></p>
+<p>下载:apt包管理器即可下载</p>
+<ul>
+<li>libmrmpi1  下载运行环境</li>
+<li>libmrmpi-dev  下载开发环境</li>
+</ul>
+<p>使用时引入头文件</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;mapreduce.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;keyvalue.h&quot;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> MAPREDUCE_NS </span><br></pre></td></tr></table></figure>
+
+<p>编译时把.h添加进环境变量</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> CPLUS_INCLUDE_PATH=/usr/include/mrmpi:<span class="variable">$CPLUS_INCLUDE_PATH</span></span><br></pre></td></tr></table></figure>
+
+<p>用<code>mpic++</code>进行编译</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mpic++ hello.cpp -o hello /usr/lib/x86_64-linux-gnu/libMapReduceMPI.so</span><br></pre></td></tr></table></figure>
+
+<p>MR-MPI中主要是对两个类进行操作<code>mapreduce keyvalue</code></p>
+<p>keyvalue储存键值对，后文的键值对基本指的是该类的对象</p>
+<p><strong>这里遇到个问题，待解决。。。。</strong></p>
+<p>我设置LD_LIBRARY_PATH为&#x2F;usr&#x2F;lib&#x2F;x86_64-linux-gnu，然后直接编译<code>mpic++ hello.cpp -o hello</code>却不行，或<code>mpic++ hello.cpp -o hello -L/usr/lib/x86_64-linux-gnu</code>也不行，不知道为什么。这里真的卡我很久。。。。。</p>
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><h2 id="MapReduce对象"><a href="#MapReduce对象" class="headerlink" title="MapReduce对象"></a>MapReduce对象</h2><h3 id="创建"><a href="#创建" class="headerlink" title="创建"></a>创建</h3><p>有三种构造函数</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">MapReduce</span>(MPI_Comm);</span><br><span class="line"><span class="built_in">MapReduce</span>();</span><br><span class="line"><span class="built_in">MapReduce</span>(<span class="type">double</span>);</span><br></pre></td></tr></table></figure>
+
+<p>MPI_Comm这个一般创建时直接为<code>MapReduce *mr = new MapReduce(MPI_COMM_WORLD);</code></p>
+<h3 id="复制"><a href="#复制" class="headerlink" title="复制"></a>复制</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">MapReduce *<span class="title">MapReduce::copy</span><span class="params">()</span></span></span><br></pre></td></tr></table></figure>
+
+<p>复制一个对象</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">MapReduce *mr1 = new MapReduce(MPI_COMM_WORLD);</span><br><span class="line">mr1-&gt;map(ntasks,&amp;mymap,NULL);</span><br><span class="line">MapReduce *mr2 = mr1-&gt;copy();</span><br></pre></td></tr></table></figure>
+
+<p>这样mr1复制到mr2中去了</p>
+<h3 id="销毁"><a href="#销毁" class="headerlink" title="销毁"></a>销毁</h3><p>和一般的对象一样，堆上的对象用<code>delete</code>销毁，栈上的对象函数结束后自己就销毁了</p>
+<h2 id="MapReduce-map"><a href="#MapReduce-map" class="headerlink" title="MapReduce map()"></a>MapReduce map()</h2><p>该函数有多组重载，用于生成键值对</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Variant <span class="number">1</span>:</span><br><span class="line"><span class="function"><span class="type">uint64_t</span> <span class="title">MapReduce::map</span><span class="params">(<span class="type">int</span> nmap, <span class="type">void</span> (*mymap)(<span class="type">int</span>, KeyValue *, <span class="type">void</span> *), <span class="type">void</span> *ptr)</span></span></span><br><span class="line"><span class="function"><span class="type">uint64_t</span> <span class="title">MapReduce::map</span><span class="params">(<span class="type">int</span> nmap, <span class="type">void</span> (*mymap)(<span class="type">int</span>, KeyValue *, <span class="type">void</span> *), <span class="type">void</span> *ptr, <span class="type">int</span> addflag)</span></span></span><br></pre></td></tr></table></figure>
+
+<p>改组用法为，nmap为执行mymap总述的处理器数量</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Variant <span class="number">2</span>:</span><br><span class="line"><span class="function"><span class="type">uint64_t</span> <span class="title">MapReduce::map</span><span class="params">(<span class="type">int</span> nstr, <span class="type">char</span> **strings, <span class="type">int</span> self, <span class="type">int</span> recurse, <span class="type">int</span> readfile, <span class="type">void</span> (*mymap)(<span class="type">int</span>, <span class="type">char</span> *, KeyValue *, <span class="type">void</span> *), <span class="type">void</span> *ptr)</span></span></span><br><span class="line"><span class="function"><span class="type">uint64_t</span> <span class="title">MapReduce::map</span><span class="params">(<span class="type">int</span> nstr, <span class="type">char</span> **strings, <span class="type">int</span> self, <span class="type">int</span> recurse, <span class="type">int</span> readfile, <span class="type">void</span> (*mymap)(<span class="type">int</span>, <span class="type">char</span> *, KeyValue *, <span class="type">void</span> *), <span class="type">void</span> *ptr, <span class="type">int</span> addflag)</span> </span></span><br></pre></td></tr></table></figure>
+
+<p>这一组可以指定nmap和strings为文件名或目录，来生成一个文件名列表。列表中的每一个文件都会进入mymap函数然后来处理他。</p>
+<p>这里如果要读取文件，self recurse readfile设置为010。其他的官方文档中似乎没有写</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Variant <span class="number">3</span>:</span><br><span class="line"><span class="function"><span class="type">uint64_t</span> <span class="title">MapReduce::map</span><span class="params">(<span class="type">int</span> nmap, <span class="type">int</span> nstr, <span class="type">char</span> **strings, <span class="type">int</span> recurse, <span class="type">int</span> readfile, <span class="type">char</span> sepchar, <span class="type">int</span> delta, <span class="type">void</span> (*mymap)(<span class="type">int</span>, <span class="type">char</span> *, <span class="type">int</span>, KeyValue *, <span class="type">void</span> *), <span class="type">void</span> *ptr)</span></span></span><br><span class="line"><span class="function"><span class="type">uint64_t</span> <span class="title">MapReduce::map</span><span class="params">(<span class="type">int</span> nmap, <span class="type">int</span> nstr, <span class="type">char</span> **strings, <span class="type">int</span> recurse, <span class="type">int</span> readfile, <span class="type">char</span> sepchar, <span class="type">int</span> delta, <span class="type">void</span> (*mymap)(<span class="type">int</span>, <span class="type">char</span> *, <span class="type">int</span>, KeyValue *, <span class="type">void</span> *), <span class="type">void</span> *ptr, <span class="type">int</span> addflag)</span> </span></span><br><span class="line"><span class="function">Variant 4:</span></span><br><span class="line"><span class="function">uint64_t MapReduce::map(int nmap, int nstr, char **strings, int recurse, int readfile, char *sepstr, int delta, void (*mymap)(int, char *, int, KeyValue *, void *), void *ptr)</span></span><br><span class="line"><span class="function">uint64_t MapReduce::map(int nmap, int nstr, char **strings, int recurse, int readfile, char *sepstr, int delta, void (*mymap)(int, char *, int, KeyValue *, void *), void *ptr, int addflag) </span></span><br></pre></td></tr></table></figure>
+
+<p>这两组是把一个大型文件转换为一个或多个部分来进行mymap函数的调用</p>
+<p>variant3的sepchar来指定特定的分隔字符</p>
+<p>variant4的sepchar*来指定特定的分隔字符串</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Variant <span class="number">5</span>:</span><br><span class="line"><span class="function"><span class="type">uint64_t</span> <span class="title">MapReduce::map</span><span class="params">(MapReduce *mr2, <span class="type">void</span> (*mymap)(<span class="type">uint64_t</span>, <span class="type">char</span> *, <span class="type">int</span>, <span class="type">char</span> *, <span class="type">int</span>, KeyValue *, <span class="type">void</span> *), <span class="type">void</span> *ptr)</span></span></span><br><span class="line"><span class="function"><span class="type">uint64_t</span> <span class="title">MapReduce::map</span><span class="params">(MapReduce *mr2, <span class="type">void</span> (*mymap)(<span class="type">uint64_t</span>, <span class="type">char</span> *, <span class="type">int</span>, <span class="type">char</span> *, <span class="type">int</span>, KeyValue *, <span class="type">void</span> *), <span class="type">void</span> *ptr, <span class="type">int</span> addflag)</span> </span></span><br></pre></td></tr></table></figure>
+
+<p>该组可以指定已有的对象来执行mymap</p>
+<p>这些map函数都可以指定一个ptr指针，这个指针会被传入mymap函数，不需要的话就设置成NULL</p>
+<p>addflag参数。对于除了最后一组重载之外的map，如果addflag省略或设置为0，则map将创建一个新的KeyValue，再删除存在的KeyValue，如果addflag不为0，则由mymap生成的KeyValue会被添加到已经存在的KeyValue中。</p>
+<p>addflag参数对于最后一组来说，如果设置成1，则新生成的KeyValue会被添加到已存在的KeyValue中，如果设置成0，那么已存在的KeyValue会被新生成的替代，</p>
+<p>关于mymap函数，有四种重载</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">mymap</span><span class="params">(<span class="type">int</span> itask, KeyValue *kv, <span class="type">void</span> *ptr)</span></span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">mymap</span><span class="params">(<span class="type">int</span> itask, <span class="type">char</span> *file, KeyValue *kv, <span class="type">void</span> *ptr)</span></span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">mymap</span><span class="params">(<span class="type">int</span> itask, <span class="type">char</span> *str, <span class="type">int</span> size, KeyValue *kv, <span class="type">void</span> *ptr)</span></span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">mymap</span><span class="params">(<span class="type">uint64_t</span> itask, <span class="type">char</span> *key, <span class="type">int</span> keybytes, <span class="type">char</span> *value, <span class="type">int</span> valuebytes, KeyValue *kv, <span class="type">void</span> *ptr)</span></span></span><br></pre></td></tr></table></figure>
+
+<p>这些情况传递给函数的最后两个参数都是指向MapReduce储存的Keyvalue对象以及map中的ptr</p>
+<ul>
+<li>第一个重载 $$0&lt;&#x3D;itask&lt;nmap$$，nmap即map中指定的</li>
+<li>第二个重载$$0&lt;&#x3D;itask&lt;nfiles$$，nfiles是文件列表中文件的数量，file指向的是个文件</li>
+<li>第三个重载，itask规则同第一个，nmap是map分割字符串后的数量，他会传递一个字符串和字符串长度(包括\x00)</li>
+<li>最后一个重载，$$0&lt;&#x3D;itask&lt;nkey$$  nkey是键值对的数量</li>
+</ul>
+<p>mymap函数即用来生成键值对的</p>
+<h2 id="MapReduce-reduce"><a href="#MapReduce-reduce" class="headerlink" title="MapReduce reduce()"></a>MapReduce reduce()</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">uint64_t</span> <span class="title">MapReduce::reduce</span><span class="params">(<span class="type">void</span> (*myreduce)(<span class="type">char</span> *, <span class="type">int</span>, <span class="type">char</span> *, <span class="type">int</span>, <span class="type">int</span> *, KeyValue *, <span class="type">void</span> *), <span class="type">void</span> *ptr)</span> </span></span><br></pre></td></tr></table></figure>
+
+<p>传入一个函数指针，他会对KeyMultiValue进行操作，对每个处理器均会去执行myreduce函数。myreduce会生成新的键值对。函数返回所有进程中生成键值对的数量</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">myreduce</span><span class="params">(<span class="type">char</span> *key, <span class="type">int</span> keybytes, <span class="type">char</span> *multivalue, <span class="type">int</span> nvalues, <span class="type">int</span> *valuebytes, KeyValue *kv, <span class="type">void</span> *ptr)</span> </span></span><br></pre></td></tr></table></figure>
+
+<h2 id="MapReduce-add"><a href="#MapReduce-add" class="headerlink" title="MapReduce add()"></a>MapReduce add()</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">uint64_t</span> <span class="title">MapReduce::add</span><span class="params">(MapReduce *mr2)</span></span></span><br></pre></td></tr></table></figure>
+
+<p>添加键值对，该函数有多个重载，可以添加不同种键值对，或直接对一个对象进行操作</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mr1-&gt;<span class="built_in">add</span>(mr2);</span><br></pre></td></tr></table></figure>
+
+<p>把mr2的键值附加到mr1中去</p>
+<p>add把相同键值对会进行合并</p>
+<h2 id="MapReduce-aggregate"><a href="#MapReduce-aggregate" class="headerlink" title="MapReduce aggregate()"></a>MapReduce aggregate()</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">uint64_t</span> <span class="title">MapReduce::aggregate</span><span class="params">(<span class="type">int</span> (*myhash)(<span class="type">char</span> *, <span class="type">int</span>))</span> </span></span><br></pre></td></tr></table></figure>
+
+<p>用于重新分配键值对，合并相同的键。一个key的不同value可能在多个进程中，在执行后，key的重复项由一个进程存储。</p>
+<p>返回新的键值对的总数。</p>
+<h2 id="MapReduce-broadcast"><a href="#MapReduce-broadcast" class="headerlink" title="MapReduce broadcast()"></a>MapReduce broadcast()</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">uint64_t</span> <span class="title">MapReduce::broadcast</span><span class="params">(<span class="type">int</span> root)</span> </span></span><br></pre></td></tr></table></figure>
+
+<p>删去除了root进程以外所有进程的键值对，并把root进程的键值对给广播到所有进程。最终结果是所有进程都有一份root进程中键值对的拷贝</p>
+<p>返回值官方文档中没写</p>
+<h2 id="MapReduce-clone"><a href="#MapReduce-clone" class="headerlink" title="MapReduce clone()"></a>MapReduce clone()</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">uint64_t</span> <span class="title">MapReduce::clone</span><span class="params">()</span> </span></span><br></pre></td></tr></table></figure>
+
+<p>把keyvalue对象转化成keymultivalue对象</p>
+<h2 id="MapReduce-open-MapReduce-close"><a href="#MapReduce-open-MapReduce-close" class="headerlink" title="MapReduce open()     MapReduce close()"></a>MapReduce open()     MapReduce close()</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">MapReduce::open</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">MapReduce::open</span><span class="params">(<span class="type">int</span> addflag)</span></span></span><br><span class="line"><span class="function"><span class="type">uint64_t</span> <span class="title">MapReduce::close</span><span class="params">()</span></span></span><br></pre></td></tr></table></figure>
+
+<h2 id="MapReduce-collapse"><a href="#MapReduce-collapse" class="headerlink" title="MapReduce collapse()"></a>MapReduce collapse()</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">uint64_t</span> <span class="title">MapReduce::collapse</span><span class="params">(<span class="type">char</span> *key, <span class="type">int</span> keybytes)</span> </span></span><br></pre></td></tr></table></figure>
+
+<p>将多个键值对折叠成一个键值对</p>
+<p><code>(&quot;dog&quot;,3), (&quot;me&quot;,45), (&quot;parallel&quot;,1) </code>&#x3D;&gt;&gt;<code>(key,[&quot;dog&quot;,3,&quot;me&quot;,45,&quot;parallel&quot;,1]) </code></p>
+<h2 id="MapReduce-compress"><a href="#MapReduce-compress" class="headerlink" title="MapReduce compress()"></a>MapReduce compress()</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">uint64_t</span> <span class="title">MapReduce::compress</span><span class="params">(<span class="type">void</span> (*mycompress)(<span class="type">char</span> *, <span class="type">int</span>, <span class="type">char</span> *, <span class="type">int</span>, <span class="type">int</span> *, KeyValue *, <span class="type">void</span> *), <span class="type">void</span> *ptr)</span>  </span></span><br></pre></td></tr></table></figure>
+
+<p>compress将具有重复键的KeyValue压缩成新的KeyValue对象，其中每个键在一个处理器上仅出现一次</p>
+<h2 id="MapReduce-collate"><a href="#MapReduce-collate" class="headerlink" title="MapReduce collate()"></a>MapReduce collate()</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">uint64_t</span> <span class="title">MapReduce::collate</span><span class="params">(<span class="type">int</span> (*myhash)(<span class="type">char</span> *, <span class="type">int</span>))</span></span></span><br></pre></td></tr></table></figure>
+
+<p>将KeyValue对象转化成KeyMultiValue对象</p>
+<p>这个函数和执行aggregate()后在执行convert()效果一样</p>
+<h2 id="MapReduce-convert"><a href="#MapReduce-convert" class="headerlink" title="MapReduce convert()"></a>MapReduce convert()</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">uint64_t</span> <span class="title">MapReduce::convert</span><span class="params">()</span> </span></span><br></pre></td></tr></table></figure>
+
+<p>把keyvalue转化成KeyMultiValue：查找重复的键，将他们的值连接成一个值的列表</p>
+<h2 id="MapReduce-gather"><a href="#MapReduce-gather" class="headerlink" title="MapReduce gather()"></a>MapReduce gather()</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">uint64_t</span> <span class="title">MapReduce::gather</span><span class="params">(<span class="type">int</span> nprocs)</span></span></span><br></pre></td></tr></table></figure>
+
+<p>用于收集所有处理器中键值对来在nprocs个处理器中形成一个新的键值对</p>
+<p>ID&gt;&#x3D;nprocs的处理器会得到一个空的KeyValue</p>
+<p>函数返回新的KeyValue的总数。</p>
+<h2 id="MapReduce-print"><a href="#MapReduce-print" class="headerlink" title="MapReduce print()"></a>MapReduce print()</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">MapReduce::print</span><span class="params">(<span class="type">int</span> proc, <span class="type">int</span> nstride, <span class="type">int</span> kflag, <span class="type">int</span> vflag)</span></span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">MapReduce::print</span><span class="params">(<span class="type">char</span> *file, <span class="type">int</span> fflag, <span class="type">int</span> proc, <span class="type">int</span> nstride, <span class="type">int</span> kflag, <span class="type">int</span> vflag)</span> </span></span><br></pre></td></tr></table></figure>
+
+<p>第一个将KeyValue或KeyMultiValue打印</p>
+<p>proc&lt;0，打印所有proc的信息</p>
+<p>proc&gt;&#x3D;0 打印指定proc的信息</p>
+<p>第二个打印一个或多个文件</p>
+<p>如果fflag&#x3D;0所有进程的信息都打印到该文件，</p>
+<h2 id="MapReduce-scan"><a href="#MapReduce-scan" class="headerlink" title="MapReduce scan()"></a>MapReduce scan()</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">uint64_t</span> <span class="title">MapReduce::scan</span><span class="params">(<span class="type">void</span> (*myscan)(<span class="type">char</span> *, <span class="type">int</span>, <span class="type">char</span> *, <span class="type">int</span>, <span class="type">void</span> *), <span class="type">void</span> *ptr)</span></span></span><br><span class="line"><span class="function"><span class="type">uint64_t</span> <span class="title">MapReduce::scan</span><span class="params">(<span class="type">void</span> (*myscan)(<span class="type">char</span> *, <span class="type">int</span>, <span class="type">char</span> *, <span class="type">int</span>, <span class="type">int</span> *, <span class="type">void</span> *), <span class="type">void</span> *ptr)</span> </span></span><br></pre></td></tr></table></figure>
+
+<h2 id="MapReduce-sort-keys"><a href="#MapReduce-sort-keys" class="headerlink" title="MapReduce sort_keys()"></a>MapReduce sort_keys()</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">uint64_t</span> <span class="title">MapReduce::sort_keys</span><span class="params">(<span class="type">int</span> (*mycompare)(<span class="type">char</span> *, <span class="type">int</span>, <span class="type">char</span> *, <span class="type">int</span>))</span></span></span><br><span class="line"><span class="function"><span class="type">uint64_t</span> <span class="title">MapReduce::sort_keys</span><span class="params">(<span class="type">int</span> flag)</span></span></span><br></pre></td></tr></table></figure>
+
+<p>以key为关键字排序，其中mycompare是比较器</p>
+<h2 id="MapReduce-sort-values-）"><a href="#MapReduce-sort-values-）" class="headerlink" title="MapReduce sort_values(）"></a>MapReduce sort_values(）</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">uint64_t</span> <span class="title">MapReduce::sort_values</span><span class="params">(<span class="type">int</span> (*mycompare)(<span class="type">char</span> *, <span class="type">int</span>, <span class="type">char</span> *, <span class="type">int</span>))</span></span></span><br><span class="line"><span class="function"><span class="type">uint64_t</span> <span class="title">MapReduce::sort_values</span><span class="params">(<span class="type">int</span> flag)</span></span></span><br></pre></td></tr></table></figure>
+
+<p>以value为关键字排序</p>
+<h1 id="示例程序"><a href="#示例程序" class="headerlink" title="示例程序"></a>示例程序</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// MapReduce word frequency example in C++</span></span><br><span class="line"><span class="comment">// Syntax: wordfreq file1 dir1 file2 dir2 ...</span></span><br><span class="line"><span class="comment">// (1) read all files and files in dirs</span></span><br><span class="line"><span class="comment">// (2) parse into words separated by whitespace</span></span><br><span class="line"><span class="comment">// (3) count occurrence of each word in all files</span></span><br><span class="line"><span class="comment">// (4) print top 10 words</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;mpi.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;stdio.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;stdlib.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;string.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;sys/stat.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;mapreduce.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;keyvalue.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> MAPREDUCE_NS;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">fileread</span><span class="params">(<span class="type">int</span>, <span class="type">char</span> *, KeyValue *, <span class="type">void</span> *)</span></span>;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">sum</span><span class="params">(<span class="type">char</span> *, <span class="type">int</span>, <span class="type">char</span> *, <span class="type">int</span>, <span class="type">int</span> *, KeyValue *, <span class="type">void</span> *)</span></span>;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">ncompare</span><span class="params">(<span class="type">char</span> *, <span class="type">int</span>, <span class="type">char</span> *, <span class="type">int</span>)</span></span>;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">output</span><span class="params">(<span class="type">uint64_t</span>, <span class="type">char</span> *, <span class="type">int</span>, <span class="type">char</span> *, <span class="type">int</span>, KeyValue *, <span class="type">void</span> *)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Count</span> &#123;</span><br><span class="line">  <span class="type">int</span> n,limit,flag;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* ---------------------------------------------------------------------- */</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> narg, <span class="type">char</span> **args)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="built_in">MPI_Init</span>(&amp;narg,&amp;args);</span><br><span class="line"></span><br><span class="line">  <span class="type">int</span> me,nprocs;</span><br><span class="line">  <span class="built_in">MPI_Comm_rank</span>(MPI_COMM_WORLD,&amp;me);</span><br><span class="line">  std::cout&lt;&lt;<span class="string">&quot;MYPID:&quot;</span>&lt;&lt;me&lt;&lt;std::endl;</span><br><span class="line">  <span class="built_in">MPI_Comm_size</span>(MPI_COMM_WORLD,&amp;nprocs);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (narg &lt;= <span class="number">1</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (me == <span class="number">0</span>) <span class="built_in">printf</span>(<span class="string">&quot;Syntax: wordfreq file1 file2 ...\n&quot;</span>);</span><br><span class="line">    <span class="built_in">MPI_Abort</span>(MPI_COMM_WORLD,<span class="number">1</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  MapReduce *mr = <span class="keyword">new</span> <span class="built_in">MapReduce</span>(MPI_COMM_WORLD);</span><br><span class="line">  mr-&gt;verbosity = <span class="number">2</span>;</span><br><span class="line">  mr-&gt;timer = <span class="number">1</span>;</span><br><span class="line">  <span class="comment">//mr-&gt;memsize = 1;</span></span><br><span class="line">  <span class="comment">//mr-&gt;outofcore = 1;</span></span><br><span class="line"></span><br><span class="line">  <span class="built_in">MPI_Barrier</span>(MPI_COMM_WORLD);</span><br><span class="line">  <span class="type">double</span> tstart = <span class="built_in">MPI_Wtime</span>();</span><br><span class="line"></span><br><span class="line">  <span class="type">int</span> nwords = mr-&gt;<span class="built_in">map</span>(narg<span class="number">-1</span>,&amp;args[<span class="number">1</span>],<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>,fileread,<span class="literal">NULL</span>);</span><br><span class="line">  <span class="type">int</span> nfiles = mr-&gt;mapfilecount;</span><br><span class="line">  mr-&gt;<span class="built_in">collate</span>(<span class="literal">NULL</span>);</span><br><span class="line">  <span class="type">int</span> nunique = mr-&gt;<span class="built_in">reduce</span>(sum,<span class="literal">NULL</span>);</span><br><span class="line"></span><br><span class="line">  <span class="built_in">MPI_Barrier</span>(MPI_COMM_WORLD);</span><br><span class="line">  <span class="type">double</span> tstop = <span class="built_in">MPI_Wtime</span>();</span><br><span class="line"></span><br><span class="line">  mr-&gt;<span class="built_in">sort_values</span>(&amp;ncompare);</span><br><span class="line"></span><br><span class="line">  Count count;</span><br><span class="line">  count.n = <span class="number">0</span>;</span><br><span class="line">  count.limit = <span class="number">10</span>;</span><br><span class="line">  count.flag = <span class="number">0</span>;</span><br><span class="line">  mr-&gt;<span class="built_in">map</span>(mr,output,&amp;count);</span><br><span class="line"></span><br><span class="line">  mr-&gt;<span class="built_in">gather</span>(<span class="number">1</span>);</span><br><span class="line">  mr-&gt;<span class="built_in">sort_values</span>(ncompare);</span><br><span class="line"></span><br><span class="line">  count.n = <span class="number">0</span>;</span><br><span class="line">  count.limit = <span class="number">10</span>;</span><br><span class="line">  count.flag = <span class="number">1</span>;</span><br><span class="line">  mr-&gt;<span class="built_in">map</span>(mr,output,&amp;count);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">delete</span> mr;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (me == <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d total words, %d unique words\n&quot;</span>,nwords,nunique);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Time to process %d files on %d procs = %g (secs)\n&quot;</span>,</span><br><span class="line">	   nfiles,nprocs,tstop-tstart);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="built_in">MPI_Finalize</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* ----------------------------------------------------------------------</span></span><br><span class="line"><span class="comment">   read a file</span></span><br><span class="line"><span class="comment">   for each word in file, emit key = word, value = NULL</span></span><br><span class="line"><span class="comment">------------------------------------------------------------------------- */</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">fileread</span><span class="params">(<span class="type">int</span> itask, <span class="type">char</span> *fname, KeyValue *kv, <span class="type">void</span> *ptr)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="comment">// filesize = # of bytes in file</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">struct</span> <span class="title class_">stat</span> stbuf;</span><br><span class="line">  <span class="type">int</span> flag = <span class="built_in">stat</span>(fname,&amp;stbuf);</span><br><span class="line">  <span class="keyword">if</span> (flag &lt; <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;ERROR: Could not query file size\n&quot;</span>);</span><br><span class="line">    <span class="built_in">MPI_Abort</span>(MPI_COMM_WORLD,<span class="number">1</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="type">int</span> filesize = stbuf.st_size;</span><br><span class="line"></span><br><span class="line">  FILE *fp = <span class="built_in">fopen</span>(fname,<span class="string">&quot;r&quot;</span>);</span><br><span class="line">  <span class="type">char</span> *text = <span class="keyword">new</span> <span class="type">char</span>[filesize+<span class="number">1</span>];</span><br><span class="line">  <span class="type">int</span> nchar = <span class="built_in">fread</span>(text,<span class="number">1</span>,filesize,fp);</span><br><span class="line">  text[nchar] = <span class="string">&#x27;\0&#x27;</span>;</span><br><span class="line">  <span class="built_in">fclose</span>(fp);</span><br><span class="line"></span><br><span class="line">  <span class="type">char</span> *whitespace = <span class="string">&quot; \t\n\f\r\0&quot;</span>;</span><br><span class="line">  <span class="type">char</span> *word = <span class="built_in">strtok</span>(text,whitespace);</span><br><span class="line">  <span class="keyword">while</span> (word) &#123;</span><br><span class="line">    kv-&gt;<span class="built_in">add</span>(word,<span class="built_in">strlen</span>(word)+<span class="number">1</span>,<span class="literal">NULL</span>,<span class="number">0</span>);</span><br><span class="line">    word = <span class="built_in">strtok</span>(<span class="literal">NULL</span>,whitespace);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">delete</span> [] text;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* ----------------------------------------------------------------------</span></span><br><span class="line"><span class="comment">   count word occurrence</span></span><br><span class="line"><span class="comment">   emit key = word, value = # of multi-values</span></span><br><span class="line"><span class="comment">------------------------------------------------------------------------- */</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">sum</span><span class="params">(<span class="type">char</span> *key, <span class="type">int</span> keybytes, <span class="type">char</span> *multivalue,</span></span></span><br><span class="line"><span class="params"><span class="function">	 <span class="type">int</span> nvalues, <span class="type">int</span> *valuebytes, KeyValue *kv, <span class="type">void</span> *ptr)</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  kv-&gt;<span class="built_in">add</span>(key,keybytes,(<span class="type">char</span> *) &amp;nvalues,<span class="built_in">sizeof</span>(<span class="type">int</span>));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* ----------------------------------------------------------------------</span></span><br><span class="line"><span class="comment">   compare two counts</span></span><br><span class="line"><span class="comment">   order values by count, largest first</span></span><br><span class="line"><span class="comment">------------------------------------------------------------------------- */</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">ncompare</span><span class="params">(<span class="type">char</span> *p1, <span class="type">int</span> len1, <span class="type">char</span> *p2, <span class="type">int</span> len2)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="type">int</span> i1 = *(<span class="type">int</span> *) p1;</span><br><span class="line">  <span class="type">int</span> i2 = *(<span class="type">int</span> *) p2;</span><br><span class="line">  <span class="keyword">if</span> (i1 &gt; i2) <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span> (i1 &lt; i2) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* ----------------------------------------------------------------------</span></span><br><span class="line"><span class="comment">   process a word and its count</span></span><br><span class="line"><span class="comment">   depending on flag, emit KV or print it, up to limit</span></span><br><span class="line"><span class="comment">------------------------------------------------------------------------- */</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">output</span><span class="params">(<span class="type">uint64_t</span> itask, <span class="type">char</span> *key, <span class="type">int</span> keybytes, <span class="type">char</span> *value,</span></span></span><br><span class="line"><span class="params"><span class="function">	    <span class="type">int</span> valuebytes, KeyValue *kv, <span class="type">void</span> *ptr)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  Count *count = (Count *) ptr;</span><br><span class="line">  count-&gt;n++;</span><br><span class="line">  <span class="keyword">if</span> (count-&gt;n &gt; count-&gt;limit) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">  <span class="type">int</span> n = *(<span class="type">int</span> *) value;</span><br><span class="line">  <span class="keyword">if</span> (count-&gt;flag) <span class="built_in">printf</span>(<span class="string">&quot;%d %s\n&quot;</span>,n,key);</span><br><span class="line">  <span class="keyword">else</span> kv-&gt;<span class="built_in">add</span>(key,keybytes,(<span class="type">char</span> *) &amp;n,<span class="built_in">sizeof</span>(<span class="type">int</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>该程序来源于官方github项目里词频统计的例子</p>
+<p>然后再建立两个文件file1,file2来存放些许数据，这里我直接存放的是两个程序的原码。</p>
+<p>让该程序统计file1和file2中的词频</p>
+<p>该程序执行过程</p>
+<ul>
+<li><p>先利用map调用fileread函数，来调用两个进程同时读两个文件，并对文件进行划分。键值对结果保存在mr中即MapReduce的对象</p>
+</li>
+<li><p>再用collate把keyvalue转化成keymultivalue。否则没法被reduce处理。</p>
+</li>
+<li><p>用reduce统计词频进行sum求和</p>
+</li>
+<li><p>求和结果排序后gather到0进程在次进行排序</p>
+</li>
+<li><p>最后在次用map进行输出打印结果</p>
+</li>
+</ul>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>主要是通过map和reduce进行操作。map和reduce中的参数涉及到函数指针的调用，map和reduce会多次重复的调用这个函数，而不是每个进程只调用一次。有点类似于map和reduce就是用来遍历的函数，map是帮助遍历数据转化成键值对，reduce则是遍历键值对。</p>
+
+        </div>
+
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E5%AD%A6%E4%B9%A0/"># 学习</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2025/03/26/c-%E5%BC%82%E5%B8%B8%E6%9C%BA%E5%88%B6%E6%8E%A2%E7%A9%B6/">c++异常机制探究</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Mr.BW | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+
+</html>

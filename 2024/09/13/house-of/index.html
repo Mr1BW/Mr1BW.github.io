@@ -246,6 +246,8 @@
 </li>
 <li><p>fastbin中申请freehook，mallochook时要注意地址+8的位置是0x00000000AB（最后A和size位一样），否则会malloc corruption（fast）报错 。freehook不好满足，而mallochook-0xN的位置一般为libc里的东西，基本为0x7f开头，可满足0x70size位，因此fastbin的doublefree中多数打mallochook</p>
 </li>
+<li><p>malloc(): unaligned tcache chunk detected表示伪造的tcache未对齐，进行十六字节对齐即末尾为0即可</p>
+</li>
 </ul>
 
         </div>
