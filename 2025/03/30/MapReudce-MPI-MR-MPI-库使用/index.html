@@ -361,7 +361,7 @@
 <li><p>最后在次用map进行输出打印结果</p>
 </li>
 </ul>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>对数据处理成键值对进行操作，其中添加键值对主要通过add进行完成，关于不同的数据类型，在keyValue中似乎key是char*,value是int。没有第二个数据类型了</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>对数据处理成键值对进行操作，其中添加键值对主要通过add进行完成</p>
 <p>MR-MPI主要是通过map和reduce进行操作。map和reduce中的参数涉及到函数指针的调用，map和reduce会多次重复的调用这个函数，而不是每个进程只调用一次。有点类似于map和reduce是帮助用来遍历的函数，map是帮助遍历数据转化成键值对，reduce则是遍历键值对。在遍历的过程中具体如何对数据进行操作就是调用的自定义函数所来实现的。</p>
 
         </div>
